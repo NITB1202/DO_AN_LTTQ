@@ -28,29 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(start_page));
             task_panel = new Panel();
             subtract_button = new Button();
             close_button = new Button();
             project_panel = new Panel();
+            save_list = new ListView();
             list_icon = new Button();
             project_label = new Label();
             program_label = new Label();
             started_label = new Label();
-            new_button = new Button();
-            open_button = new Button();
-            tutorials_button = new Button();
             support_link = new LinkLabel();
             search_bar = new ComboBox();
-            save_list = new ImageList(components);
+            new_button = new RJButton();
+            open_button = new RJButton();
+            ttr_button = new RJButton();
+            version_llb = new Label();
+            openFileDialog1 = new OpenFileDialog();
             task_panel.SuspendLayout();
             project_panel.SuspendLayout();
             SuspendLayout();
             // 
             // task_panel
             // 
-            task_panel.BackColor = Color.FromArgb(5, 3, 28);
+            task_panel.BackColor = Color.Black;
             task_panel.Controls.Add(subtract_button);
             task_panel.Controls.Add(close_button);
             task_panel.Dock = DockStyle.Top;
@@ -61,7 +62,7 @@
             // 
             // subtract_button
             // 
-            subtract_button.BackColor = Color.FromArgb(5, 3, 24);
+            subtract_button.BackColor = Color.Black;
             subtract_button.BackgroundImage = (Image)resources.GetObject("subtract_button.BackgroundImage");
             subtract_button.BackgroundImageLayout = ImageLayout.Center;
             subtract_button.Dock = DockStyle.Right;
@@ -78,7 +79,7 @@
             // 
             // close_button
             // 
-            close_button.BackColor = Color.FromArgb(5, 3, 24);
+            close_button.BackColor = Color.Black;
             close_button.BackgroundImage = Properties.Resources.close_25px;
             close_button.BackgroundImageLayout = ImageLayout.Center;
             close_button.Dock = DockStyle.Right;
@@ -95,14 +96,25 @@
             // 
             // project_panel
             // 
-            project_panel.BackColor = Color.FromArgb(5, 3, 28);
+            project_panel.BackColor = Color.Black;
+            project_panel.Controls.Add(save_list);
             project_panel.Controls.Add(list_icon);
             project_panel.Controls.Add(project_label);
-            project_panel.Location = new Point(37, 157);
+            project_panel.Location = new Point(37, 158);
             project_panel.Name = "project_panel";
-            project_panel.Size = new Size(567, 321);
+            project_panel.Size = new Size(567, 327);
             project_panel.TabIndex = 1;
-            project_panel.Paint += project_panel_Paint;
+            // 
+            // save_list
+            // 
+            save_list.BackColor = SystemColors.InfoText;
+            save_list.ForeColor = Color.WhiteSmoke;
+            save_list.Location = new Point(13, 38);
+            save_list.Name = "save_list";
+            save_list.Size = new Size(537, 270);
+            save_list.TabIndex = 6;
+            save_list.UseCompatibleStateImageBehavior = false;
+            save_list.View = View.SmallIcon;
             // 
             // list_icon
             // 
@@ -135,11 +147,11 @@
             // 
             program_label.AutoSize = true;
             program_label.BackColor = Color.Transparent;
-            program_label.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            program_label.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point);
             program_label.ForeColor = SystemColors.ButtonHighlight;
-            program_label.Location = new Point(28, 52);
+            program_label.Location = new Point(27, 52);
             program_label.Name = "program_label";
-            program_label.Size = new Size(424, 41);
+            program_label.Size = new Size(481, 46);
             program_label.TabIndex = 2;
             program_label.Text = "Data Structure Visualizations";
             // 
@@ -148,86 +160,25 @@
             started_label.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             started_label.AutoSize = true;
             started_label.BackColor = Color.Transparent;
-            started_label.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            started_label.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             started_label.ForeColor = SystemColors.ButtonHighlight;
-            started_label.Location = new Point(693, 103);
+            started_label.Location = new Point(678, 86);
             started_label.Name = "started_label";
-            started_label.Size = new Size(139, 31);
+            started_label.Size = new Size(175, 38);
             started_label.TabIndex = 6;
             started_label.Text = "Get strarted";
             // 
-            // new_button
-            // 
-            new_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            new_button.BackColor = Color.FromArgb(5, 3, 24);
-            new_button.BackgroundImageLayout = ImageLayout.None;
-            new_button.FlatAppearance.BorderSize = 0;
-            new_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
-            new_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
-            new_button.FlatStyle = FlatStyle.Flat;
-            new_button.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            new_button.ForeColor = SystemColors.ControlLightLight;
-            new_button.Image = Properties.Resources.file_25px;
-            new_button.ImageAlign = ContentAlignment.MiddleLeft;
-            new_button.Location = new Point(658, 137);
-            new_button.Name = "new_button";
-            new_button.Size = new Size(207, 34);
-            new_button.TabIndex = 7;
-            new_button.Text = "      Create a new project";
-            new_button.TextAlign = ContentAlignment.MiddleLeft;
-            new_button.UseVisualStyleBackColor = false;
-            new_button.Click += new_button_Click;
-            // 
-            // open_button
-            // 
-            open_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            open_button.BackColor = Color.FromArgb(5, 3, 24);
-            open_button.FlatAppearance.BorderSize = 0;
-            open_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
-            open_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
-            open_button.FlatStyle = FlatStyle.Flat;
-            open_button.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            open_button.ForeColor = SystemColors.ControlLightLight;
-            open_button.Image = Properties.Resources.opened_folder_25px;
-            open_button.ImageAlign = ContentAlignment.MiddleLeft;
-            open_button.Location = new Point(658, 177);
-            open_button.Name = "open_button";
-            open_button.Size = new Size(207, 34);
-            open_button.TabIndex = 8;
-            open_button.Text = " Open from folder";
-            open_button.UseVisualStyleBackColor = false;
-            // 
-            // tutorials_button
-            // 
-            tutorials_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            tutorials_button.BackColor = Color.FromArgb(5, 3, 24);
-            tutorials_button.FlatAppearance.BorderSize = 0;
-            tutorials_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
-            tutorials_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
-            tutorials_button.FlatStyle = FlatStyle.Flat;
-            tutorials_button.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            tutorials_button.ForeColor = SystemColors.ControlLightLight;
-            tutorials_button.Image = Properties.Resources.idea_25px;
-            tutorials_button.ImageAlign = ContentAlignment.MiddleLeft;
-            tutorials_button.Location = new Point(658, 217);
-            tutorials_button.Name = "tutorials_button";
-            tutorials_button.Size = new Size(207, 34);
-            tutorials_button.TabIndex = 9;
-            tutorials_button.Text = "       Read tutorials";
-            tutorials_button.TextAlign = ContentAlignment.MiddleLeft;
-            tutorials_button.UseVisualStyleBackColor = false;
-            // 
             // support_link
             // 
-            support_link.ActiveLinkColor = Color.FromArgb(0, 0, 64);
+            support_link.ActiveLinkColor = Color.Black;
             support_link.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             support_link.AutoSize = true;
             support_link.BackColor = Color.Transparent;
-            support_link.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            support_link.LinkColor = Color.Blue;
-            support_link.Location = new Point(718, 254);
+            support_link.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            support_link.LinkColor = Color.Navy;
+            support_link.Location = new Point(714, 316);
             support_link.Name = "support_link";
-            support_link.Size = new Size(93, 23);
+            support_link.Size = new Size(108, 28);
             support_link.TabIndex = 13;
             support_link.TabStop = true;
             support_link.Text = "Support us";
@@ -236,21 +187,104 @@
             // 
             search_bar.AutoCompleteMode = AutoCompleteMode.Append;
             search_bar.AutoCompleteSource = AutoCompleteSource.ListItems;
-            search_bar.BackColor = Color.FromArgb(5, 3, 28);
+            search_bar.BackColor = Color.Black;
             search_bar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             search_bar.ForeColor = SystemColors.Window;
             search_bar.FormattingEnabled = true;
-            search_bar.Items.AddRange(new object[] { "DU_AN_1", "DU_AN_2", "DU_AN_3" });
-            search_bar.Location = new Point(37, 107);
+            search_bar.Location = new Point(37, 109);
             search_bar.Name = "search_bar";
             search_bar.Size = new Size(374, 31);
             search_bar.TabIndex = 14;
             // 
-            // save_list
+            // new_button
             // 
-            save_list.ColorDepth = ColorDepth.Depth8Bit;
-            save_list.ImageSize = new Size(16, 16);
-            save_list.TransparentColor = Color.Transparent;
+            new_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            new_button.BackColor = Color.Black;
+            new_button.BackgroundColor = Color.Black;
+            new_button.BorderColor = Color.Black;
+            new_button.BorderRadius = 15;
+            new_button.BorderSize = 0;
+            new_button.FlatAppearance.BorderSize = 0;
+            new_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            new_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
+            new_button.FlatStyle = FlatStyle.Flat;
+            new_button.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            new_button.ForeColor = Color.White;
+            new_button.Image = Properties.Resources.file_25px;
+            new_button.ImageAlign = ContentAlignment.MiddleLeft;
+            new_button.Location = new Point(658, 137);
+            new_button.Name = "new_button";
+            new_button.Size = new Size(219, 51);
+            new_button.TabIndex = 15;
+            new_button.Text = "Create a new project  ";
+            new_button.TextAlign = ContentAlignment.MiddleRight;
+            new_button.TextColor = Color.White;
+            new_button.UseVisualStyleBackColor = false;
+            new_button.Click += new_button_Click;
+            // 
+            // open_button
+            // 
+            open_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            open_button.BackColor = Color.Black;
+            open_button.BackgroundColor = Color.Black;
+            open_button.BorderColor = Color.Black;
+            open_button.BorderRadius = 15;
+            open_button.BorderSize = 0;
+            open_button.FlatAppearance.BorderSize = 0;
+            open_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            open_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
+            open_button.FlatStyle = FlatStyle.Flat;
+            open_button.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            open_button.ForeColor = Color.White;
+            open_button.Image = Properties.Resources.opened_folder_25px;
+            open_button.ImageAlign = ContentAlignment.MiddleLeft;
+            open_button.Location = new Point(658, 194);
+            open_button.Name = "open_button";
+            open_button.Size = new Size(219, 51);
+            open_button.TabIndex = 16;
+            open_button.Text = "Open from folder";
+            open_button.TextColor = Color.White;
+            open_button.UseVisualStyleBackColor = false;
+            open_button.Click += open_button_Click;
+            // 
+            // ttr_button
+            // 
+            ttr_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ttr_button.BackColor = Color.Black;
+            ttr_button.BackgroundColor = Color.Black;
+            ttr_button.BorderColor = Color.Black;
+            ttr_button.BorderRadius = 15;
+            ttr_button.BorderSize = 0;
+            ttr_button.FlatAppearance.BorderSize = 0;
+            ttr_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            ttr_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
+            ttr_button.FlatStyle = FlatStyle.Flat;
+            ttr_button.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            ttr_button.ForeColor = Color.White;
+            ttr_button.Image = Properties.Resources.idea_25px;
+            ttr_button.ImageAlign = ContentAlignment.MiddleLeft;
+            ttr_button.Location = new Point(658, 251);
+            ttr_button.Name = "ttr_button";
+            ttr_button.Size = new Size(219, 51);
+            ttr_button.TabIndex = 17;
+            ttr_button.Text = "Read tutorials";
+            ttr_button.TextColor = Color.White;
+            ttr_button.UseVisualStyleBackColor = false;
+            // 
+            // version_llb
+            // 
+            version_llb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            version_llb.AutoSize = true;
+            version_llb.BackColor = Color.Transparent;
+            version_llb.Location = new Point(838, 501);
+            version_llb.Name = "version_llb";
+            version_llb.Size = new Size(80, 20);
+            version_llb.TabIndex = 18;
+            version_llb.Text = "Version 1.0";
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // start_page
             // 
@@ -259,17 +293,21 @@
             AutoSize = true;
             BackColor = Color.DarkCyan;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(930, 530);
-            Controls.Add(search_bar);
-            Controls.Add(support_link);
-            Controls.Add(tutorials_button);
+            Controls.Add(version_llb);
+            Controls.Add(ttr_button);
             Controls.Add(open_button);
             Controls.Add(new_button);
+            Controls.Add(search_bar);
+            Controls.Add(support_link);
             Controls.Add(started_label);
             Controls.Add(program_label);
             Controls.Add(project_panel);
             Controls.Add(task_panel);
+            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             ImeMode = ImeMode.Off;
             Name = "start_page";
             StartPosition = FormStartPosition.CenterScreen;
@@ -290,11 +328,13 @@
         private Label project_label;
         private Button list_icon;
         private Label started_label;
-        private Button new_button;
-        private Button open_button;
-        private Button tutorials_button;
         private LinkLabel support_link;
         private ComboBox search_bar;
-        private ImageList save_list;
+        private RJButton new_button;
+        private RJButton open_button;
+        private RJButton ttr_button;
+        private Label version_llb;
+        private ListView save_list;
+        private OpenFileDialog openFileDialog1;
     }
 }

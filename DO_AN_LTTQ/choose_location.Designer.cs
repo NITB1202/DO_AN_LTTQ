@@ -1,6 +1,6 @@
 ﻿namespace DO_AN_LTTQ
 {
-    partial class Form2
+    partial class choose_location
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(choose_location));
             task_panel = new Panel();
             minimize_button2 = new Button();
             close_button2 = new Button();

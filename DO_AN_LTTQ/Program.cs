@@ -12,7 +12,7 @@ namespace DO_AN_LTTQ
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             start_page sp= new start_page();
-            Application.Run( new Form3());
+            Application.Run( new start_page());
         }
     }
 }

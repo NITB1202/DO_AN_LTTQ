@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DO_AN_LTTQ
 {
-    public partial class Form2 : Form
+    public partial class choose_location : Form
     {
-        public Form2()
+        public choose_location()
         {
             InitializeComponent();
         }
