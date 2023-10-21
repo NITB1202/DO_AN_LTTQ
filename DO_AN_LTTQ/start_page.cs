@@ -1,10 +1,16 @@
-﻿namespace DO_AN_LTTQ
+﻿using System.Net.NetworkInformation;
+using System;
+using System.IO;
+
+namespace DO_AN_LTTQ
 {
     public partial class start_page : Form
     {
+        public static start_page inst;
         public start_page()
         {
             InitializeComponent();
+            inst = this;
         }
 
         private void close_button_Click(object sender, EventArgs e)
@@ -24,7 +30,7 @@
         }
         private void open_button_Click(object sender, EventArgs e)
         {
-            string defaultPath = @"C:\"; // duong dan mac dinh
+            string defaultPath = @"C:\DataStructureVisualizations"; // duong dan mac dinh
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = defaultPath;

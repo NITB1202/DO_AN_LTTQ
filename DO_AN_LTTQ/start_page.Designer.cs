@@ -42,7 +42,6 @@
             search_bar = new ComboBox();
             new_button = new RJButton();
             open_button = new RJButton();
-            ttr_button = new RJButton();
             version_llb = new Label();
             openFileDialog1 = new OpenFileDialog();
             task_panel.SuspendLayout();
@@ -57,7 +56,7 @@
             task_panel.Dock = DockStyle.Top;
             task_panel.Location = new Point(0, 0);
             task_panel.Name = "task_panel";
-            task_panel.Size = new Size(930, 49);
+            task_panel.Size = new Size(930, 48);
             task_panel.TabIndex = 0;
             // 
             // subtract_button
@@ -72,7 +71,7 @@
             subtract_button.FlatStyle = FlatStyle.Flat;
             subtract_button.Location = new Point(870, 0);
             subtract_button.Name = "subtract_button";
-            subtract_button.Size = new Size(30, 49);
+            subtract_button.Size = new Size(30, 48);
             subtract_button.TabIndex = 1;
             subtract_button.UseVisualStyleBackColor = false;
             subtract_button.Click += subtract_button_Click;
@@ -84,12 +83,12 @@
             close_button.BackgroundImageLayout = ImageLayout.Center;
             close_button.Dock = DockStyle.Right;
             close_button.FlatAppearance.BorderSize = 0;
-            close_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
-            close_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
+            close_button.FlatAppearance.MouseDownBackColor = Color.IndianRed;
+            close_button.FlatAppearance.MouseOverBackColor = Color.IndianRed;
             close_button.FlatStyle = FlatStyle.Flat;
             close_button.Location = new Point(900, 0);
             close_button.Name = "close_button";
-            close_button.Size = new Size(30, 49);
+            close_button.Size = new Size(30, 48);
             close_button.TabIndex = 0;
             close_button.UseVisualStyleBackColor = false;
             close_button.Click += close_button_Click;
@@ -176,7 +175,7 @@
             support_link.BackColor = Color.Transparent;
             support_link.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             support_link.LinkColor = Color.Navy;
-            support_link.Location = new Point(714, 316);
+            support_link.Location = new Point(707, 257);
             support_link.Name = "support_link";
             support_link.Size = new Size(108, 28);
             support_link.TabIndex = 13;
@@ -247,30 +246,6 @@
             open_button.UseVisualStyleBackColor = false;
             open_button.Click += open_button_Click;
             // 
-            // ttr_button
-            // 
-            ttr_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ttr_button.BackColor = Color.Black;
-            ttr_button.BackgroundColor = Color.Black;
-            ttr_button.BorderColor = Color.Black;
-            ttr_button.BorderRadius = 15;
-            ttr_button.BorderSize = 0;
-            ttr_button.FlatAppearance.BorderSize = 0;
-            ttr_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
-            ttr_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
-            ttr_button.FlatStyle = FlatStyle.Flat;
-            ttr_button.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            ttr_button.ForeColor = Color.White;
-            ttr_button.Image = Properties.Resources.idea_25px;
-            ttr_button.ImageAlign = ContentAlignment.MiddleLeft;
-            ttr_button.Location = new Point(658, 251);
-            ttr_button.Name = "ttr_button";
-            ttr_button.Size = new Size(219, 51);
-            ttr_button.TabIndex = 17;
-            ttr_button.Text = "Read tutorials";
-            ttr_button.TextColor = Color.White;
-            ttr_button.UseVisualStyleBackColor = false;
-            // 
             // version_llb
             // 
             version_llb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -296,7 +271,6 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(930, 530);
             Controls.Add(version_llb);
-            Controls.Add(ttr_button);
             Controls.Add(open_button);
             Controls.Add(new_button);
             Controls.Add(search_bar);
@@ -332,7 +306,6 @@
         private ComboBox search_bar;
         private RJButton new_button;
         private RJButton open_button;
-        private RJButton ttr_button;
         private Label version_llb;
         private ListView save_list;
         private OpenFileDialog openFileDialog1;

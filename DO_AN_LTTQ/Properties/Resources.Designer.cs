@@ -93,6 +93,16 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fix {
+            get {
+                object obj = ResourceManager.GetObject("fix", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap idea_25px {
             get {
                 object obj = ResourceManager.GetObject("idea_25px", resourceCulture);
@@ -103,9 +113,59 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LOGO_01 {
+            get {
+                object obj = ResourceManager.GetObject("LOGO 01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGO_1 {
+            get {
+                object obj = ResourceManager.GetObject("LOGO 1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LOGO_2 {
             get {
                 object obj = ResourceManager.GetObject("LOGO 2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGO_2__1_ {
+            get {
+                object obj = ResourceManager.GetObject("LOGO 2 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGO_21 {
+            get {
+                object obj = ResourceManager.GetObject("LOGO 21", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGO_22 {
+            get {
+                object obj = ResourceManager.GetObject("LOGO 22", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
