@@ -6,11 +6,11 @@ namespace DO_AN_LTTQ
 {
     public partial class start_page : Form
     {
-        public static start_page inst;
+        private workplace wp;
         public start_page()
         {
             InitializeComponent();
-            inst = this;
+            wp = new workplace();
         }
 
         private void close_button_Click(object sender, EventArgs e)
@@ -39,23 +39,11 @@ namespace DO_AN_LTTQ
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                // xu li khi chon tep
-                string filePath = openFileDialog.FileName;
-                // thuc hien hanh dong
-                try
-                {
-                    // Đọc nội dung của tệp
-                    using (StreamReader sr = new StreamReader(filePath))
-                    {
-                        string fileContent = sr.ReadToEnd();
-                        // Hiển thị nội dung tệp lên form
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
+                wp.save_path = openFileDialog.FileName;
+                wp.update_label(Path.GetFileNameWithoutExtension(wp.save_path));
+                this.Hide();
+                wp.ShowDialog();
+                this.Close();
             }
         }
     }

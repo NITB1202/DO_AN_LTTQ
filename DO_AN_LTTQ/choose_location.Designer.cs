@@ -51,7 +51,7 @@
             // 
             // task_panel
             // 
-            task_panel.BackColor = Color.Black;
+            task_panel.BackColor = Color.FromArgb(23, 21, 32);
             task_panel.Controls.Add(minimize_button2);
             task_panel.Controls.Add(close_button2);
             task_panel.Controls.Add(subtract_button);
@@ -64,7 +64,7 @@
             // 
             // minimize_button2
             // 
-            minimize_button2.BackColor = Color.Black;
+            minimize_button2.BackColor = Color.FromArgb(23, 21, 32);
             minimize_button2.BackgroundImage = (Image)resources.GetObject("minimize_button2.BackgroundImage");
             minimize_button2.BackgroundImageLayout = ImageLayout.Center;
             minimize_button2.Dock = DockStyle.Right;
@@ -81,7 +81,7 @@
             // 
             // close_button2
             // 
-            close_button2.BackColor = Color.Black;
+            close_button2.BackColor = Color.FromArgb(23, 21, 32);
             close_button2.BackgroundImage = Properties.Resources.close_25px;
             close_button2.BackgroundImageLayout = ImageLayout.Center;
             close_button2.Dock = DockStyle.Right;
@@ -170,7 +170,7 @@
             // 
             // project_name_bar
             // 
-            project_name_bar.BackColor = Color.FromArgb(5, 8, 24);
+            project_name_bar.BackColor = Color.FromArgb(23, 21, 32);
             project_name_bar.BorderStyle = BorderStyle.None;
             project_name_bar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             project_name_bar.ForeColor = SystemColors.Window;
@@ -196,12 +196,14 @@
             // 
             // done_button
             // 
-            done_button.BackColor = Color.Black;
-            done_button.BackgroundColor = Color.Black;
+            done_button.BackColor = Color.FromArgb(23, 21, 32);
+            done_button.BackgroundColor = Color.FromArgb(23, 21, 32);
             done_button.BorderColor = Color.Transparent;
             done_button.BorderRadius = 15;
             done_button.BorderSize = 0;
             done_button.FlatAppearance.BorderSize = 0;
+            done_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            done_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
             done_button.FlatStyle = FlatStyle.Flat;
             done_button.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             done_button.ForeColor = Color.White;
@@ -217,12 +219,14 @@
             // 
             // back_button
             // 
-            back_button.BackColor = Color.Black;
-            back_button.BackgroundColor = Color.Black;
+            back_button.BackColor = Color.FromArgb(23, 21, 32);
+            back_button.BackgroundColor = Color.FromArgb(23, 21, 32);
             back_button.BorderColor = Color.Transparent;
             back_button.BorderRadius = 15;
             back_button.BorderSize = 0;
             back_button.FlatAppearance.BorderSize = 0;
+            back_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            back_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
             back_button.FlatStyle = FlatStyle.Flat;
             back_button.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             back_button.ForeColor = Color.White;
@@ -237,14 +241,16 @@
             // 
             // more_button
             // 
-            more_button.BackColor = Color.Black;
-            more_button.BackgroundColor = Color.Black;
+            more_button.BackColor = Color.FromArgb(23, 21, 32);
+            more_button.BackgroundColor = Color.FromArgb(23, 21, 32);
             more_button.BackgroundImage = Properties.Resources.more_25px;
             more_button.BackgroundImageLayout = ImageLayout.Zoom;
             more_button.BorderColor = Color.Black;
             more_button.BorderRadius = 10;
             more_button.BorderSize = 0;
             more_button.FlatAppearance.BorderSize = 0;
+            more_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            more_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
             more_button.FlatStyle = FlatStyle.Flat;
             more_button.ForeColor = Color.White;
             more_button.Location = new Point(470, 192);
@@ -264,8 +270,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(148, 214, 222);
-            BackgroundImage = Properties.Resources.fix;
+            BackColor = Color.Ivory;
+            BackgroundImage = Properties.Resources.fix1;
             ClientSize = new Size(553, 287);
             Controls.Add(more_button);
             Controls.Add(back_button);

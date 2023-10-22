@@ -50,7 +50,7 @@
             // 
             // task_panel
             // 
-            task_panel.BackColor = Color.Black;
+            task_panel.BackColor = Color.FromArgb(23, 21, 32);
             task_panel.Controls.Add(subtract_button);
             task_panel.Controls.Add(close_button);
             task_panel.Dock = DockStyle.Top;
@@ -61,7 +61,7 @@
             // 
             // subtract_button
             // 
-            subtract_button.BackColor = Color.Black;
+            subtract_button.BackColor = Color.FromArgb(23, 21, 32);
             subtract_button.BackgroundImage = (Image)resources.GetObject("subtract_button.BackgroundImage");
             subtract_button.BackgroundImageLayout = ImageLayout.Center;
             subtract_button.Dock = DockStyle.Right;
@@ -78,7 +78,7 @@
             // 
             // close_button
             // 
-            close_button.BackColor = Color.Black;
+            close_button.BackColor = Color.FromArgb(23, 21, 32);
             close_button.BackgroundImage = Properties.Resources.close_25px;
             close_button.BackgroundImageLayout = ImageLayout.Center;
             close_button.Dock = DockStyle.Right;
@@ -95,7 +95,7 @@
             // 
             // project_panel
             // 
-            project_panel.BackColor = Color.Black;
+            project_panel.BackColor = Color.FromArgb(23, 21, 32);
             project_panel.Controls.Add(save_list);
             project_panel.Controls.Add(list_icon);
             project_panel.Controls.Add(project_label);
@@ -106,7 +106,7 @@
             // 
             // save_list
             // 
-            save_list.BackColor = SystemColors.InfoText;
+            save_list.BackColor = Color.FromArgb(23, 21, 32);
             save_list.ForeColor = Color.WhiteSmoke;
             save_list.Location = new Point(13, 38);
             save_list.Name = "save_list";
@@ -186,7 +186,7 @@
             // 
             search_bar.AutoCompleteMode = AutoCompleteMode.Append;
             search_bar.AutoCompleteSource = AutoCompleteSource.ListItems;
-            search_bar.BackColor = Color.Black;
+            search_bar.BackColor = Color.FromArgb(23, 21, 32);
             search_bar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             search_bar.ForeColor = SystemColors.Window;
             search_bar.FormattingEnabled = true;
@@ -198,8 +198,8 @@
             // new_button
             // 
             new_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            new_button.BackColor = Color.Black;
-            new_button.BackgroundColor = Color.Black;
+            new_button.BackColor = Color.FromArgb(23, 21, 32);
+            new_button.BackgroundColor = Color.FromArgb(23, 21, 32);
             new_button.BorderColor = Color.Black;
             new_button.BorderRadius = 15;
             new_button.BorderSize = 0;
@@ -224,8 +224,8 @@
             // open_button
             // 
             open_button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            open_button.BackColor = Color.Black;
-            open_button.BackgroundColor = Color.Black;
+            open_button.BackColor = Color.FromArgb(23, 21, 32);
+            open_button.BackgroundColor = Color.FromArgb(23, 21, 32);
             open_button.BorderColor = Color.Black;
             open_button.BorderRadius = 15;
             open_button.BorderSize = 0;
@@ -266,8 +266,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            BackColor = Color.DarkCyan;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackColor = Color.FromArgb(98, 188, 150);
+            BackgroundImage = Properties.Resources.fix3;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(930, 530);
             Controls.Add(version_llb);

@@ -33,29 +33,11 @@ namespace DO_AN_LTTQ
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(workplace));
             close_button = new Button();
             subtract_button = new Button();
-            button1 = new Button();
             task_panel = new Panel();
-            projectname_label = new Label();
-            properties_label = new Label();
+            button1 = new Button();
             panel1 = new Panel();
-            panel2 = new Panel();
-            label2 = new Label();
-            panel4 = new Panel();
-            comboBox3 = new ComboBox();
-            label9 = new Label();
-            label8 = new Label();
-            comboBox2 = new ComboBox();
-            label7 = new Label();
-            panel3 = new Panel();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            label6 = new Label();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
-            comboBox1 = new ComboBox();
-            label1 = new Label();
-            vScrollBar1 = new VScrollBar();
+            app_label = new PictureBox();
+            projectname_label = new Label();
             file_toolstrip = new ToolStrip();
             new_button = new ToolStripDropDownButton();
             sToolStripMenuItem = new ToolStripMenuItem();
@@ -73,28 +55,49 @@ namespace DO_AN_LTTQ
             pNGToolStripMenuItem = new ToolStripMenuItem();
             gIFToolStripMenuItem = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
-            stepback_button = new ToolStripButton();
-            stepfwd_button = new ToolStripButton();
-            play_button = new ToolStripButton();
-            pause_button = new ToolStripButton();
-            skip_button = new ToolStripButton();
-            app_label = new PictureBox();
+            panel2 = new Panel();
+            input_type_cbb = new ComboBox();
+            label6 = new Label();
+            data_type_cbb = new ComboBox();
+            label5 = new Label();
+            width_tb = new TextBox();
+            height_tb = new TextBox();
+            label3 = new Label();
+            label2 = new Label();
+            spd_cbb = new ComboBox();
+            animation_spd_lbl = new Label();
+            label1 = new Label();
+            box_label = new Label();
+            panel4 = new Panel();
+            label4 = new Label();
+            show_code_lbl = new Label();
+            label7 = new Label();
+            button6 = new Button();
+            button5 = new Button();
+            button3 = new Button();
+            button2 = new Button();
+            panel5 = new Panel();
+            step_lbl = new Label();
+            trackBar1 = new TrackBar();
+            button4 = new Button();
             task_panel.SuspendLayout();
-            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)app_label).BeginInit();
+            file_toolstrip.SuspendLayout();
             panel2.SuspendLayout();
             panel4.SuspendLayout();
-            panel3.SuspendLayout();
-            file_toolstrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)app_label).BeginInit();
+            panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
             // close_button
             // 
-            close_button.BackColor = Color.FromArgb(5, 3, 24);
+            close_button.BackColor = Color.FromArgb(23, 21, 32);
             close_button.BackgroundImage = Properties.Resources.close_25px;
             close_button.BackgroundImageLayout = ImageLayout.Center;
             close_button.Dock = DockStyle.Right;
             close_button.FlatAppearance.BorderSize = 0;
+            close_button.FlatAppearance.MouseDownBackColor = Color.IndianRed;
+            close_button.FlatAppearance.MouseOverBackColor = Color.IndianRed;
             close_button.FlatStyle = FlatStyle.Flat;
             close_button.Location = new Point(1342, 0);
             close_button.Name = "close_button";
@@ -117,27 +120,13 @@ namespace DO_AN_LTTQ
             subtract_button.TabIndex = 1;
             subtract_button.UseVisualStyleBackColor = false;
             // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.BackColor = Color.FromArgb(5, 3, 24);
-            button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
-            button1.BackgroundImageLayout = ImageLayout.Center;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(1298, 0);
-            button1.Name = "button1";
-            button1.Size = new Size(38, 34);
-            button1.TabIndex = 2;
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
             // task_panel
             // 
-            task_panel.BackColor = Color.FromArgb(5, 3, 28);
+            task_panel.BackColor = Color.FromArgb(23, 21, 32);
+            task_panel.Controls.Add(button1);
+            task_panel.Controls.Add(panel1);
             task_panel.Controls.Add(app_label);
             task_panel.Controls.Add(projectname_label);
-            task_panel.Controls.Add(button1);
             task_panel.Controls.Add(subtract_button);
             task_panel.Controls.Add(close_button);
             task_panel.Dock = DockStyle.Top;
@@ -145,6 +134,42 @@ namespace DO_AN_LTTQ
             task_panel.Name = "task_panel";
             task_panel.Size = new Size(1375, 41);
             task_panel.TabIndex = 1;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(23, 21, 32);
+            button1.BackgroundImage = Properties.Resources.subtract_25px;
+            button1.BackgroundImageLayout = ImageLayout.Center;
+            button1.Dock = DockStyle.Right;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            button1.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Location = new Point(1304, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(38, 41);
+            button1.TabIndex = 12;
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(23, 31, 32);
+            panel1.Location = new Point(1125, 41);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(250, 324);
+            panel1.TabIndex = 10;
+            // 
+            // app_label
+            // 
+            app_label.BackColor = Color.Transparent;
+            app_label.BackgroundImage = (Image)resources.GetObject("app_label.BackgroundImage");
+            app_label.BackgroundImageLayout = ImageLayout.Zoom;
+            app_label.Location = new Point(12, 6);
+            app_label.Name = "app_label";
+            app_label.Size = new Size(30, 30);
+            app_label.TabIndex = 10;
+            app_label.TabStop = false;
             // 
             // projectname_label
             // 
@@ -159,238 +184,27 @@ namespace DO_AN_LTTQ
             projectname_label.Text = "Project name";
             projectname_label.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // properties_label
-            // 
-            properties_label.AutoSize = true;
-            properties_label.BackColor = Color.Transparent;
-            properties_label.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
-            properties_label.ForeColor = SystemColors.ControlLightLight;
-            properties_label.Location = new Point(181, 18);
-            properties_label.Name = "properties_label";
-            properties_label.Size = new Size(152, 38);
-            properties_label.TabIndex = 4;
-            properties_label.Text = "Properties";
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.FromArgb(0, 192, 192);
-            panel1.Controls.Add(panel2);
-            panel1.Controls.Add(panel4);
-            panel1.Controls.Add(panel3);
-            panel1.Controls.Add(properties_label);
-            panel1.Dock = DockStyle.Right;
-            panel1.Location = new Point(864, 41);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(511, 886);
-            panel1.TabIndex = 5;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.ActiveCaption;
-            panel2.Controls.Add(label2);
-            panel2.Location = new Point(33, 457);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(458, 450);
-            panel2.TabIndex = 9;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.ForeColor = Color.Snow;
-            label2.Location = new Point(19, 15);
-            label2.Name = "label2";
-            label2.Size = new Size(103, 28);
-            label2.TabIndex = 13;
-            label2.Text = "Algorithm";
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.FromArgb(255, 128, 128);
-            panel4.Controls.Add(comboBox3);
-            panel4.Controls.Add(label9);
-            panel4.Controls.Add(label8);
-            panel4.Controls.Add(comboBox2);
-            panel4.Controls.Add(label7);
-            panel4.Location = new Point(29, 280);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(461, 150);
-            panel4.TabIndex = 8;
-            // 
-            // comboBox3
-            // 
-            comboBox3.FlatStyle = FlatStyle.Flat;
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(122, 96);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(80, 28);
-            comboBox3.TabIndex = 10;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label9.ForeColor = Color.Snow;
-            label9.Location = new Point(23, 97);
-            label9.Name = "label9";
-            label9.Size = new Size(93, 23);
-            label9.TabIndex = 9;
-            label9.Text = "Input type:";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label8.ForeColor = Color.Snow;
-            label8.Location = new Point(23, 9);
-            label8.Name = "label8";
-            label8.Size = new Size(167, 28);
-            label8.TabIndex = 8;
-            label8.Text = "Input infomation";
-            // 
-            // comboBox2
-            // 
-            comboBox2.FlatStyle = FlatStyle.Flat;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(122, 54);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(80, 28);
-            comboBox2.TabIndex = 7;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.ForeColor = Color.Snow;
-            label7.Location = new Point(23, 55);
-            label7.Name = "label7";
-            label7.Size = new Size(88, 23);
-            label7.TabIndex = 6;
-            label7.Text = "Data type:";
-            // 
-            // panel3
-            // 
-            panel3.BackColor = Color.LightSlateGray;
-            panel3.Controls.Add(textBox2);
-            panel3.Controls.Add(textBox1);
-            panel3.Controls.Add(label6);
-            panel3.Controls.Add(label5);
-            panel3.Controls.Add(label4);
-            panel3.Controls.Add(label3);
-            panel3.Controls.Add(comboBox1);
-            panel3.Controls.Add(label1);
-            panel3.Location = new Point(29, 71);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(461, 183);
-            panel3.TabIndex = 7;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(172, 134);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(70, 27);
-            textBox2.TabIndex = 12;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(172, 101);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(70, 27);
-            textBox1.TabIndex = 11;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.ForeColor = Color.Snow;
-            label6.Location = new Point(140, 138);
-            label6.Name = "label6";
-            label6.Size = new Size(26, 23);
-            label6.TabIndex = 10;
-            label6.Text = "H:";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.ForeColor = Color.Snow;
-            label5.Location = new Point(136, 101);
-            label5.Name = "label5";
-            label5.Size = new Size(30, 23);
-            label5.TabIndex = 9;
-            label5.Text = "W:";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.ForeColor = Color.Snow;
-            label4.Location = new Point(23, 119);
-            label4.Name = "label4";
-            label4.Size = new Size(91, 23);
-            label4.TabIndex = 8;
-            label4.Text = "Image size";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.Snow;
-            label3.Location = new Point(23, 13);
-            label3.Name = "label3";
-            label3.Size = new Size(206, 28);
-            label3.TabIndex = 7;
-            label3.Text = "Animation Properties";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FlatStyle = FlatStyle.Flat;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(172, 54);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(49, 28);
-            comboBox1.TabIndex = 6;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Snow;
-            label1.Location = new Point(23, 59);
-            label1.Name = "label1";
-            label1.Size = new Size(143, 23);
-            label1.TabIndex = 5;
-            label1.Text = "Animation speed:";
-            // 
-            // vScrollBar1
-            // 
-            vScrollBar1.Dock = DockStyle.Right;
-            vScrollBar1.Location = new Point(838, 41);
-            vScrollBar1.Name = "vScrollBar1";
-            vScrollBar1.Size = new Size(26, 886);
-            vScrollBar1.TabIndex = 7;
-            // 
             // file_toolstrip
             // 
-            file_toolstrip.BackColor = Color.FromArgb(5, 3, 24);
+            file_toolstrip.BackColor = Color.Black;
             file_toolstrip.BackgroundImageLayout = ImageLayout.None;
             file_toolstrip.Dock = DockStyle.None;
             file_toolstrip.GripMargin = new Padding(0, 0, 0, -5);
             file_toolstrip.GripStyle = ToolStripGripStyle.Hidden;
             file_toolstrip.ImageScalingSize = new Size(20, 20);
-            file_toolstrip.Items.AddRange(new ToolStripItem[] { new_button, save_button, export_button, clear_button, stepback_button, stepfwd_button, play_button, pause_button, skip_button });
+            file_toolstrip.Items.AddRange(new ToolStripItem[] { new_button, save_button, export_button, clear_button });
             file_toolstrip.Location = new Point(-1, 41);
             file_toolstrip.Name = "file_toolstrip";
             file_toolstrip.Padding = new Padding(0);
             file_toolstrip.RenderMode = ToolStripRenderMode.Professional;
-            file_toolstrip.Size = new Size(530, 47);
+            file_toolstrip.Size = new Size(222, 47);
             file_toolstrip.Stretch = true;
             file_toolstrip.TabIndex = 9;
             file_toolstrip.Text = "file_toolStrip";
             // 
             // new_button
             // 
-            new_button.BackColor = Color.FromArgb(5, 3, 24);
+            new_button.BackColor = Color.FromArgb(23, 21, 32);
             new_button.DropDownItems.AddRange(new ToolStripItem[] { sToolStripMenuItem, stackToolStripMenuItem, queueToolStripMenuItem, treeToolStripMenuItem });
             new_button.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             new_button.ForeColor = SystemColors.ControlLightLight;
@@ -455,10 +269,10 @@ namespace DO_AN_LTTQ
             // 
             // save_button
             // 
-            save_button.BackColor = Color.FromArgb(5, 3, 24);
+            save_button.BackColor = Color.FromArgb(23, 21, 32);
             save_button.DropDownItems.AddRange(new ToolStripItem[] { saveAsPNGToolStripMenuItem, saveAsToolStripMenuItem });
             save_button.ForeColor = SystemColors.ControlLightLight;
-            save_button.Image = Properties.Resources.save_25px;
+            save_button.Image = (Image)resources.GetObject("save_button.Image");
             save_button.ImageTransparentColor = Color.Magenta;
             save_button.Name = "save_button";
             save_button.Size = new Size(54, 44);
@@ -479,6 +293,7 @@ namespace DO_AN_LTTQ
             // 
             // export_button
             // 
+            export_button.BackColor = Color.FromArgb(23, 21, 32);
             export_button.DropDownItems.AddRange(new ToolStripItem[] { pNGToolStripMenuItem, gIFToolStripMenuItem });
             export_button.ForeColor = SystemColors.ControlLightLight;
             export_button.Image = (Image)resources.GetObject("export_button.Image");
@@ -502,7 +317,7 @@ namespace DO_AN_LTTQ
             // 
             // clear_button
             // 
-            clear_button.BackColor = Color.FromArgb(5, 3, 24);
+            clear_button.BackColor = Color.FromArgb(23, 21, 32);
             clear_button.ForeColor = SystemColors.ButtonHighlight;
             clear_button.Image = (Image)resources.GetObject("clear_button.Image");
             clear_button.ImageTransparentColor = Color.Magenta;
@@ -511,105 +326,364 @@ namespace DO_AN_LTTQ
             clear_button.Text = "Clear";
             clear_button.TextImageRelation = TextImageRelation.TextAboveImage;
             // 
-            // stepback_button
+            // panel2
             // 
-            stepback_button.BackColor = Color.FromArgb(5, 3, 24);
-            stepback_button.ForeColor = SystemColors.ControlLightLight;
-            stepback_button.Image = (Image)resources.GetObject("stepback_button.Image");
-            stepback_button.ImageTransparentColor = Color.Magenta;
-            stepback_button.Margin = new Padding(0);
-            stepback_button.Name = "stepback_button";
-            stepback_button.Size = new Size(78, 47);
-            stepback_button.Text = "Step back";
-            stepback_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            panel2.BackColor = Color.FromArgb(23, 21, 32);
+            panel2.Controls.Add(input_type_cbb);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(data_type_cbb);
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(width_tb);
+            panel2.Controls.Add(height_tb);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(spd_cbb);
+            panel2.Controls.Add(animation_spd_lbl);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(box_label);
+            panel2.Location = new Point(1000, 41);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(375, 886);
+            panel2.TabIndex = 10;
             // 
-            // stepfwd_button
+            // input_type_cbb
             // 
-            stepfwd_button.BackColor = Color.FromArgb(5, 3, 24);
-            stepfwd_button.ForeColor = SystemColors.ControlLightLight;
-            stepfwd_button.Image = (Image)resources.GetObject("stepfwd_button.Image");
-            stepfwd_button.ImageTransparentColor = Color.Magenta;
-            stepfwd_button.Margin = new Padding(0);
-            stepfwd_button.Name = "stepfwd_button";
-            stepfwd_button.Size = new Size(99, 47);
-            stepfwd_button.Text = "Step forward";
-            stepfwd_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            input_type_cbb.DropDownStyle = ComboBoxStyle.DropDownList;
+            input_type_cbb.FormattingEnabled = true;
+            input_type_cbb.Items.AddRange(new object[] { "random", "input from keyboard", "input from file(.txt)" });
+            input_type_cbb.Location = new Point(125, 257);
+            input_type_cbb.Name = "input_type_cbb";
+            input_type_cbb.Size = new Size(174, 28);
+            input_type_cbb.TabIndex = 21;
+            input_type_cbb.SelectedIndexChanged += input_type_cbb_SelectedIndexChanged;
             // 
-            // play_button
+            // label6
             // 
-            play_button.BackColor = Color.FromArgb(5, 3, 24);
-            play_button.ForeColor = SystemColors.ButtonHighlight;
-            play_button.Image = (Image)resources.GetObject("play_button.Image");
-            play_button.ImageTransparentColor = Color.Magenta;
-            play_button.Name = "play_button";
-            play_button.Size = new Size(40, 44);
-            play_button.Text = "Play";
-            play_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            label6.BorderStyle = BorderStyle.FixedSingle;
+            label6.FlatStyle = FlatStyle.Flat;
+            label6.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.ForeColor = Color.Snow;
+            label6.Location = new Point(-5, 249);
+            label6.Name = "label6";
+            label6.Size = new Size(397, 46);
+            label6.TabIndex = 20;
+            label6.Text = "   Input type:";
+            label6.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // pause_button
+            // data_type_cbb
             // 
-            pause_button.BackColor = Color.FromArgb(5, 3, 24);
-            pause_button.ForeColor = SystemColors.ControlLightLight;
-            pause_button.Image = Properties.Resources.pause_25px;
-            pause_button.ImageTransparentColor = Color.Magenta;
-            pause_button.Margin = new Padding(0);
-            pause_button.Name = "pause_button";
-            pause_button.Size = new Size(50, 47);
-            pause_button.Text = "Pause";
-            pause_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            data_type_cbb.DropDownStyle = ComboBoxStyle.DropDownList;
+            data_type_cbb.FormattingEnabled = true;
+            data_type_cbb.Items.AddRange(new object[] { "int", "float", "char" });
+            data_type_cbb.Location = new Point(125, 212);
+            data_type_cbb.Name = "data_type_cbb";
+            data_type_cbb.Size = new Size(66, 28);
+            data_type_cbb.TabIndex = 19;
             // 
-            // skip_button
+            // label5
             // 
-            skip_button.BackColor = Color.FromArgb(5, 3, 24);
-            skip_button.ForeColor = SystemColors.ControlLightLight;
-            skip_button.Image = (Image)resources.GetObject("skip_button.Image");
-            skip_button.ImageTransparentColor = Color.Magenta;
-            skip_button.Margin = new Padding(0);
-            skip_button.Name = "skip_button";
-            skip_button.Size = new Size(41, 47);
-            skip_button.Text = "Skip";
-            skip_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            label5.BorderStyle = BorderStyle.FixedSingle;
+            label5.FlatStyle = FlatStyle.Flat;
+            label5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.ForeColor = Color.Snow;
+            label5.Location = new Point(-5, 203);
+            label5.Name = "label5";
+            label5.Size = new Size(397, 46);
+            label5.TabIndex = 18;
+            label5.Text = "   Data type:";
+            label5.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // app_label
+            // width_tb
             // 
-            app_label.BackColor = Color.Transparent;
-            app_label.BackgroundImage = Properties.Resources.LOGO_2__1_;
-            app_label.BackgroundImageLayout = ImageLayout.Zoom;
-            app_label.Image = Properties.Resources.LOGO_21;
-            app_label.Location = new Point(12, 4);
-            app_label.Name = "app_label";
-            app_label.Size = new Size(29, 30);
-            app_label.TabIndex = 10;
-            app_label.TabStop = false;
+            width_tb.BackColor = Color.White;
+            width_tb.Location = new Point(181, 173);
+            width_tb.MaxLength = 5;
+            width_tb.Name = "width_tb";
+            width_tb.Size = new Size(51, 27);
+            width_tb.TabIndex = 16;
+            width_tb.Text = "500";
+            width_tb.KeyPress += width_tb_KeyPress;
+            // 
+            // height_tb
+            // 
+            height_tb.BackColor = Color.White;
+            height_tb.Location = new Point(181, 143);
+            height_tb.MaxLength = 5;
+            height_tb.Name = "height_tb";
+            height_tb.Size = new Size(51, 27);
+            height_tb.TabIndex = 11;
+            height_tb.Text = "500";
+            height_tb.KeyPress += height_tb_KeyPress;
+            // 
+            // label3
+            // 
+            label3.BorderStyle = BorderStyle.FixedSingle;
+            label3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = Color.Snow;
+            label3.ImageAlign = ContentAlignment.MiddleLeft;
+            label3.Location = new Point(111, 173);
+            label3.Name = "label3";
+            label3.Size = new Size(281, 30);
+            label3.TabIndex = 15;
+            label3.Text = "   W:                 px";
+            label3.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.Snow;
+            label2.ImageAlign = ContentAlignment.MiddleLeft;
+            label2.Location = new Point(111, 143);
+            label2.Name = "label2";
+            label2.Size = new Size(281, 30);
+            label2.TabIndex = 14;
+            label2.Text = "   H:                  px";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // spd_cbb
+            // 
+            spd_cbb.BackColor = Color.White;
+            spd_cbb.DropDownStyle = ComboBoxStyle.DropDownList;
+            spd_cbb.FormattingEnabled = true;
+            spd_cbb.Items.AddRange(new object[] { "0.5", "1", "2" });
+            spd_cbb.Location = new Point(181, 108);
+            spd_cbb.Name = "spd_cbb";
+            spd_cbb.Size = new Size(51, 28);
+            spd_cbb.TabIndex = 12;
+            // 
+            // animation_spd_lbl
+            // 
+            animation_spd_lbl.BorderStyle = BorderStyle.FixedSingle;
+            animation_spd_lbl.FlatStyle = FlatStyle.Flat;
+            animation_spd_lbl.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            animation_spd_lbl.ForeColor = Color.Snow;
+            animation_spd_lbl.Location = new Point(-5, 97);
+            animation_spd_lbl.Name = "animation_spd_lbl";
+            animation_spd_lbl.Size = new Size(397, 46);
+            animation_spd_lbl.TabIndex = 11;
+            animation_spd_lbl.Text = "   Animation speed:";
+            animation_spd_lbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label1
+            // 
+            label1.BorderStyle = BorderStyle.FixedSingle;
+            label1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.Snow;
+            label1.Location = new Point(-5, 143);
+            label1.Name = "label1";
+            label1.Size = new Size(116, 60);
+            label1.TabIndex = 13;
+            label1.Text = "Size";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // box_label
+            // 
+            box_label.AutoSize = true;
+            box_label.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point);
+            box_label.ForeColor = Color.Snow;
+            box_label.Image = Properties.Resources.services_50px;
+            box_label.ImageAlign = ContentAlignment.MiddleLeft;
+            box_label.Location = new Point(85, 29);
+            box_label.Name = "box_label";
+            box_label.Size = new Size(204, 46);
+            box_label.TabIndex = 0;
+            box_label.Text = "      Settings";
+            box_label.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.FromArgb(98, 188, 150);
+            panel4.BackgroundImage = Properties.Resources.fix5;
+            panel4.BackgroundImageLayout = ImageLayout.Stretch;
+            panel4.Controls.Add(label4);
+            panel4.Controls.Add(show_code_lbl);
+            panel4.Controls.Add(label7);
+            panel4.Dock = DockStyle.Bottom;
+            panel4.Location = new Point(0, 661);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(1375, 266);
+            panel4.TabIndex = 11;
+            panel4.Paint += panel4_Paint;
+            // 
+            // label4
+            // 
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.Snow;
+            label4.Image = Properties.Resources.code_25px;
+            label4.ImageAlign = ContentAlignment.MiddleLeft;
+            label4.Location = new Point(797, 47);
+            label4.Name = "label4";
+            label4.Size = new Size(103, 31);
+            label4.TabIndex = 12;
+            label4.Text = "Code :";
+            label4.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // show_code_lbl
+            // 
+            show_code_lbl.BackColor = Color.Black;
+            show_code_lbl.BorderStyle = BorderStyle.FixedSingle;
+            show_code_lbl.Location = new Point(797, 78);
+            show_code_lbl.Name = "show_code_lbl";
+            show_code_lbl.Size = new Size(545, 169);
+            show_code_lbl.TabIndex = 2;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.Transparent;
+            label7.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.ForeColor = Color.Snow;
+            label7.Image = (Image)resources.GetObject("label7.Image");
+            label7.ImageAlign = ContentAlignment.MiddleLeft;
+            label7.Location = new Point(30, 10);
+            label7.Name = "label7";
+            label7.Size = new Size(253, 46);
+            label7.TabIndex = 1;
+            label7.Text = "      Algorithms";
+            label7.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // button6
+            // 
+            button6.BackColor = Color.DarkGray;
+            button6.BackgroundImage = (Image)resources.GetObject("button6.BackgroundImage");
+            button6.BackgroundImageLayout = ImageLayout.Zoom;
+            button6.FlatAppearance.BorderSize = 0;
+            button6.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            button6.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            button6.FlatStyle = FlatStyle.Flat;
+            button6.Location = new Point(859, 11);
+            button6.Name = "button6";
+            button6.Size = new Size(40, 40);
+            button6.TabIndex = 20;
+            button6.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.DarkGray;
+            button5.BackgroundImage = (Image)resources.GetObject("button5.BackgroundImage");
+            button5.BackgroundImageLayout = ImageLayout.Zoom;
+            button5.FlatAppearance.BorderSize = 0;
+            button5.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            button5.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.Location = new Point(908, 11);
+            button5.Name = "button5";
+            button5.Size = new Size(40, 40);
+            button5.TabIndex = 19;
+            button5.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.DarkGray;
+            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
+            button3.BackgroundImageLayout = ImageLayout.Zoom;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            button3.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Location = new Point(811, 11);
+            button3.Name = "button3";
+            button3.Size = new Size(40, 40);
+            button3.TabIndex = 18;
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.DarkGray;
+            button2.BackgroundImage = (Image)resources.GetObject("button2.BackgroundImage");
+            button2.BackgroundImageLayout = ImageLayout.Zoom;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            button2.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Location = new Point(721, 11);
+            button2.Name = "button2";
+            button2.Size = new Size(40, 40);
+            button2.TabIndex = 17;
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // panel5
+            // 
+            panel5.BackColor = Color.DarkGray;
+            panel5.Controls.Add(button6);
+            panel5.Controls.Add(button5);
+            panel5.Controls.Add(step_lbl);
+            panel5.Controls.Add(trackBar1);
+            panel5.Controls.Add(button4);
+            panel5.Controls.Add(button3);
+            panel5.Controls.Add(button2);
+            panel5.Location = new Point(0, 604);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(1000, 57);
+            panel5.TabIndex = 13;
+            // 
+            // step_lbl
+            // 
+            step_lbl.AutoSize = true;
+            step_lbl.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            step_lbl.ForeColor = Color.Snow;
+            step_lbl.Location = new Point(56, 20);
+            step_lbl.Name = "step_lbl";
+            step_lbl.Size = new Size(95, 23);
+            step_lbl.TabIndex = 13;
+            step_lbl.Text = "Step: 0/10";
+            // 
+            // trackBar1
+            // 
+            trackBar1.AutoSize = false;
+            trackBar1.Location = new Point(157, 20);
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(540, 37);
+            trackBar1.TabIndex = 14;
+            trackBar1.TickStyle = TickStyle.None;
+            trackBar1.Scroll += trackBar1_Scroll;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.DarkGray;
+            button4.BackgroundImage = (Image)resources.GetObject("button4.BackgroundImage");
+            button4.BackgroundImageLayout = ImageLayout.Zoom;
+            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            button4.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.Location = new Point(767, 11);
+            button4.Name = "button4";
+            button4.Size = new Size(40, 40);
+            button4.TabIndex = 16;
+            button4.UseVisualStyleBackColor = false;
             // 
             // workplace
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ButtonFace;
+            BackColor = Color.White;
             ClientSize = new Size(1375, 927);
+            Controls.Add(panel5);
+            Controls.Add(panel4);
+            Controls.Add(panel2);
             Controls.Add(file_toolstrip);
-            Controls.Add(vScrollBar1);
-            Controls.Add(panel1);
             Controls.Add(task_panel);
             ForeColor = Color.Coral;
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Location = new Point(-1, 1);
             Name = "workplace";
             StartPosition = FormStartPosition.CenterScreen;
-            WindowState = FormWindowState.Maximized;
             task_panel.ResumeLayout(false);
             task_panel.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
+            file_toolstrip.ResumeLayout(false);
+            file_toolstrip.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            file_toolstrip.ResumeLayout(false);
-            file_toolstrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -618,19 +692,11 @@ namespace DO_AN_LTTQ
 
         private Button close_button;
         private Button subtract_button;
-        private Button button1;
         private Panel task_panel;
         private ToolStripButton stepbck_button;
         private ToolStripButton stepfw_button;
-        private ToolStripButton play_button;
-        private ToolStripButton pause_button;
-        private ToolStripButton skip_button;
         private Label projectname_label;
-        private Label properties_label;
-        private Panel panel1;
-        private VScrollBar vScrollBar1;
         private ToolStrip toolStrip2;
-        private Label label1;
         private ToolStrip file_toolstrip;
         private ToolStripDropDownButton new_button;
         private ToolStripMenuItem sToolStripMenuItem;
@@ -648,24 +714,34 @@ namespace DO_AN_LTTQ
         private ToolStripMenuItem pNGToolStripMenuItem;
         private ToolStripMenuItem gIFToolStripMenuItem;
         private ToolStripButton clear_button;
-        private ToolStripButton stepback_button;
-        private ToolStripButton stepfwd_button;
-        private Panel panel3;
-        private Label label3;
-        private ComboBox comboBox1;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private Label label6;
-        private Label label5;
-        private Label label4;
-        private Panel panel4;
-        private ComboBox comboBox3;
-        private Label label9;
-        private Label label8;
-        private ComboBox comboBox2;
-        private Label label7;
-        private Panel panel2;
-        private Label label2;
         private PictureBox app_label;
+        private Panel panel1;
+        private Panel panel2;
+        private Label box_label;
+        private ComboBox spd_cbb;
+        private Label animation_spd_lbl;
+        private Label label1;
+        private TextBox width_tb;
+        private TextBox height_tb;
+        private Label label3;
+        private Label label2;
+        private ComboBox input_type_cbb;
+        private Label label6;
+        private ComboBox data_type_cbb;
+        private Label label5;
+        private Panel panel3;
+        private Panel panel4;
+        private Label label7;
+        private Label show_code_lbl;
+        private Label label4;
+        private Panel panel5;
+        private Button button4;
+        private TrackBar trackBar1;
+        private Label step_lbl;
+        private Button button3;
+        private Button button2;
+        private Button button6;
+        private Button button5;
+        private Button button1;
     }
 }

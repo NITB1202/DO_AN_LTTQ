@@ -20,7 +20,7 @@ namespace DO_AN_LTTQ
         public choose_location()
         {
             InitializeComponent();
-            wp=new workplace();
+            wp = new workplace();
         }
 
         private bool check_invalid(string str)
@@ -72,6 +72,7 @@ namespace DO_AN_LTTQ
 
             //mo man hinh lam viec chinh
             wp.update_label(project_name_bar.Text);
+            wp.save_path = file_path;
             wp.ShowDialog();
             this.Close();
         }
