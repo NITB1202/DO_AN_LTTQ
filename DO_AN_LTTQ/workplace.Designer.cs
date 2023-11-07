@@ -43,11 +43,11 @@ namespace DO_AN_LTTQ
             sToolStripMenuItem = new ToolStripMenuItem();
             sinlToolStripMenuItem = new ToolStripMenuItem();
             doublyToolStripMenuItem = new ToolStripMenuItem();
-            stackToolStripMenuItem = new ToolStripMenuItem();
             queueToolStripMenuItem = new ToolStripMenuItem();
             treeToolStripMenuItem = new ToolStripMenuItem();
             binarySearchTreeToolStripMenuItem = new ToolStripMenuItem();
             btreeToolStripMenuItem = new ToolStripMenuItem();
+            graphToolStripMenuItem = new ToolStripMenuItem();
             save_button = new ToolStripDropDownButton();
             saveAsPNGToolStripMenuItem = new ToolStripMenuItem();
             saveAsToolStripMenuItem = new ToolStripMenuItem();
@@ -55,7 +55,8 @@ namespace DO_AN_LTTQ
             pNGToolStripMenuItem = new ToolStripMenuItem();
             gIFToolStripMenuItem = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
-            panel2 = new Panel();
+            st = new Panel();
+            ok_button = new RJButton();
             input_type_cbb = new ComboBox();
             label6 = new Label();
             data_type_cbb = new ComboBox();
@@ -68,9 +69,9 @@ namespace DO_AN_LTTQ
             animation_spd_lbl = new Label();
             label1 = new Label();
             box_label = new Label();
-            panel4 = new Panel();
+            al = new Panel();
             label4 = new Label();
-            show_code_lbl = new Label();
+            code = new Label();
             label7 = new Label();
             button6 = new Button();
             button5 = new Button();
@@ -80,11 +81,12 @@ namespace DO_AN_LTTQ
             step_lbl = new Label();
             trackBar1 = new TrackBar();
             button4 = new Button();
+            status_lbl = new Label();
             task_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).BeginInit();
             file_toolstrip.SuspendLayout();
-            panel2.SuspendLayout();
-            panel4.SuspendLayout();
+            st.SuspendLayout();
+            al.SuspendLayout();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
@@ -205,7 +207,7 @@ namespace DO_AN_LTTQ
             // new_button
             // 
             new_button.BackColor = Color.FromArgb(23, 21, 32);
-            new_button.DropDownItems.AddRange(new ToolStripItem[] { sToolStripMenuItem, stackToolStripMenuItem, queueToolStripMenuItem, treeToolStripMenuItem });
+            new_button.DropDownItems.AddRange(new ToolStripItem[] { sToolStripMenuItem, treeToolStripMenuItem, graphToolStripMenuItem });
             new_button.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             new_button.ForeColor = SystemColors.ControlLightLight;
             new_button.Image = (Image)resources.GetObject("new_button.Image");
@@ -219,53 +221,55 @@ namespace DO_AN_LTTQ
             // 
             // sToolStripMenuItem
             // 
-            sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, doublyToolStripMenuItem });
+            sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, doublyToolStripMenuItem, queueToolStripMenuItem });
             sToolStripMenuItem.Name = "sToolStripMenuItem";
-            sToolStripMenuItem.Size = new Size(135, 26);
+            sToolStripMenuItem.Size = new Size(132, 26);
             sToolStripMenuItem.Text = "List";
             // 
             // sinlToolStripMenuItem
             // 
             sinlToolStripMenuItem.Name = "sinlToolStripMenuItem";
-            sinlToolStripMenuItem.Size = new Size(207, 26);
+            sinlToolStripMenuItem.Size = new Size(199, 26);
             sinlToolStripMenuItem.Text = "Singly linked list";
+            sinlToolStripMenuItem.Click += sinlToolStripMenuItem_Click;
             // 
             // doublyToolStripMenuItem
             // 
             doublyToolStripMenuItem.Name = "doublyToolStripMenuItem";
-            doublyToolStripMenuItem.Size = new Size(207, 26);
-            doublyToolStripMenuItem.Text = "Doubly linked list";
-            // 
-            // stackToolStripMenuItem
-            // 
-            stackToolStripMenuItem.Name = "stackToolStripMenuItem";
-            stackToolStripMenuItem.Size = new Size(135, 26);
-            stackToolStripMenuItem.Text = "Stack";
+            doublyToolStripMenuItem.Size = new Size(199, 26);
+            doublyToolStripMenuItem.Text = "Stack";
             // 
             // queueToolStripMenuItem
             // 
             queueToolStripMenuItem.Name = "queueToolStripMenuItem";
-            queueToolStripMenuItem.Size = new Size(135, 26);
+            queueToolStripMenuItem.Size = new Size(199, 26);
             queueToolStripMenuItem.Text = "Queue";
             // 
             // treeToolStripMenuItem
             // 
             treeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binarySearchTreeToolStripMenuItem, btreeToolStripMenuItem });
             treeToolStripMenuItem.Name = "treeToolStripMenuItem";
-            treeToolStripMenuItem.Size = new Size(135, 26);
+            treeToolStripMenuItem.Size = new Size(132, 26);
             treeToolStripMenuItem.Text = "Tree";
             // 
             // binarySearchTreeToolStripMenuItem
             // 
             binarySearchTreeToolStripMenuItem.Name = "binarySearchTreeToolStripMenuItem";
-            binarySearchTreeToolStripMenuItem.Size = new Size(163, 26);
-            binarySearchTreeToolStripMenuItem.Text = "Binary tree";
+            binarySearchTreeToolStripMenuItem.Size = new Size(209, 26);
+            binarySearchTreeToolStripMenuItem.Text = "Binary search tree";
+            binarySearchTreeToolStripMenuItem.Click += binarySearchTreeToolStripMenuItem_Click;
             // 
             // btreeToolStripMenuItem
             // 
             btreeToolStripMenuItem.Name = "btreeToolStripMenuItem";
-            btreeToolStripMenuItem.Size = new Size(163, 26);
+            btreeToolStripMenuItem.Size = new Size(209, 26);
             btreeToolStripMenuItem.Text = "B-tree";
+            // 
+            // graphToolStripMenuItem
+            // 
+            graphToolStripMenuItem.Name = "graphToolStripMenuItem";
+            graphToolStripMenuItem.Size = new Size(132, 26);
+            graphToolStripMenuItem.Text = "Graph";
             // 
             // save_button
             // 
@@ -308,6 +312,7 @@ namespace DO_AN_LTTQ
             pNGToolStripMenuItem.Name = "pNGToolStripMenuItem";
             pNGToolStripMenuItem.Size = new Size(121, 26);
             pNGToolStripMenuItem.Text = "PNG";
+            pNGToolStripMenuItem.Click += pNGToolStripMenuItem_Click;
             // 
             // gIFToolStripMenuItem
             // 
@@ -325,26 +330,53 @@ namespace DO_AN_LTTQ
             clear_button.Size = new Size(47, 44);
             clear_button.Text = "Clear";
             clear_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            clear_button.Click += clear_button_Click;
             // 
-            // panel2
+            // st
             // 
-            panel2.BackColor = Color.FromArgb(23, 21, 32);
-            panel2.Controls.Add(input_type_cbb);
-            panel2.Controls.Add(label6);
-            panel2.Controls.Add(data_type_cbb);
-            panel2.Controls.Add(label5);
-            panel2.Controls.Add(width_tb);
-            panel2.Controls.Add(height_tb);
-            panel2.Controls.Add(label3);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(spd_cbb);
-            panel2.Controls.Add(animation_spd_lbl);
-            panel2.Controls.Add(label1);
-            panel2.Controls.Add(box_label);
-            panel2.Location = new Point(1000, 41);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(375, 886);
-            panel2.TabIndex = 10;
+            st.BackColor = Color.FromArgb(23, 21, 32);
+            st.Controls.Add(ok_button);
+            st.Controls.Add(input_type_cbb);
+            st.Controls.Add(label6);
+            st.Controls.Add(data_type_cbb);
+            st.Controls.Add(label5);
+            st.Controls.Add(width_tb);
+            st.Controls.Add(height_tb);
+            st.Controls.Add(label3);
+            st.Controls.Add(label2);
+            st.Controls.Add(spd_cbb);
+            st.Controls.Add(animation_spd_lbl);
+            st.Controls.Add(label1);
+            st.Controls.Add(box_label);
+            st.Dock = DockStyle.Right;
+            st.Location = new Point(1000, 41);
+            st.Name = "st";
+            st.Size = new Size(375, 620);
+            st.TabIndex = 10;
+            // 
+            // ok_button
+            // 
+            ok_button.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            ok_button.BackColor = Color.FromArgb(38, 128, 103);
+            ok_button.BackgroundColor = Color.FromArgb(38, 128, 103);
+            ok_button.BorderColor = Color.LightCoral;
+            ok_button.BorderRadius = 15;
+            ok_button.BorderSize = 0;
+            ok_button.FlatAppearance.BorderColor = Color.Brown;
+            ok_button.FlatAppearance.BorderSize = 0;
+            ok_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            ok_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            ok_button.FlatStyle = FlatStyle.Flat;
+            ok_button.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            ok_button.ForeColor = Color.White;
+            ok_button.Location = new Point(271, 484);
+            ok_button.Name = "ok_button";
+            ok_button.Size = new Size(71, 38);
+            ok_button.TabIndex = 22;
+            ok_button.Text = "OK";
+            ok_button.TextColor = Color.White;
+            ok_button.UseVisualStyleBackColor = false;
+            ok_button.Click += ok_button_Click;
             // 
             // input_type_cbb
             // 
@@ -491,23 +523,24 @@ namespace DO_AN_LTTQ
             box_label.Text = "      Settings";
             box_label.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // panel4
+            // al
             // 
-            panel4.BackColor = Color.FromArgb(98, 188, 150);
-            panel4.BackgroundImage = Properties.Resources.fix5;
-            panel4.BackgroundImageLayout = ImageLayout.Stretch;
-            panel4.Controls.Add(label4);
-            panel4.Controls.Add(show_code_lbl);
-            panel4.Controls.Add(label7);
-            panel4.Dock = DockStyle.Bottom;
-            panel4.Location = new Point(0, 661);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(1375, 266);
-            panel4.TabIndex = 11;
-            panel4.Paint += panel4_Paint;
+            al.BackColor = Color.FromArgb(98, 188, 150);
+            al.BackgroundImage = Properties.Resources.fix5;
+            al.BackgroundImageLayout = ImageLayout.Stretch;
+            al.Controls.Add(label4);
+            al.Controls.Add(code);
+            al.Controls.Add(label7);
+            al.Dock = DockStyle.Bottom;
+            al.Location = new Point(0, 661);
+            al.Name = "al";
+            al.Size = new Size(1375, 266);
+            al.TabIndex = 11;
+            al.Paint += panel4_Paint;
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.Snow;
@@ -520,14 +553,15 @@ namespace DO_AN_LTTQ
             label4.Text = "Code :";
             label4.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // show_code_lbl
+            // code
             // 
-            show_code_lbl.BackColor = Color.Black;
-            show_code_lbl.BorderStyle = BorderStyle.FixedSingle;
-            show_code_lbl.Location = new Point(797, 78);
-            show_code_lbl.Name = "show_code_lbl";
-            show_code_lbl.Size = new Size(545, 169);
-            show_code_lbl.TabIndex = 2;
+            code.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            code.BackColor = Color.Black;
+            code.BorderStyle = BorderStyle.FixedSingle;
+            code.Location = new Point(797, 78);
+            code.Name = "code";
+            code.Size = new Size(545, 169);
+            code.TabIndex = 2;
             // 
             // label7
             // 
@@ -614,9 +648,10 @@ namespace DO_AN_LTTQ
             panel5.Controls.Add(button4);
             panel5.Controls.Add(button3);
             panel5.Controls.Add(button2);
-            panel5.Location = new Point(0, 604);
+            panel5.Dock = DockStyle.Bottom;
+            panel5.Location = new Point(0, 606);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1000, 57);
+            panel5.Size = new Size(1000, 55);
             panel5.TabIndex = 13;
             // 
             // step_lbl
@@ -624,7 +659,7 @@ namespace DO_AN_LTTQ
             step_lbl.AutoSize = true;
             step_lbl.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             step_lbl.ForeColor = Color.Snow;
-            step_lbl.Location = new Point(56, 20);
+            step_lbl.Location = new Point(56, 15);
             step_lbl.Name = "step_lbl";
             step_lbl.Size = new Size(95, 23);
             step_lbl.TabIndex = 13;
@@ -633,7 +668,7 @@ namespace DO_AN_LTTQ
             // trackBar1
             // 
             trackBar1.AutoSize = false;
-            trackBar1.Location = new Point(157, 20);
+            trackBar1.Location = new Point(157, 15);
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(540, 37);
             trackBar1.TabIndex = 14;
@@ -655,15 +690,28 @@ namespace DO_AN_LTTQ
             button4.TabIndex = 16;
             button4.UseVisualStyleBackColor = false;
             // 
+            // status_lbl
+            // 
+            status_lbl.BackColor = Color.Transparent;
+            status_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            status_lbl.ForeColor = Color.FromArgb(38, 128, 103);
+            status_lbl.Location = new Point(-1, 572);
+            status_lbl.Name = "status_lbl";
+            status_lbl.Size = new Size(1001, 25);
+            status_lbl.TabIndex = 14;
+            status_lbl.Text = "Choosen Data Structure: None";
+            status_lbl.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // workplace
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1375, 927);
+            Controls.Add(status_lbl);
             Controls.Add(panel5);
-            Controls.Add(panel4);
-            Controls.Add(panel2);
+            Controls.Add(st);
+            Controls.Add(al);
             Controls.Add(file_toolstrip);
             Controls.Add(task_panel);
             ForeColor = Color.Coral;
@@ -677,10 +725,10 @@ namespace DO_AN_LTTQ
             ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
             file_toolstrip.ResumeLayout(false);
             file_toolstrip.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
+            st.ResumeLayout(false);
+            st.PerformLayout();
+            al.ResumeLayout(false);
+            al.PerformLayout();
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
@@ -702,8 +750,6 @@ namespace DO_AN_LTTQ
         private ToolStripMenuItem sToolStripMenuItem;
         private ToolStripMenuItem sinlToolStripMenuItem;
         private ToolStripMenuItem doublyToolStripMenuItem;
-        private ToolStripMenuItem stackToolStripMenuItem;
-        private ToolStripMenuItem queueToolStripMenuItem;
         private ToolStripMenuItem treeToolStripMenuItem;
         private ToolStripMenuItem binarySearchTreeToolStripMenuItem;
         private ToolStripMenuItem btreeToolStripMenuItem;
@@ -716,7 +762,6 @@ namespace DO_AN_LTTQ
         private ToolStripButton clear_button;
         private PictureBox app_label;
         private Panel panel1;
-        private Panel panel2;
         private Label box_label;
         private ComboBox spd_cbb;
         private Label animation_spd_lbl;
@@ -730,9 +775,7 @@ namespace DO_AN_LTTQ
         private ComboBox data_type_cbb;
         private Label label5;
         private Panel panel3;
-        private Panel panel4;
         private Label label7;
-        private Label show_code_lbl;
         private Label label4;
         private Panel panel5;
         private Button button4;
@@ -743,5 +786,9 @@ namespace DO_AN_LTTQ
         private Button button6;
         private Button button5;
         private Button button1;
+        private RJButton ok_button;
+        private Label status_lbl;
+        private ToolStripMenuItem queueToolStripMenuItem;
+        private ToolStripMenuItem graphToolStripMenuItem;
     }
 }

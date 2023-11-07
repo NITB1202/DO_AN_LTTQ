@@ -73,6 +73,7 @@ namespace DO_AN_LTTQ
             //mo man hinh lam viec chinh
             wp.update_label(project_name_bar.Text);
             wp.save_path = file_path;
+            this.Hide();
             wp.ShowDialog();
             this.Close();
         }
