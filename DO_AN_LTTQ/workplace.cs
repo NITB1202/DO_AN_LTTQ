@@ -6,12 +6,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Design;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace DO_AN_LTTQ
 {
@@ -28,7 +30,7 @@ namespace DO_AN_LTTQ
         public string textfile_path;
         public int type;
         //0=singly_linkedlist
-
+        object holder;
         public workplace()
         {
             InitializeComponent();
@@ -38,6 +40,7 @@ namespace DO_AN_LTTQ
             input_type_cbb.SelectedIndex = 0;
 
             type = -1;
+            DoubleBuffered = true;
         }
         public void update_label(string lb)
         {
@@ -64,7 +67,7 @@ namespace DO_AN_LTTQ
             //ve duong thang tren panel algorithms
             Pen p = new Pen(Color.White, 3);
             e.Graphics.DrawLine(p, 0, 38, 33, 38);
-            e.Graphics.DrawLine(p, 272, 38, 1400, 38);
+            e.Graphics.DrawLine(p, 272, 38, al.Width, 38);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -93,7 +96,7 @@ namespace DO_AN_LTTQ
                         input.MaxLength = 4;
                         input.Text = "0";
 
-                        input.KeyPress += new KeyPressEventHandler(height_tb_KeyPress);//chi cho phep nhap so
+                        input.KeyPress += new KeyPressEventHandler(check_tb_KeyPress);//chi cho phep nhap so
 
                         break;
                     }
@@ -129,7 +132,7 @@ namespace DO_AN_LTTQ
                     }
             }
         }
-        private void height_tb_KeyPress(object sender, KeyPressEventArgs e)
+        private void check_tb_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
                 e.Handled = true;
@@ -149,21 +152,29 @@ namespace DO_AN_LTTQ
                 case 1:
                     {
                         for (int i = 0; i < input_data.Length; i++)
-                            input_data[i] = random.NextDouble().ToString();
+                            input_data[i] = (random.NextDouble() * 100).ToString("0.0");
                         break;
                     }
                 case 2:
                     {
                         for (int i = 0; i < input_data.Length; i++)
-                            input_data[i] = ((char)('a' + random.Next(0, 26))).ToString();
+                        {
+                            int ran = random.Next(32, 127);
+                            input_data[i] = ((char)ran).ToString();
+                        }
                         break;
                     }
             }
         }
         private void width_tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.Enter)
                 e.Handled = true;
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                draw_range.Height = int.Parse(height_tb.Text);
+                draw_range.Width = int.Parse(width_tb.Text);
+            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -176,8 +187,10 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
-                        sll a = new sll(input_data);
-                        a.draw(e);
+                        holder = new sll(input_data);
+                        sll temp = (sll)holder;
+                        temp.modify_al_panel(interact_panel);
+                        temp.draw(sender, e);
                         break;
                     }
             }
@@ -218,7 +231,7 @@ namespace DO_AN_LTTQ
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
-                                if (input_data[i].Length > 1 || !char.IsLetter(input_data[i][0]))
+                                if (input_data[i].Length > 1)
                                     return false;
                             }
                         }
@@ -242,7 +255,8 @@ namespace DO_AN_LTTQ
                         if (type == 0 || type == 1)//dang list va tree
                         {
                             //tach input vao mang
-                            input_data = input.Text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                            string temp = input.Text.Replace("\r\n", " ");
+                            input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                             //check input nhap
                             if (!check_data())
                                 return false;
@@ -257,7 +271,8 @@ namespace DO_AN_LTTQ
                         {
                             if (input_data.Length == 1)
                             {
-                                input_data = input_data[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                string temp = input_data[0].Replace("\r\n", " ");
+                                input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                                 if (!check_data())
                                     return false;
                             }
@@ -288,27 +303,43 @@ namespace DO_AN_LTTQ
                 return;
             }
             //tao vung ve
-            draw_range = new Panel();
-            draw_range.Dock = DockStyle.Fill;
-            draw_range.Paint += new PaintEventHandler(draw_range_Paint);
-            Controls.Add(draw_range);
+            create_draw_range();
         }
-
+        private void create_draw_range()
+        {
+            draw_range = new Panel();
+            draw_range.BorderStyle = BorderStyle.FixedSingle;
+            draw_range.Height = 600;
+            draw_range.Width = 1000;
+            draw_range.AutoScroll = true;
+            Controls.Add(draw_range);
+            draw_range.Paint += new PaintEventHandler(draw_range_Paint);
+            draw_range.Resize += draw_range_resize;
+            ControlMoverOrResizer.Init(draw_range);
+        }
+        private void draw_range_resize(object sender, EventArgs e)
+        {
+            height_tb.Text = draw_range.Height.ToString();
+            width_tb.Text = draw_range.Width.ToString();
+            draw_range.Invalidate();
+        }
         private void sinlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             type = 0;
-            status_lbl.Text = "Choosen Data Structure: Singly Linked List";
+            update_status("Singly Linked List");
         }
 
         private void binarySearchTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             type = 1;
-            status_lbl.Text = "Choosen Data Structure: Binary Search Tree";
+            update_status("Binary Search Tree");
         }
 
         private void clear_button_Click(object sender, EventArgs e)
         {
             Controls.Remove(draw_range);
+            height_tb.Text = "600";
+            width_tb.Text = "1000";
         }
 
         private void pNGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -329,6 +360,35 @@ namespace DO_AN_LTTQ
                 Bitmap bmp = new Bitmap(draw_range.Width, draw_range.Height);
                 draw_range.DrawToBitmap(bmp, new Rectangle(0, 0, draw_range.Width, draw_range.Height));
                 bmp.Save(s.FileName, System.Drawing.Imaging.ImageFormat.Png);
+            }
+        }
+        private void update_status(string n)
+        {
+            status_lbl.Text = "-Choosen Data Structure: " + n + "-";
+        }
+
+        private void interact_panel_Paint(object sender, PaintEventArgs e)
+        {
+            Pen p = new Pen(Color.White, 3);
+            e.Graphics.DrawLine(p, 0, 0, interact_panel.Width, 0);
+            e.Graphics.DrawLine(p, 0, 0, 0, interact_panel.Height);
+            e.Graphics.DrawLine(p, 0, interact_panel.Height - 3, interact_panel.Width, interact_panel.Height - 3);
+            e.Graphics.DrawLine(p, interact_panel.Width - 3, 0, interact_panel.Width - 3, interact_panel.Height - 3);
+        }
+
+        private void workplace_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void go_button_Click(object sender, EventArgs e)
+        {
+            switch (type)
+            {
+                case 0:
+                    {
+                        int select_op = (holder as sll).get_select_op();
+                        break;
+                    }
             }
         }
     }

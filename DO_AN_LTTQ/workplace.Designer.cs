@@ -56,20 +56,22 @@ namespace DO_AN_LTTQ
             gIFToolStripMenuItem = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
             st = new Panel();
+            height_tb = new TextBox();
+            label2 = new Label();
             ok_button = new RJButton();
             input_type_cbb = new ComboBox();
             label6 = new Label();
             data_type_cbb = new ComboBox();
             label5 = new Label();
             width_tb = new TextBox();
-            height_tb = new TextBox();
             label3 = new Label();
-            label2 = new Label();
             spd_cbb = new ComboBox();
             animation_spd_lbl = new Label();
             label1 = new Label();
             box_label = new Label();
             al = new Panel();
+            go_button = new RJButton();
+            interact_panel = new Panel();
             label4 = new Label();
             code = new Label();
             label7 = new Label();
@@ -335,15 +337,15 @@ namespace DO_AN_LTTQ
             // st
             // 
             st.BackColor = Color.FromArgb(23, 21, 32);
+            st.Controls.Add(height_tb);
+            st.Controls.Add(label2);
             st.Controls.Add(ok_button);
             st.Controls.Add(input_type_cbb);
             st.Controls.Add(label6);
             st.Controls.Add(data_type_cbb);
             st.Controls.Add(label5);
             st.Controls.Add(width_tb);
-            st.Controls.Add(height_tb);
             st.Controls.Add(label3);
-            st.Controls.Add(label2);
             st.Controls.Add(spd_cbb);
             st.Controls.Add(animation_spd_lbl);
             st.Controls.Add(label1);
@@ -354,24 +356,49 @@ namespace DO_AN_LTTQ
             st.Size = new Size(375, 620);
             st.TabIndex = 10;
             // 
+            // height_tb
+            // 
+            height_tb.BackColor = Color.White;
+            height_tb.BorderStyle = BorderStyle.None;
+            height_tb.Location = new Point(181, 178);
+            height_tb.MaxLength = 5;
+            height_tb.Name = "height_tb";
+            height_tb.Size = new Size(51, 20);
+            height_tb.TabIndex = 24;
+            height_tb.Text = "600";
+            height_tb.KeyPress += width_tb_KeyPress;
+            // 
+            // label2
+            // 
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.Snow;
+            label2.ImageAlign = ContentAlignment.MiddleLeft;
+            label2.Location = new Point(111, 173);
+            label2.Name = "label2";
+            label2.Size = new Size(281, 30);
+            label2.TabIndex = 23;
+            label2.Text = "   H:                  px";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // ok_button
             // 
             ok_button.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            ok_button.BackColor = Color.FromArgb(38, 128, 103);
-            ok_button.BackgroundColor = Color.FromArgb(38, 128, 103);
+            ok_button.BackColor = Color.RoyalBlue;
+            ok_button.BackgroundColor = Color.RoyalBlue;
             ok_button.BorderColor = Color.LightCoral;
             ok_button.BorderRadius = 15;
             ok_button.BorderSize = 0;
             ok_button.FlatAppearance.BorderColor = Color.Brown;
             ok_button.FlatAppearance.BorderSize = 0;
-            ok_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
-            ok_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            ok_button.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            ok_button.FlatAppearance.MouseOverBackColor = Color.MidnightBlue;
             ok_button.FlatStyle = FlatStyle.Flat;
             ok_button.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             ok_button.ForeColor = Color.White;
-            ok_button.Location = new Point(271, 484);
+            ok_button.Location = new Point(272, 489);
             ok_button.Name = "ok_button";
-            ok_button.Size = new Size(71, 38);
+            ok_button.Size = new Size(50, 50);
             ok_button.TabIndex = 22;
             ok_button.Text = "OK";
             ok_button.TextColor = Color.White;
@@ -395,7 +422,7 @@ namespace DO_AN_LTTQ
             label6.FlatStyle = FlatStyle.Flat;
             label6.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.Snow;
-            label6.Location = new Point(-5, 249);
+            label6.Location = new Point(0, 249);
             label6.Name = "label6";
             label6.Size = new Size(397, 46);
             label6.TabIndex = 20;
@@ -418,7 +445,7 @@ namespace DO_AN_LTTQ
             label5.FlatStyle = FlatStyle.Flat;
             label5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.Snow;
-            label5.Location = new Point(-5, 203);
+            label5.Location = new Point(0, 203);
             label5.Name = "label5";
             label5.Size = new Size(397, 46);
             label5.TabIndex = 18;
@@ -428,24 +455,14 @@ namespace DO_AN_LTTQ
             // width_tb
             // 
             width_tb.BackColor = Color.White;
-            width_tb.Location = new Point(181, 173);
+            width_tb.BorderStyle = BorderStyle.None;
+            width_tb.Location = new Point(181, 149);
             width_tb.MaxLength = 5;
             width_tb.Name = "width_tb";
-            width_tb.Size = new Size(51, 27);
+            width_tb.Size = new Size(51, 20);
             width_tb.TabIndex = 16;
-            width_tb.Text = "500";
+            width_tb.Text = "1000";
             width_tb.KeyPress += width_tb_KeyPress;
-            // 
-            // height_tb
-            // 
-            height_tb.BackColor = Color.White;
-            height_tb.Location = new Point(181, 143);
-            height_tb.MaxLength = 5;
-            height_tb.Name = "height_tb";
-            height_tb.Size = new Size(51, 27);
-            height_tb.TabIndex = 11;
-            height_tb.Text = "500";
-            height_tb.KeyPress += height_tb_KeyPress;
             // 
             // label3
             // 
@@ -453,25 +470,12 @@ namespace DO_AN_LTTQ
             label3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.Snow;
             label3.ImageAlign = ContentAlignment.MiddleLeft;
-            label3.Location = new Point(111, 173);
+            label3.Location = new Point(111, 143);
             label3.Name = "label3";
             label3.Size = new Size(281, 30);
             label3.TabIndex = 15;
             label3.Text = "   W:                 px";
             label3.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // label2
-            // 
-            label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.ForeColor = Color.Snow;
-            label2.ImageAlign = ContentAlignment.MiddleLeft;
-            label2.Location = new Point(111, 143);
-            label2.Name = "label2";
-            label2.Size = new Size(281, 30);
-            label2.TabIndex = 14;
-            label2.Text = "   H:                  px";
-            label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // spd_cbb
             // 
@@ -528,6 +532,8 @@ namespace DO_AN_LTTQ
             al.BackColor = Color.FromArgb(98, 188, 150);
             al.BackgroundImage = Properties.Resources.fix5;
             al.BackgroundImageLayout = ImageLayout.Stretch;
+            al.Controls.Add(go_button);
+            al.Controls.Add(interact_panel);
             al.Controls.Add(label4);
             al.Controls.Add(code);
             al.Controls.Add(label7);
@@ -537,6 +543,41 @@ namespace DO_AN_LTTQ
             al.Size = new Size(1375, 266);
             al.TabIndex = 11;
             al.Paint += panel4_Paint;
+            // 
+            // go_button
+            // 
+            go_button.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            go_button.BackColor = Color.RoyalBlue;
+            go_button.BackgroundColor = Color.RoyalBlue;
+            go_button.BorderColor = Color.LightCoral;
+            go_button.BorderRadius = 15;
+            go_button.BorderSize = 0;
+            go_button.FlatAppearance.BorderColor = Color.Brown;
+            go_button.FlatAppearance.BorderSize = 0;
+            go_button.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+            go_button.FlatAppearance.MouseOverBackColor = Color.MidnightBlue;
+            go_button.FlatStyle = FlatStyle.Flat;
+            go_button.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            go_button.ForeColor = Color.White;
+            go_button.Location = new Point(668, 204);
+            go_button.Name = "go_button";
+            go_button.Size = new Size(93, 50);
+            go_button.TabIndex = 23;
+            go_button.Text = "GO";
+            go_button.TextColor = Color.White;
+            go_button.UseVisualStyleBackColor = false;
+            go_button.Click += go_button_Click;
+            // 
+            // interact_panel
+            // 
+            interact_panel.AutoScroll = true;
+            interact_panel.BackColor = Color.Transparent;
+            interact_panel.BorderStyle = BorderStyle.FixedSingle;
+            interact_panel.Location = new Point(30, 78);
+            interact_panel.Name = "interact_panel";
+            interact_panel.Size = new Size(620, 155);
+            interact_panel.TabIndex = 16;
+            interact_panel.Paint += interact_panel_Paint;
             // 
             // label4
             // 
@@ -693,13 +734,14 @@ namespace DO_AN_LTTQ
             // status_lbl
             // 
             status_lbl.BackColor = Color.Transparent;
+            status_lbl.Dock = DockStyle.Bottom;
             status_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            status_lbl.ForeColor = Color.FromArgb(38, 128, 103);
-            status_lbl.Location = new Point(-1, 572);
+            status_lbl.ForeColor = Color.FromArgb(40, 125, 105);
+            status_lbl.Location = new Point(0, 571);
             status_lbl.Name = "status_lbl";
-            status_lbl.Size = new Size(1001, 25);
+            status_lbl.Size = new Size(1000, 35);
             status_lbl.TabIndex = 14;
-            status_lbl.Text = "Choosen Data Structure: None";
+            status_lbl.Text = "-Choosen Data Structure: None-";
             status_lbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // workplace
@@ -720,6 +762,7 @@ namespace DO_AN_LTTQ
             Location = new Point(-1, 1);
             Name = "workplace";
             StartPosition = FormStartPosition.CenterScreen;
+            Load += workplace_Load;
             task_panel.ResumeLayout(false);
             task_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
@@ -766,10 +809,7 @@ namespace DO_AN_LTTQ
         private ComboBox spd_cbb;
         private Label animation_spd_lbl;
         private Label label1;
-        private TextBox width_tb;
-        private TextBox height_tb;
         private Label label3;
-        private Label label2;
         private ComboBox input_type_cbb;
         private Label label6;
         private ComboBox data_type_cbb;
@@ -790,5 +830,10 @@ namespace DO_AN_LTTQ
         private Label status_lbl;
         private ToolStripMenuItem queueToolStripMenuItem;
         private ToolStripMenuItem graphToolStripMenuItem;
+        private Panel interact_panel;
+        private RJButton go_button;
+        private Label label2;
+        private TextBox width_tb;
+        private TextBox height_tb;
     }
 }

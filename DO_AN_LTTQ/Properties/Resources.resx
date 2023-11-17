@@ -130,8 +130,8 @@
   <data name="idea_25px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\idea_25px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="services_50px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\services_50px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fix1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fix1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pause_25px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pause_25px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -147,6 +147,9 @@
   </data>
   <data name="LOGO 01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LOGO 01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fix5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fix5.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LOGO 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LOGO 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,23 +172,20 @@
   <data name="file_25px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\file_25px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="png-transparent-school-symbol-ho" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\png-transparent-school-symbol-ho.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="services_50px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\services_50px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="fix3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fix3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LOGO 2 (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LOGO 2 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fix1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fix1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="fix" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fix.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LOGO 2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LOGO 2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subtract_25px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subtract_25px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LOGO 21" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LOGO 21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -196,10 +196,13 @@
   <data name="opened_folder_25px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\opened_folder_25px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="subtract_25px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\subtract_25px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LOGO 2 (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LOGO 2 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fix5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fix5.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="arrow_fix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_fix.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="diamonds_40px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\diamonds_40px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
