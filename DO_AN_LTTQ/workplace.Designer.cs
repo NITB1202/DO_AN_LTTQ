@@ -70,19 +70,22 @@ namespace DO_AN_LTTQ
             label1 = new Label();
             box_label = new Label();
             al = new Panel();
+            code_tb = new RichTextBox();
             go_button = new RJButton();
             interact_panel = new Panel();
             label4 = new Label();
-            code = new Label();
             label7 = new Label();
             button6 = new Button();
             button5 = new Button();
             button3 = new Button();
             button2 = new Button();
             panel5 = new Panel();
+            total_step = new Label();
+            label9 = new Label();
+            current_step = new Label();
             step_lbl = new Label();
-            trackBar1 = new TrackBar();
-            button4 = new Button();
+            step_trb = new TrackBar();
+            play_button = new Button();
             status_lbl = new Label();
             task_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).BeginInit();
@@ -90,7 +93,7 @@ namespace DO_AN_LTTQ
             st.SuspendLayout();
             al.SuspendLayout();
             panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)step_trb).BeginInit();
             SuspendLayout();
             // 
             // close_button
@@ -505,7 +508,7 @@ namespace DO_AN_LTTQ
             // 
             label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.Snow;
+            label1.ForeColor = Color.White;
             label1.Location = new Point(-5, 143);
             label1.Name = "label1";
             label1.Size = new Size(116, 60);
@@ -532,10 +535,10 @@ namespace DO_AN_LTTQ
             al.BackColor = Color.FromArgb(98, 188, 150);
             al.BackgroundImage = Properties.Resources.fix5;
             al.BackgroundImageLayout = ImageLayout.Stretch;
+            al.Controls.Add(code_tb);
             al.Controls.Add(go_button);
             al.Controls.Add(interact_panel);
             al.Controls.Add(label4);
-            al.Controls.Add(code);
             al.Controls.Add(label7);
             al.Dock = DockStyle.Bottom;
             al.Location = new Point(0, 661);
@@ -543,6 +546,22 @@ namespace DO_AN_LTTQ
             al.Size = new Size(1375, 266);
             al.TabIndex = 11;
             al.Paint += panel4_Paint;
+            // 
+            // code_tb
+            // 
+            code_tb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            code_tb.BackColor = Color.Black;
+            code_tb.BorderStyle = BorderStyle.None;
+            code_tb.Cursor = Cursors.No;
+            code_tb.Font = new Font("Cascadia Mono", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            code_tb.ForeColor = Color.White;
+            code_tb.Location = new Point(797, 78);
+            code_tb.Name = "code_tb";
+            code_tb.ReadOnly = true;
+            code_tb.Size = new Size(553, 156);
+            code_tb.TabIndex = 24;
+            code_tb.Text = "";
+            code_tb.MouseDown += code_tb_MouseDown;
             // 
             // go_button
             // 
@@ -589,20 +608,10 @@ namespace DO_AN_LTTQ
             label4.ImageAlign = ContentAlignment.MiddleLeft;
             label4.Location = new Point(797, 47);
             label4.Name = "label4";
-            label4.Size = new Size(103, 31);
+            label4.Size = new Size(162, 31);
             label4.TabIndex = 12;
-            label4.Text = "Code :";
+            label4.Text = "Code C++ ";
             label4.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // code
-            // 
-            code.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            code.BackColor = Color.Black;
-            code.BorderStyle = BorderStyle.FixedSingle;
-            code.Location = new Point(797, 78);
-            code.Name = "code";
-            code.Size = new Size(545, 169);
-            code.TabIndex = 2;
             // 
             // label7
             // 
@@ -628,7 +637,7 @@ namespace DO_AN_LTTQ
             button6.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
             button6.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
             button6.FlatStyle = FlatStyle.Flat;
-            button6.Location = new Point(859, 11);
+            button6.Location = new Point(889, 8);
             button6.Name = "button6";
             button6.Size = new Size(40, 40);
             button6.TabIndex = 20;
@@ -643,7 +652,7 @@ namespace DO_AN_LTTQ
             button5.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
             button5.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
             button5.FlatStyle = FlatStyle.Flat;
-            button5.Location = new Point(908, 11);
+            button5.Location = new Point(945, 8);
             button5.Name = "button5";
             button5.Size = new Size(40, 40);
             button5.TabIndex = 19;
@@ -658,7 +667,7 @@ namespace DO_AN_LTTQ
             button3.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
             button3.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
             button3.FlatStyle = FlatStyle.Flat;
-            button3.Location = new Point(811, 11);
+            button3.Location = new Point(833, 8);
             button3.Name = "button3";
             button3.Size = new Size(40, 40);
             button3.TabIndex = 18;
@@ -673,7 +682,7 @@ namespace DO_AN_LTTQ
             button2.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
             button2.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
             button2.FlatStyle = FlatStyle.Flat;
-            button2.Location = new Point(721, 11);
+            button2.Location = new Point(721, 8);
             button2.Name = "button2";
             button2.Size = new Size(40, 40);
             button2.TabIndex = 17;
@@ -682,11 +691,14 @@ namespace DO_AN_LTTQ
             // panel5
             // 
             panel5.BackColor = Color.DarkGray;
+            panel5.Controls.Add(total_step);
+            panel5.Controls.Add(label9);
+            panel5.Controls.Add(current_step);
             panel5.Controls.Add(button6);
             panel5.Controls.Add(button5);
             panel5.Controls.Add(step_lbl);
-            panel5.Controls.Add(trackBar1);
-            panel5.Controls.Add(button4);
+            panel5.Controls.Add(step_trb);
+            panel5.Controls.Add(play_button);
             panel5.Controls.Add(button3);
             panel5.Controls.Add(button2);
             panel5.Dock = DockStyle.Bottom;
@@ -695,41 +707,76 @@ namespace DO_AN_LTTQ
             panel5.Size = new Size(1000, 55);
             panel5.TabIndex = 13;
             // 
+            // total_step
+            // 
+            total_step.AutoSize = true;
+            total_step.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            total_step.ForeColor = Color.Snow;
+            total_step.Location = new Point(121, 15);
+            total_step.Name = "total_step";
+            total_step.Size = new Size(30, 23);
+            total_step.TabIndex = 26;
+            total_step.Text = "10";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.ForeColor = Color.Snow;
+            label9.Location = new Point(97, 15);
+            label9.Name = "label9";
+            label9.Size = new Size(18, 23);
+            label9.TabIndex = 26;
+            label9.Text = "/";
+            // 
+            // current_step
+            // 
+            current_step.AutoSize = true;
+            current_step.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            current_step.ForeColor = Color.Snow;
+            current_step.Location = new Point(70, 15);
+            current_step.Name = "current_step";
+            current_step.Size = new Size(20, 23);
+            current_step.TabIndex = 25;
+            current_step.Text = "0";
+            // 
             // step_lbl
             // 
             step_lbl.AutoSize = true;
             step_lbl.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             step_lbl.ForeColor = Color.Snow;
-            step_lbl.Location = new Point(56, 15);
+            step_lbl.Location = new Point(12, 15);
             step_lbl.Name = "step_lbl";
-            step_lbl.Size = new Size(95, 23);
+            step_lbl.Size = new Size(52, 23);
             step_lbl.TabIndex = 13;
-            step_lbl.Text = "Step: 0/10";
+            step_lbl.Text = "Step:";
             // 
-            // trackBar1
+            // step_trb
             // 
-            trackBar1.AutoSize = false;
-            trackBar1.Location = new Point(157, 15);
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(540, 37);
-            trackBar1.TabIndex = 14;
-            trackBar1.TickStyle = TickStyle.None;
-            trackBar1.Scroll += trackBar1_Scroll;
+            step_trb.AutoSize = false;
+            step_trb.Location = new Point(157, 15);
+            step_trb.Name = "step_trb";
+            step_trb.Size = new Size(540, 37);
+            step_trb.TabIndex = 14;
+            step_trb.TickStyle = TickStyle.None;
+            step_trb.Scroll += trackBar1_Scroll;
+            step_trb.ValueChanged += step_trb_ValueChanged;
             // 
-            // button4
+            // play_button
             // 
-            button4.BackColor = Color.DarkGray;
-            button4.BackgroundImage = (Image)resources.GetObject("button4.BackgroundImage");
-            button4.BackgroundImageLayout = ImageLayout.Zoom;
-            button4.FlatAppearance.BorderSize = 0;
-            button4.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
-            button4.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Location = new Point(767, 11);
-            button4.Name = "button4";
-            button4.Size = new Size(40, 40);
-            button4.TabIndex = 16;
-            button4.UseVisualStyleBackColor = false;
+            play_button.BackColor = Color.DarkGray;
+            play_button.BackgroundImage = (Image)resources.GetObject("play_button.BackgroundImage");
+            play_button.BackgroundImageLayout = ImageLayout.Zoom;
+            play_button.FlatAppearance.BorderSize = 0;
+            play_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            play_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            play_button.FlatStyle = FlatStyle.Flat;
+            play_button.Location = new Point(777, 8);
+            play_button.Name = "play_button";
+            play_button.Size = new Size(40, 40);
+            play_button.TabIndex = 16;
+            play_button.UseVisualStyleBackColor = false;
+            play_button.Click += play_button_Click;
             // 
             // status_lbl
             // 
@@ -774,7 +821,7 @@ namespace DO_AN_LTTQ
             al.PerformLayout();
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)step_trb).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -818,8 +865,8 @@ namespace DO_AN_LTTQ
         private Label label7;
         private Label label4;
         private Panel panel5;
-        private Button button4;
-        private TrackBar trackBar1;
+        private Button play_button;
+        private TrackBar step_trb;
         private Label step_lbl;
         private Button button3;
         private Button button2;
@@ -835,5 +882,10 @@ namespace DO_AN_LTTQ
         private Label label2;
         private TextBox width_tb;
         private TextBox height_tb;
+        private Label label14;
+        private RichTextBox code_tb;
+        private Label total_step;
+        private Label label9;
+        private Label current_step;
     }
 }

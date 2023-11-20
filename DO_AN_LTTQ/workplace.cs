@@ -10,27 +10,32 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DO_AN_LTTQ
 {
     public partial class workplace : Form
     {
-        private TextBox input;
+        private System.Windows.Forms.TextBox input;
         private Label l;
         public Panel st; //settings panel
         public Panel al; //algorithm panel
-        public Label code; //show code range
-        public Panel draw_range;
+        public DoubleBufferedPanel draw_range;
         public string[] input_data;
         public string save_path;
         public string textfile_path;
         public int type;
         //0=singly_linkedlist
         object holder;
+        bool play = true;
+
+        [DllImport("user32")]
+        private static extern bool HideCaret(IntPtr hWnd);
         public workplace()
         {
             InitializeComponent();
@@ -40,7 +45,7 @@ namespace DO_AN_LTTQ
             input_type_cbb.SelectedIndex = 0;
 
             type = -1;
-            DoubleBuffered = true;
+            this.DoubleBuffered = true;
         }
         public void update_label(string lb)
         {
@@ -88,7 +93,7 @@ namespace DO_AN_LTTQ
                         l.Location = new Point(11, 310);
                         st.Controls.Add(l);
 
-                        input = new TextBox();
+                        input = new System.Windows.Forms.TextBox();
                         input.Height = 100;
                         input.Width = 50;
                         input.Location = new Point(125, 310);
@@ -107,7 +112,7 @@ namespace DO_AN_LTTQ
                             st.Controls.Remove(l);
                             st.Controls.Remove(input);
                         }
-                        input = new TextBox();
+                        input = new System.Windows.Forms.TextBox();
                         input.Height = 150;
                         input.Width = 255;
                         input.Multiline = true;
@@ -179,7 +184,7 @@ namespace DO_AN_LTTQ
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            step_lbl.Text = "Step: " + trackBar1.Value.ToString() + "/" + trackBar1.Maximum.ToString();
+            current_step.Text = step_trb.Value.ToString();
         }
         private void draw_range_Paint(object sender, PaintEventArgs e)
         {
@@ -187,10 +192,7 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
-                        holder = new sll(input_data);
-                        sll temp = (sll)holder;
-                        temp.modify_al_panel(interact_panel);
-                        temp.draw(sender, e);
+                        (holder as sll).draw(e);
                         break;
                     }
             }
@@ -304,16 +306,34 @@ namespace DO_AN_LTTQ
             }
             //tao vung ve
             create_draw_range();
+            set_inf_for_ds();
+        }
+
+        private void set_inf_for_ds()
+        {
+            switch (type)
+            {
+                case 0:
+                    {
+                        holder = new sll(input_data);
+                        sll temp = (sll)holder;
+                        temp.get_inf(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb);
+                        temp.modify_al_panel(interact_panel);
+                        break;
+                    }
+            }
+
         }
         private void create_draw_range()
         {
-            draw_range = new Panel();
+            draw_range = new DoubleBufferedPanel();
+
             draw_range.BorderStyle = BorderStyle.FixedSingle;
             draw_range.Height = 600;
             draw_range.Width = 1000;
             draw_range.AutoScroll = true;
             Controls.Add(draw_range);
-            draw_range.Paint += new PaintEventHandler(draw_range_Paint);
+            draw_range.Paint += draw_range_Paint;
             draw_range.Resize += draw_range_resize;
             ControlMoverOrResizer.Init(draw_range);
         }
@@ -340,6 +360,13 @@ namespace DO_AN_LTTQ
             Controls.Remove(draw_range);
             height_tb.Text = "600";
             width_tb.Text = "1000";
+            interact_panel.Controls.Clear();
+            code_tb.Clear();
+            total_step.Text = "10";
+            current_step.Text = "0";
+            step_trb.Maximum = 10;
+            step_trb.Value = 0;
+
         }
 
         private void pNGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,12 +411,36 @@ namespace DO_AN_LTTQ
         {
             switch (type)
             {
-                case 0:
+                case 0://ds lien ket don
                     {
-                        int select_op = (holder as sll).get_select_op();
+                        (holder as sll).run_algorithms();
                         break;
                     }
             }
         }
+        private void code_tb_MouseDown(object sender, MouseEventArgs e)
+        {
+            HideCaret(code_tb.Handle);
+        }
+
+        private void step_trb_ValueChanged(object sender, EventArgs e)
+        {
+            current_step.Text = step_trb.Value.ToString();
+        }
+
+        private void play_button_Click(object sender, EventArgs e)
+        {
+            if (play)
+            {
+                play_button.BackgroundImage = Properties.Resources.pause_25px;
+                play = false;
+            }
+            else
+            {
+                play_button.BackgroundImage = Image.FromFile(@"C:\Users\ADMIN\Desktop\DO_AN_LTTQ\DO_AN_LTTQ\Resources\play_32px1.png");
+                play = true;
+            }
+        }
+
     }
 }

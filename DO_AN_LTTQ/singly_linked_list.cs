@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Windows.Forms.AxHost;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DO_AN_LTTQ
 {
@@ -19,14 +19,40 @@ namespace DO_AN_LTTQ
         Pen pen = new Pen(Color.Black, 4);
         SolidBrush brush = new SolidBrush(Color.Black);
         Font font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+        Font f = new Font("Segoe UI Historic", 11.8F, FontStyle.Bold, GraphicsUnit.Point);
 
         System.Windows.Forms.TextBox po1_tb;
         System.Windows.Forms.TextBox po2_tb;
+        System.Windows.Forms.ComboBox c1;
+        System.Windows.Forms.ComboBox c2;
+        System.Windows.Forms.TextBox v1;
+        System.Windows.Forms.TextBox v2;
+
         Panel insert_panel;
         Panel remove_panel;
         Panel search_panel;
-        int select_op = -1;
+
+        public System.Windows.Forms.Timer timer;
+
+        public int select_op = -1;
         int image_length = 0;
+        int count = 0;
+
+        public int frame = 0;
+        int total_frame = 0;
+        int enable = -1;
+        int animation_pre = -1;
+
+        bool change_head = false;
+        bool change_tail = false;
+
+        //dia chi de ve
+        Panel draw_range;
+        RichTextBox code_tb;
+        TrackBar step_trb;
+        Label current_step;
+        Label total_step;
+        ComboBox datatype;
         public sll(string[] input_info)
         {
             linkedList = new LinkedList<string>();
@@ -41,7 +67,23 @@ namespace DO_AN_LTTQ
             po2_tb.Size = new Size(66, 27);
             po2_tb.Location = new Point(412, 12);
 
+            timer = new System.Windows.Forms.Timer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = 1000;
+
+            count = input_info.Length;
             image_length = (2*input_info.Length-1) * 40;
+        }
+        public void get_inf(Panel dr,RichTextBox c,TrackBar strb,Label cs,Label ts,ComboBox dt)
+        {
+            draw_range = dr;
+            code_tb = c;
+            step_trb = strb;
+            current_step = cs;
+            total_step = ts;
+            datatype = dt;
+
+            draw_range.Paint += insert_head_animation;
         }
         public void modify_al_panel(Panel interact_panel)
         {
@@ -73,7 +115,7 @@ namespace DO_AN_LTTQ
             p.Size = new Size(30, 30);
 
             //o chon
-            System.Windows.Forms.ComboBox c1 = new System.Windows.Forms.ComboBox();
+            c1 = new System.Windows.Forms.ComboBox();
             c1.DropDownStyle = ComboBoxStyle.DropDownList;
             c1.FormattingEnabled = true;
             c1.Items.AddRange(new object[] { "head", "tail", "position" });
@@ -83,7 +125,7 @@ namespace DO_AN_LTTQ
             c1.SelectedIndexChanged += new EventHandler(create_positon_tb);
 
             //o dien gia tri
-            System.Windows.Forms.TextBox v1=new System.Windows.Forms.TextBox();
+            v1=new System.Windows.Forms.TextBox();
             v1.Location = new Point(180, 12);
             v1.Size = new Size(66, 27);
 
@@ -128,12 +170,12 @@ namespace DO_AN_LTTQ
             p1.Size = new Size(30, 30);
 
             //o dien gia tri
-            System.Windows.Forms.TextBox v2 = new System.Windows.Forms.TextBox();
+            v2 = new System.Windows.Forms.TextBox();
             v2.Location = new Point(180, 12);
             v2.Size = new Size(66, 27);
 
             //o chon
-            System.Windows.Forms.ComboBox c2 = new System.Windows.Forms.ComboBox();
+            c2 = new System.Windows.Forms.ComboBox();
             c2.DropDownStyle = ComboBoxStyle.DropDownList;
             c2.FormattingEnabled = true;
             c2.Items.AddRange(new object[] { "head", "tail", "position" });
@@ -237,80 +279,228 @@ namespace DO_AN_LTTQ
                 search_panel.BackColor = Color.DarkGray;
             }
         }
-
-        public int get_select_op()
-        {
-            return select_op;
-        }
         private void control_value(object sender, EventArgs e)
         {
 
         }
-        public void draw(object sender, PaintEventArgs e)
+        public void draw(PaintEventArgs e)
         {
-            Panel panel = (Panel)sender;
-            startY = panel.Height / 2;
-            startX = (panel.Width - image_length) / 2;
+            startY = draw_range.Height / 2;
+            startX = (draw_range.Width - image_length) / 2;
+
+            //ve nhan head
+            if(!change_head && count>0)
+                e.Graphics.DrawString("Head", f, Brushes.Red, startX - 5, startY + 50);
             // Vẽ các nút cho mỗi phần tử trong danh sách liên kết
             LinkedListNode<string> currentNode = linkedList.First;
             while (currentNode != null)
             {
-                // Vẽ hình tròn đại diện cho nút
-                e.Graphics.DrawEllipse(pen, startX, startY, 40, 40);
-
-                // Hiển thị dữ liệu của nút trong hình tròn
-                string nodeText = currentNode.Value;
-                SizeF textSize = e.Graphics.MeasureString(nodeText, font);
-
-                // Tính toán tọa độ để đặt chuỗi vào giữa hình tròn
-                float textX = startX + (40 - textSize.Width) / 2;
-                float textY = startY + (40 - textSize.Height) / 2;
-
-                e.Graphics.DrawString(nodeText, font, Brushes.Black, textX, textY);
-
+                draw_node(currentNode.Value, e,startX,startY);
                 // Vẽ các đường kết nối
                 if (currentNode.Next != null)
-                {
-                    e.Graphics.DrawLine(pen, startX + 40, startY + 20, startX + 80, startY + 20);
-
-                    Point startPoint = new Point(startX + 40, startY + 20);
-                    Point endPoint = new Point(startX + 80, startY + 20);
-
-                    // Vẽ đường kết nối
-                    e.Graphics.DrawLine(pen, startPoint, endPoint);
-
-                    // Tính toán góc và vẽ mũi tên đầy
-                    double angle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
-                    Point[] arrowPoints = new Point[3];
-                    arrowPoints[0] = endPoint;
-                    arrowPoints[1] = new Point(
-                        Convert.ToInt32(endPoint.X - 15 * Math.Cos(angle - Math.PI / 6)),
-                        Convert.ToInt32(endPoint.Y - 15 * Math.Sin(angle - Math.PI / 6))
-                    );
-                    arrowPoints[2] = new Point(
-                        Convert.ToInt32(endPoint.X - 15 * Math.Cos(angle + Math.PI / 6)),
-                        Convert.ToInt32(endPoint.Y - 15 * Math.Sin(angle + Math.PI / 6))
-                    );
-                    e.Graphics.FillPolygon(brush, arrowPoints);
-                }
+                    draw_arrow(e,startX,startY);
                 // Di chuyển đến vị trí mới để vẽ nút tiếp theo
                 startX += 80;
                 currentNode = currentNode.Next;
             }
+            //ve nhan tail
+            if(!change_tail && count > 0)
+                if(count == 1)
+                    e.Graphics.DrawString("Tail", f, Brushes.Red, startX - 80, startY + 75);
+                else
+                    e.Graphics.DrawString("Tail", f, Brushes.Red, startX - 80, startY + 50);
         }
-        public void animation()
+        private void draw_node(string nodeText, PaintEventArgs e,int drawx,int drawy)
+        {
+            // Vẽ hình tròn đại diện cho nút
+            e.Graphics.DrawEllipse(pen, drawx, drawy, 40, 40);
+
+            // Hiển thị dữ liệu của nút trong hình tròn
+            SizeF textSize = e.Graphics.MeasureString(nodeText, font);
+
+            // Tính toán tọa độ để đặt chuỗi vào giữa hình tròn
+            float textX = drawx + (40 - textSize.Width) / 2;
+            float textY = drawy + (40 - textSize.Height) / 2;
+
+            e.Graphics.DrawString(nodeText, font, Brushes.Black, textX, textY);
+        }
+        private void draw_arrow(PaintEventArgs e, int drawx, int drawy) 
+        {
+            e.Graphics.DrawLine(pen, drawx + 40, drawy + 20, drawx + 80, drawy + 20);
+
+            Point startPoint = new Point(drawx + 40, drawy + 20);
+            Point endPoint = new Point(drawx + 80, drawy + 20);
+
+            // Vẽ đường kết nối
+            e.Graphics.DrawLine(pen, startPoint, endPoint);
+
+            // Tính toán góc và vẽ mũi tên đầy
+            double angle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
+            Point[] arrowPoints = new Point[3];
+            arrowPoints[0] = endPoint;
+            arrowPoints[1] = new Point(
+                Convert.ToInt32(endPoint.X - 15 * Math.Cos(angle - Math.PI / 6)),
+                Convert.ToInt32(endPoint.Y - 15 * Math.Sin(angle - Math.PI / 6))
+            );
+            arrowPoints[2] = new Point(
+                Convert.ToInt32(endPoint.X - 15 * Math.Cos(angle + Math.PI / 6)),
+                Convert.ToInt32(endPoint.Y - 15 * Math.Sin(angle + Math.PI / 6))
+            );
+            e.Graphics.FillPolygon(brush, arrowPoints);
+        }
+        public void code_addhead()
         {
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            switch (select_op)
+            string tab = "     ";
+            code_tb.AppendText(tab+ "void AddHead(LinkedList& l, int value){\n");
+            code_tb.AppendText(tab+tab+"Node* node = new Node(value)\n");
+            code_tb.AppendText(tab+tab+"if(l.head == NULL){\n");
+            code_tb.AppendText(tab+tab+tab+"l.head = node;\n");
+            code_tb.AppendText(tab+tab+tab+"l.tail = node;\n");
+            code_tb.AppendText(tab+tab+"}\n");
+            code_tb.AppendText(tab+tab+"else{\n");
+            code_tb.AppendText(tab+tab+tab+"node->next = l.head;\n");
+            code_tb.AppendText(tab+tab+tab+"l.head = node;\n");
+            code_tb.AppendText(tab+tab+"}\n");
+            code_tb.AppendText(tab+"}");
+        }
+        private void HighlightCurrentLine(int currentline,int previousline)
+        {
+            //doi mau dong truoc thanh mau trang
+            if(previousline > -1)
             {
-                case 1://thuat toan insert
+                int s = code_tb.GetFirstCharIndexFromLine(previousline);
+                int l = code_tb.Lines[previousline].Length;
+                code_tb.Select(s,l);
+                code_tb.SelectionColor = Color.White;
+            }
+
+            // Đặt màu sắc của dòng hiện tại thành màu vàng
+            if (currentline > -1)
+            {
+                int start = code_tb.GetFirstCharIndexFromLine(currentline);
+                int length = code_tb.Lines[currentline].Length;
+                code_tb.Select(start, length);
+                code_tb.ScrollToCaret();
+                code_tb.SelectionColor = Color.Yellow;
+            }
+        }
+        public void insert_head_animation(object sender,PaintEventArgs e)
+        {
+            if (enable != 1)
+                return;
+            switch(frame)
+            {
+                case 1:
+                    {
+                        if (count == 0)
+                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2, startY);
+                        else
+                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2 - 80, startY);
+                        step_trb.Value = 1;
+                        HighlightCurrentLine(1, -1);
+                        break;
+                    }
+                case 2: 
                     {
 
+                        if (count == 0)
+                        {
+                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2, startY);
+                            e.Graphics.DrawString("Head", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 50);
+                            HighlightCurrentLine(3, 1);
+                        }
+                        else
+                        {
+                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2 - 80, startY);
+                            draw_arrow(e, (draw_range.Width - image_length) / 2 - 80, startY);
+                            HighlightCurrentLine(7, 1);
+                        }
+                        step_trb.Value = 2;
+                        change_head = true;
+                        if (count == 1)
+                            change_tail = true;
+                        break;
+                    }
+                case 3:
+                    {
+                        if(count == 0)
+                        {
+                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2, startY);
+                            e.Graphics.DrawString("Head", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 50);
+                            e.Graphics.DrawString("Tail", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 75);
+                            HighlightCurrentLine(4, 3);
+                        }
+                        else
+                        {
+                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2 - 80, startY);
+                            draw_arrow(e, (draw_range.Width - image_length) / 2 - 80, startY);
+                            e.Graphics.DrawString("Head", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 85, startY + 50);
+                            if(change_tail)
+                                e.Graphics.DrawString("Tail", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 50);
+                            HighlightCurrentLine(8, 7);
+                        }    
+                        step_trb.Value = 3;
+                        update_ds(v1.Text);
+                        change_head= false;
+                        break;
+                    }
+            }    
+        }
+        private void update_ds(string value)
+        {
+            linkedList.AddFirst(value);
+            count = linkedList.Count();
+        }
+        public void run_algorithms()
+        {
+            switch (select_op) 
+            {
+                case 1://thuat toan insert
+                    { 
+                        switch(c1.SelectedIndex)
+                        {
+                            case 0://addhead
+                                {
+                                    if (animation_pre != 0)
+                                    {
+                                        code_tb.Clear();
+                                        code_addhead();
+                                        total_step.Text = "3";
+                                        total_frame = 3;
+                                        step_trb.Maximum = 3;
+                                        animation_pre = 0;
+                                    }
+                                    enable = 1;
+                                    break;
+                                }
+                        }
 
                         break;
                     }
             }
+
+            code_tb.SelectAll();
+            code_tb.SelectionColor = Color.White;
+            frame = 0;
+            timer.Start();
+        }
+
+        private void update_step(Label current_step,int n) 
+        {
+            
+        }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            frame++;
+            if (frame > total_frame)
+            {
+                enable = -1;
+                return;
+            }
+            draw_range.Invalidate();
         }
     }
+
 
 }

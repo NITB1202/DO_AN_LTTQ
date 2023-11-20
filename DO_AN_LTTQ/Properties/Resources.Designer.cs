@@ -103,6 +103,16 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap diamonds_40px {
+            get {
+                object obj = ResourceManager.GetObject("diamonds_40px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap file_25px {
             get {
                 object obj = ResourceManager.GetObject("file_25px", resourceCulture);
@@ -293,9 +303,9 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap png_transparent_school_symbol_ho {
+        internal static System.Drawing.Bitmap play_32px {
             get {
-                object obj = ResourceManager.GetObject("png-transparent-school-symbol-ho", resourceCulture);
+                object obj = ResourceManager.GetObject("play_32px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

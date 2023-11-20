@@ -263,7 +263,7 @@
         kigfULB4GPWkveujDCUzzQSsIMBR//rYsLM+amlp+Q/pdPYAD3Zcp4Wy23UAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="button4.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="play_button.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAXlJREFUWEft
         lr8rRWEYx+8lLH6N0p0UGUVGg7IY2O5qtBqtMpkNyt+gLEaDZFXYlJQySCksfiQen+fHGXQjnXveI3U+
