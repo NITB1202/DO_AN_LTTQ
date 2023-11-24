@@ -5,21 +5,21 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.AxHost;
 
 namespace DO_AN_LTTQ
 {
-    internal class sll
+    internal class sll : ds
     {
         LinkedList<string> linkedList;
-        int startX = 120;
-        int startY = 300;
-        Pen pen = new Pen(Color.Black, 4);
-        SolidBrush brush = new SolidBrush(Color.Black);
-        Font font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-        Font f = new Font("Segoe UI Historic", 11.8F, FontStyle.Bold, GraphicsUnit.Point);
+
+        int startX;
+        int startY;
+
+        int tempX, tempY;
 
         System.Windows.Forms.TextBox po1_tb;
         System.Windows.Forms.TextBox po2_tb;
@@ -32,27 +32,14 @@ namespace DO_AN_LTTQ
         Panel remove_panel;
         Panel search_panel;
 
-        public System.Windows.Forms.Timer timer;
-
-        public int select_op = -1;
         int image_length = 0;
         int count = 0;
 
-        public int frame = 0;
-        int total_frame = 0;
-        int enable = -1;
-        int animation_pre = -1;
+        //du lieu su dung khi bat dau thuat toan
+        string input = null;
+        int select_algorithm = -1;
+        int select_sub_algorithm = -1;
 
-        bool change_head = false;
-        bool change_tail = false;
-
-        //dia chi de ve
-        Panel draw_range;
-        RichTextBox code_tb;
-        TrackBar step_trb;
-        Label current_step;
-        Label total_step;
-        ComboBox datatype;
         public sll(string[] input_info)
         {
             linkedList = new LinkedList<string>();
@@ -60,59 +47,57 @@ namespace DO_AN_LTTQ
                 linkedList.AddLast(input_info[i]);
 
             po1_tb = new System.Windows.Forms.TextBox();
+            po1_tb.MaxLength = 3;
             po1_tb.Size = new Size(66, 27);
             po1_tb.Location = new Point(412, 12);
+            po1_tb.KeyPress += NumberOnly;
 
             po2_tb = new System.Windows.Forms.TextBox();
+            po2_tb.MaxLength = 3;
             po2_tb.Size = new Size(66, 27);
             po2_tb.Location = new Point(412, 12);
-
-            timer = new System.Windows.Forms.Timer();
-            timer.Tick += Timer_Tick;
-            timer.Interval = 1000;
+            po2_tb.KeyPress += NumberOnly;
 
             count = input_info.Length;
             image_length = (2*input_info.Length-1) * 40;
+
         }
-        public void get_inf(Panel dr,RichTextBox c,TrackBar strb,Label cs,Label ts,ComboBox dt)
+        public override void get_inf(Panel dr,RichTextBox c,TrackBar strb,Label cs,Label ts,ComboBox dt, Button pb)
         {
-            draw_range = dr;
-            code_tb = c;
-            step_trb = strb;
-            current_step = cs;
-            total_step = ts;
-            datatype = dt;
+            base.get_inf(dr,c,strb,cs,ts,dt,pb);
+
+            startX = (draw_range.Width - image_length) / 2;
+            startY = draw_range.Height / 2;
 
             draw_range.Paint += insert_head_animation;
+            draw_range.Paint += insert_tail_animation;
         }
-        public void modify_al_panel(Panel interact_panel)
+        public override void modify_panel(Panel interact_panel)
         {
-            //tuy chon insert
-
             //cac nhan
             System.Windows.Forms.Label l1 = new System.Windows.Forms.Label();
-            l1.BackColor = Color.Transparent;
-            l1.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
-            l1.ForeColor = Color.Snow;
-            l1.Location = new Point(45, 12);
+            l1.BackColor = item_color;
+            l1.Font = tb_font;
+            l1.ForeColor = tb_foreColor;
+            l1.Location = first_tb_location;
             l1.Size = new Size(111, 29);
             l1.Text = "Insert value";
 
             System.Windows.Forms.Label l2 = new System.Windows.Forms.Label();
-            l2.BackColor = Color.Transparent;
-            l2.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
-            l2.ForeColor = Color.Snow;
-            l2.Location = new Point(254, 11);
+            l2.BackColor = item_color;
+            l2.Font = tb_font;
+            l2.ForeColor = tb_foreColor;
+            l2.Location = new Point(254, line);
             l2.Size = new Size(41, 29);
             l2.Text = "at";
 
             //picture box
             PictureBox p =  new PictureBox();
-            p.BackColor = Color.Transparent;
-            p.BackgroundImage = Image.FromFile(@"C:\Users\ADMIN\Desktop\DO_AN_LTTQ\DO_AN_LTTQ\Resources\diamonds_40px.png");
+            p.BackColor = item_color;
+            p.BackgroundImage = symbol;
             p.BackgroundImageLayout = ImageLayout.Zoom;
-            p.Location = new Point(8, 10);
-            p.Size = new Size(30, 30);
+            p.Location = sb_location;
+            p.Size = sb_size;
 
             //o chon
             c1 = new System.Windows.Forms.ComboBox();
@@ -126,6 +111,7 @@ namespace DO_AN_LTTQ
 
             //o dien gia tri
             v1=new System.Windows.Forms.TextBox();
+            v1.MaxLength = 3;
             v1.Location = new Point(180, 12);
             v1.Size = new Size(66, 27);
 
@@ -164,13 +150,14 @@ namespace DO_AN_LTTQ
             //picture box
             PictureBox p1 = new PictureBox();
             p1.BackColor = Color.Transparent;
-            p1.BackgroundImage = Image.FromFile(@"C:\Users\ADMIN\Desktop\DO_AN_LTTQ\DO_AN_LTTQ\Resources\diamonds_40px.png");
+            p1.BackgroundImage = Properties.Resources.diamonds_40px;
             p1.BackgroundImageLayout = ImageLayout.Zoom;
             p1.Location = new Point(8, 10);
             p1.Size = new Size(30, 30);
 
             //o dien gia tri
             v2 = new System.Windows.Forms.TextBox();
+            v2.MaxLength = 3;
             v2.Location = new Point(180, 12);
             v2.Size = new Size(66, 27);
 
@@ -206,7 +193,7 @@ namespace DO_AN_LTTQ
 
             PictureBox p2 = new PictureBox();
             p2.BackColor = Color.Transparent;
-            p2.BackgroundImage = Image.FromFile(@"C:\Users\ADMIN\Desktop\DO_AN_LTTQ\DO_AN_LTTQ\Resources\diamonds_40px.png");
+            p2.BackgroundImage = Properties.Resources.diamonds_40px;
             p2.BackgroundImageLayout = ImageLayout.Zoom;
             p2.Location = new Point(8, 10);
             p2.Size = new Size(30, 30);
@@ -242,7 +229,7 @@ namespace DO_AN_LTTQ
                     remove_panel.Controls.Remove(po2_tb);
             }
         }
-        private void choose_op(object sender, EventArgs e)
+        public override void choose_op(object sender, EventArgs e)
         {
             Panel op=(Panel)sender;
             switch(select_op)
@@ -279,41 +266,40 @@ namespace DO_AN_LTTQ
                 search_panel.BackColor = Color.DarkGray;
             }
         }
-        private void control_value(object sender, EventArgs e)
+        public override void draw(PaintEventArgs e)
         {
-
-        }
-        public void draw(PaintEventArgs e)
-        {
-            startY = draw_range.Height / 2;
-            startX = (draw_range.Width - image_length) / 2;
-
-            //ve nhan head
-            if(!change_head && count>0)
-                e.Graphics.DrawString("Head", f, Brushes.Red, startX - 5, startY + 50);
+            tempX = startX;
+            tempY = startY;
             // Vẽ các nút cho mỗi phần tử trong danh sách liên kết
             LinkedListNode<string> currentNode = linkedList.First;
             while (currentNode != null)
             {
-                draw_node(currentNode.Value, e,startX,startY);
+                draw_node(currentNode.Value, e,tempX,tempY, Color.Black);
                 // Vẽ các đường kết nối
                 if (currentNode.Next != null)
-                    draw_arrow(e,startX,startY);
+                    draw_arrow(e,tempX,tempY, Color.Black);
                 // Di chuyển đến vị trí mới để vẽ nút tiếp theo
-                startX += 80;
+                tempX += 80;
                 currentNode = currentNode.Next;
             }
-            //ve nhan tail
-            if(!change_tail && count > 0)
-                if(count == 1)
-                    e.Graphics.DrawString("Tail", f, Brushes.Red, startX - 80, startY + 75);
-                else
-                    e.Graphics.DrawString("Tail", f, Brushes.Red, startX - 80, startY + 50);
+
+            if (enable == -1 || frame == 0) //khong chay thuat toan ve
+            {
+                if (count > 0)
+                {
+                    int headX = startX - 5;
+                    if (count == 1)
+                        draw_label(e, headX, tempY + 50, tempX - 85, tempY + 75);
+                    else
+                        draw_label(e, headX, tempY + 50, tempX - 80, tempY + 50);
+                }
+            }
         }
-        private void draw_node(string nodeText, PaintEventArgs e,int drawx,int drawy)
+        private void draw_node(string nodeText, PaintEventArgs e,int drawx,int drawy, Color color)
         {
             // Vẽ hình tròn đại diện cho nút
-            e.Graphics.DrawEllipse(pen, drawx, drawy, 40, 40);
+            Pen p = new Pen(color, 4);
+            e.Graphics.DrawEllipse(p, drawx, drawy, 40, 40);
 
             // Hiển thị dữ liệu của nút trong hình tròn
             SizeF textSize = e.Graphics.MeasureString(nodeText, font);
@@ -321,18 +307,19 @@ namespace DO_AN_LTTQ
             // Tính toán tọa độ để đặt chuỗi vào giữa hình tròn
             float textX = drawx + (40 - textSize.Width) / 2;
             float textY = drawy + (40 - textSize.Height) / 2;
+            SolidBrush b = new SolidBrush(color); 
 
-            e.Graphics.DrawString(nodeText, font, Brushes.Black, textX, textY);
+            e.Graphics.DrawString(nodeText, font, b, textX, textY);
         }
-        private void draw_arrow(PaintEventArgs e, int drawx, int drawy) 
+        private void draw_arrow(PaintEventArgs e, int drawx, int drawy, Color color) 
         {
-            e.Graphics.DrawLine(pen, drawx + 40, drawy + 20, drawx + 80, drawy + 20);
+            Pen p =new Pen(color, 4);
 
-            Point startPoint = new Point(drawx + 40, drawy + 20);
+            Point startPoint = new Point(drawx + 42, drawy + 20);
             Point endPoint = new Point(drawx + 80, drawy + 20);
 
             // Vẽ đường kết nối
-            e.Graphics.DrawLine(pen, startPoint, endPoint);
+            e.Graphics.DrawLine(p, startPoint, endPoint);
 
             // Tính toán góc và vẽ mũi tên đầy
             double angle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
@@ -346,161 +333,284 @@ namespace DO_AN_LTTQ
                 Convert.ToInt32(endPoint.X - 15 * Math.Cos(angle + Math.PI / 6)),
                 Convert.ToInt32(endPoint.Y - 15 * Math.Sin(angle + Math.PI / 6))
             );
-            e.Graphics.FillPolygon(brush, arrowPoints);
+            SolidBrush b = new SolidBrush(color);
+
+            e.Graphics.FillPolygon(b, arrowPoints);
+        }
+        private void draw_label(PaintEventArgs e,int headX, int headY,int tailX,int tailY)
+        {
+            e.Graphics.DrawString("Head", f, Brushes.Red,headX,headY);
+            e.Graphics.DrawString("Tail", f, Brushes.Red,tailX,tailY);
         }
         public void code_addhead()
-        {
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            string tab = "     ";
-            code_tb.AppendText(tab+ "void AddHead(LinkedList& l, int value){\n");
-            code_tb.AppendText(tab+tab+"Node* node = new Node(value)\n");
-            code_tb.AppendText(tab+tab+"if(l.head == NULL){\n");
-            code_tb.AppendText(tab+tab+tab+"l.head = node;\n");
-            code_tb.AppendText(tab+tab+tab+"l.tail = node;\n");
-            code_tb.AppendText(tab+tab+"}\n");
-            code_tb.AppendText(tab+tab+"else{\n");
-            code_tb.AppendText(tab+tab+tab+"node->next = l.head;\n");
-            code_tb.AppendText(tab+tab+tab+"l.head = node;\n");
-            code_tb.AppendText(tab+tab+"}\n");
-            code_tb.AppendText(tab+"}");
+        { 
+            code_tb.AppendText("void AddHead(LinkedList& l, int value) {\r\n\tNode* node = new Node(value)\r\n\tif(l.head == NULL) {\r\n\t\tl.head = node;\r\n\t\tl.tail = node;\r\n\t}\r\n\telse {\r\n\t\tnode->next = l.head;\r\n\t\tl.head = node;\r\n\t}\r\n}");
+            code_tb.SelectionIndent = 20;
+            setIndent();
         }
-        private void HighlightCurrentLine(int currentline,int previousline)
+        public void code_addtail()
         {
-            //doi mau dong truoc thanh mau trang
-            if(previousline > -1)
-            {
-                int s = code_tb.GetFirstCharIndexFromLine(previousline);
-                int l = code_tb.Lines[previousline].Length;
-                code_tb.Select(s,l);
-                code_tb.SelectionColor = Color.White;
-            }
-
-            // Đặt màu sắc của dòng hiện tại thành màu vàng
-            if (currentline > -1)
-            {
-                int start = code_tb.GetFirstCharIndexFromLine(currentline);
-                int length = code_tb.Lines[currentline].Length;
-                code_tb.Select(start, length);
-                code_tb.ScrollToCaret();
-                code_tb.SelectionColor = Color.Yellow;
-            }
+            code_tb.AppendText("void AddTail(LinkedList& l, int value) {\r\n\tNode* node = new Node(value)\r\n\tif(l.head == NULL) {\r\n\t\tl.head = node;\r\n\t\tl.tail = node;\r\n\t}\r\n\telse {\r\n\t\tl.tail->next = node;\r\n\t\tl.tail = node;\r\n\t}\r\n}");
+            setIndent();
+        }
+        public void code_addposition()
+        {
+            code_tb.AppendText("void addAtPosition(LinkedList& l, int value, int position) {\r\n\tif (position == 1) {\r\n\t\tAddHead(l,value);\r\n\t\treturn;\r\n\t}\r\n\tNode* current = l.head;\r\n\tint count = 1;\r\n\twhile (current && count < position - 1) {\r\n\t\tcurrent = current->next;\r\n\t\tcount++;\r\n\t}\r\n\tNode* node = new Node(value);\r\n\tnode->next = current->next;\r\n\tcurrent->next = node;\r\n}");
+            setIndent();
         }
         public void insert_head_animation(object sender,PaintEventArgs e)
         {
             if (enable != 1)
                 return;
-            switch(frame)
+            int headX = startX;
+            switch (frame)
             {
                 case 1:
                     {
+                        turn_off_highlight();
                         if (count == 0)
-                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2, startY);
+                        {
+                            draw_node(input, e, headX, tempY, Color.MediumSeaGreen);
+                        }
                         else
-                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2 - 80, startY);
+                        {
+                            if(count == 1)
+                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            else
+                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            draw_node(input, e, headX - 80, tempY, Color.MediumSeaGreen);
+                        }
                         step_trb.Value = 1;
-                        HighlightCurrentLine(1, -1);
+                        HighlightCurrentLine(1);
                         break;
                     }
                 case 2: 
                     {
-
+                        turn_off_highlight();
                         if (count == 0)
                         {
-                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2, startY);
-                            e.Graphics.DrawString("Head", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 50);
-                            HighlightCurrentLine(3, 1);
+                            draw_node(input, e, headX, tempY, Color.Black);
+                            e.Graphics.DrawString("Head", f, Brushes.Red, headX - 5, tempY + 50);
+                            HighlightCurrentLine(3);
                         }
                         else
                         {
-                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2 - 80, startY);
-                            draw_arrow(e, (draw_range.Width - image_length) / 2 - 80, startY);
-                            HighlightCurrentLine(7, 1);
+                            if(count ==1 )
+                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            else
+                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            draw_node(input, e, headX - 80, tempY, Color.Black);
+                            draw_arrow(e, headX - 80, tempY, Color.MediumSeaGreen);
+                            HighlightCurrentLine(7);
                         }
                         step_trb.Value = 2;
-                        change_head = true;
-                        if (count == 1)
-                            change_tail = true;
                         break;
                     }
                 case 3:
                     {
+                        turn_off_highlight();
                         if(count == 0)
                         {
-                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2, startY);
-                            e.Graphics.DrawString("Head", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 50);
-                            e.Graphics.DrawString("Tail", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 75);
-                            HighlightCurrentLine(4, 3);
+                            draw_node(input, e, headX, tempY, Color.Black);
+                            draw_label(e, headX -5, tempY + 50, headX-5, tempY + 75);
+                            HighlightCurrentLine(4);
                         }
                         else
                         {
-                            draw_node(v1.Text, e, (draw_range.Width - image_length) / 2 - 80, startY);
-                            draw_arrow(e, (draw_range.Width - image_length) / 2 - 80, startY);
-                            e.Graphics.DrawString("Head", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 85, startY + 50);
-                            if(change_tail)
-                                e.Graphics.DrawString("Tail", f, Brushes.Red, (draw_range.Width - image_length) / 2 - 5, startY + 50);
-                            HighlightCurrentLine(8, 7);
+                            draw_node(input, e, headX - 80, tempY, Color.Black);
+                            draw_arrow(e, headX - 80, tempY, Color.Black);
+                            draw_label(e, headX - 85, tempY + 50, tempX - 80, tempY + 50);
+                            HighlightCurrentLine(8);
                         }    
                         step_trb.Value = 3;
-                        update_ds(v1.Text);
-                        change_head= false;
                         break;
                     }
             }    
         }
-        private void update_ds(string value)
+        public void insert_tail_animation(object sender, PaintEventArgs e)
         {
-            linkedList.AddFirst(value);
-            count = linkedList.Count();
+            if (enable != 2)
+                return;
+            int headX = startX;
+            switch (frame)
+            {
+                case 1:
+                    {
+                        turn_off_highlight();
+                        if (count == 0)
+                        {
+                            draw_node(input, e, headX, tempY, Color.MediumSeaGreen);
+                        }
+                        else
+                        {
+                            if (count == 1)
+                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            else
+                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            draw_node(input, e, tempX, tempY, Color.MediumSeaGreen);
+                        }
+                        step_trb.Value = 1;
+                        HighlightCurrentLine(1);
+                        break;
+                    }
+                case 2:
+                    {
+                        turn_off_highlight();
+                        if (count == 0)
+                        {
+                            draw_node(input, e, headX, tempY, Color.Black);
+                            e.Graphics.DrawString("Head", f, Brushes.Red, headX - 5, tempY + 50);
+                            HighlightCurrentLine(3);
+                        }
+                        else
+                        {
+                            if (count == 1)
+                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            else
+                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            draw_node(input, e, tempX, tempY, Color.Black);
+                            draw_arrow(e, tempX - 80, tempY, Color.MediumSeaGreen);
+                            HighlightCurrentLine(7);
+                        }
+                        step_trb.Value = 2;
+                        break;
+                    }
+                case 3:
+                    {
+                        turn_off_highlight();
+                        if (count == 0)
+                        {
+                            draw_node(input, e, headX, tempY, Color.Black);
+                            draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            HighlightCurrentLine(4);
+                        }
+                        else
+                        {
+                            draw_node(input, e, tempX, tempY, Color.Black);
+                            draw_arrow(e, tempX - 80, tempY, Color.Black);
+                            draw_label(e, headX - 5, tempY + 50, tempX, tempY + 50);
+                            HighlightCurrentLine(8);
+                        }
+                        step_trb.Value = 3;
+                        break;
+                    }
+            }
         }
-        public void run_algorithms()
+        public override void update_ds()
         {
+            if (update_data)
+                return;
+            switch (select_algorithm)
+            {
+                case 1:
+                    {
+                        switch(select_sub_algorithm)
+                        {
+                            case 0:
+                                {
+                                    linkedList.AddFirst(input);
+                                    startX -= 80; 
+                                    break;
+                                }
+                            case 1:
+                                linkedList.AddLast(input);
+                                break;
+                        }
+                        
+                        break;
+                    }
+            }
+            count = linkedList.Count();
+            update_data = true;
+        }
+        public override void run_algorithms()
+        {
+            if (runningAnimation)
+                return;
+            if (input != null)
+                update_ds();
+            //chay thuat toan dua vao lua chon do hoa
             switch (select_op) 
             {
                 case 1://thuat toan insert
-                    { 
-                        switch(c1.SelectedIndex)
+                    {
+                        //kiem tra du lieu nhap
+                        if (!check_value(v1))
                         {
-                            case 0://addhead
-                                {
-                                    if (animation_pre != 0)
-                                    {
-                                        code_tb.Clear();
-                                        code_addhead();
-                                        total_step.Text = "3";
-                                        total_frame = 3;
-                                        step_trb.Maximum = 3;
-                                        animation_pre = 0;
-                                    }
-                                    enable = 1;
-                                    break;
-                                }
+                            show_error();
+                            return;
+                        }
+
+                        //luu thong tin de xu ly chay thuat toan
+                        input = v1.Text;
+                        select_algorithm = 1;
+
+                        if (c1.SelectedIndex == 0 || c1.SelectedIndex == 1) // addhead=0, addtail=1
+                        {
+                            //chuan bi animation
+                            updateStep(3);
+
+                            if (c1.SelectedIndex == 0) //addhead
+                            {
+                                code_addhead();
+                                select_sub_algorithm = 0;
+                                enable = 1; //mo co thuat toan addhead
+                            }
+                            else //addtail
+                            {
+                                code_addtail();
+                                select_sub_algorithm = 1;
+                                enable = 2; //mo co thuat toan addtail
+                            }
+                        }
+                        else 
+                        {
+                            if (!checkPos(po1_tb))
+                                return;
+
+                            updateStep(12);
+
+                            code_addposition();
+                            select_sub_algorithm = 2;
+                            enable = 3;
                         }
 
                         break;
                     }
             }
-
-            code_tb.SelectAll();
-            code_tb.SelectionColor = Color.White;
+            turn_off_highlight();
+            update_data = false;
             frame = 0;
             timer.Start();
+            play_button.BackgroundImage = pause_image;
         }
-
-        private void update_step(Label current_step,int n) 
+        public override int get_enable()
         {
-            
+            if(select_algorithm == 1 && select_sub_algorithm == 0)//addhead
+                return 1;
+            if (select_algorithm == 1 && select_sub_algorithm == 1)
+                return 2;
+            return -1;
         }
-        private void Timer_Tick(object sender, EventArgs e)
+        public override void updateLocation()
         {
-            frame++;
-            if (frame > total_frame)
+            image_length = (2 * count - 1) * 40;
+            startX = (draw_range.Width - image_length) / 2;
+            startY = draw_range.Height / 2;
+        }
+        public void NumberOnly(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
+        }
+        public bool checkPos(TextBox tb)
+        {
+            if (int.Parse(tb.Text) > count)
             {
-                enable = -1;
-                return;
+                MessageBox.Show("Position out of bounds. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-            draw_range.Invalidate();
+            return true;
         }
     }
-
-
 }

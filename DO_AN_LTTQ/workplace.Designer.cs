@@ -75,10 +75,10 @@ namespace DO_AN_LTTQ
             interact_panel = new Panel();
             label4 = new Label();
             label7 = new Label();
-            button6 = new Button();
-            button5 = new Button();
-            button3 = new Button();
-            button2 = new Button();
+            skip_button = new Button();
+            restart_button = new Button();
+            stepForward_button = new Button();
+            stepBack_button = new Button();
             panel5 = new Panel();
             total_step = new Label();
             label9 = new Label();
@@ -558,7 +558,7 @@ namespace DO_AN_LTTQ
             code_tb.Location = new Point(797, 78);
             code_tb.Name = "code_tb";
             code_tb.ReadOnly = true;
-            code_tb.Size = new Size(553, 156);
+            code_tb.Size = new Size(553, 160);
             code_tb.TabIndex = 24;
             code_tb.Text = "";
             code_tb.MouseDown += code_tb_MouseDown;
@@ -628,65 +628,69 @@ namespace DO_AN_LTTQ
             label7.Text = "      Algorithms";
             label7.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // button6
+            // skip_button
             // 
-            button6.BackColor = Color.DarkGray;
-            button6.BackgroundImage = (Image)resources.GetObject("button6.BackgroundImage");
-            button6.BackgroundImageLayout = ImageLayout.Zoom;
-            button6.FlatAppearance.BorderSize = 0;
-            button6.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
-            button6.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Location = new Point(889, 8);
-            button6.Name = "button6";
-            button6.Size = new Size(40, 40);
-            button6.TabIndex = 20;
-            button6.UseVisualStyleBackColor = false;
+            skip_button.BackColor = Color.DarkGray;
+            skip_button.BackgroundImage = (Image)resources.GetObject("skip_button.BackgroundImage");
+            skip_button.BackgroundImageLayout = ImageLayout.Zoom;
+            skip_button.FlatAppearance.BorderSize = 0;
+            skip_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            skip_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            skip_button.FlatStyle = FlatStyle.Flat;
+            skip_button.Location = new Point(889, 8);
+            skip_button.Name = "skip_button";
+            skip_button.Size = new Size(40, 40);
+            skip_button.TabIndex = 20;
+            skip_button.UseVisualStyleBackColor = false;
+            skip_button.Click += skip_button_Click;
             // 
-            // button5
+            // restart_button
             // 
-            button5.BackColor = Color.DarkGray;
-            button5.BackgroundImage = (Image)resources.GetObject("button5.BackgroundImage");
-            button5.BackgroundImageLayout = ImageLayout.Zoom;
-            button5.FlatAppearance.BorderSize = 0;
-            button5.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
-            button5.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.Location = new Point(945, 8);
-            button5.Name = "button5";
-            button5.Size = new Size(40, 40);
-            button5.TabIndex = 19;
-            button5.UseVisualStyleBackColor = false;
+            restart_button.BackColor = Color.DarkGray;
+            restart_button.BackgroundImage = (Image)resources.GetObject("restart_button.BackgroundImage");
+            restart_button.BackgroundImageLayout = ImageLayout.Zoom;
+            restart_button.FlatAppearance.BorderSize = 0;
+            restart_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            restart_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            restart_button.FlatStyle = FlatStyle.Flat;
+            restart_button.Location = new Point(945, 8);
+            restart_button.Name = "restart_button";
+            restart_button.Size = new Size(40, 40);
+            restart_button.TabIndex = 19;
+            restart_button.UseVisualStyleBackColor = false;
+            restart_button.Click += restart_button_Click;
             // 
-            // button3
+            // stepForward_button
             // 
-            button3.BackColor = Color.DarkGray;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Zoom;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
-            button3.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Location = new Point(833, 8);
-            button3.Name = "button3";
-            button3.Size = new Size(40, 40);
-            button3.TabIndex = 18;
-            button3.UseVisualStyleBackColor = false;
+            stepForward_button.BackColor = Color.DarkGray;
+            stepForward_button.BackgroundImage = (Image)resources.GetObject("stepForward_button.BackgroundImage");
+            stepForward_button.BackgroundImageLayout = ImageLayout.Zoom;
+            stepForward_button.FlatAppearance.BorderSize = 0;
+            stepForward_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            stepForward_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            stepForward_button.FlatStyle = FlatStyle.Flat;
+            stepForward_button.Location = new Point(833, 8);
+            stepForward_button.Name = "stepForward_button";
+            stepForward_button.Size = new Size(40, 40);
+            stepForward_button.TabIndex = 18;
+            stepForward_button.UseVisualStyleBackColor = false;
+            stepForward_button.Click += stepForward_button_Click;
             // 
-            // button2
+            // stepBack_button
             // 
-            button2.BackColor = Color.DarkGray;
-            button2.BackgroundImage = (Image)resources.GetObject("button2.BackgroundImage");
-            button2.BackgroundImageLayout = ImageLayout.Zoom;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
-            button2.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Location = new Point(721, 8);
-            button2.Name = "button2";
-            button2.Size = new Size(40, 40);
-            button2.TabIndex = 17;
-            button2.UseVisualStyleBackColor = false;
+            stepBack_button.BackColor = Color.DarkGray;
+            stepBack_button.BackgroundImage = (Image)resources.GetObject("stepBack_button.BackgroundImage");
+            stepBack_button.BackgroundImageLayout = ImageLayout.Zoom;
+            stepBack_button.FlatAppearance.BorderSize = 0;
+            stepBack_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDark;
+            stepBack_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            stepBack_button.FlatStyle = FlatStyle.Flat;
+            stepBack_button.Location = new Point(721, 8);
+            stepBack_button.Name = "stepBack_button";
+            stepBack_button.Size = new Size(40, 40);
+            stepBack_button.TabIndex = 17;
+            stepBack_button.UseVisualStyleBackColor = false;
+            stepBack_button.Click += stepBack_button_Click;
             // 
             // panel5
             // 
@@ -694,13 +698,13 @@ namespace DO_AN_LTTQ
             panel5.Controls.Add(total_step);
             panel5.Controls.Add(label9);
             panel5.Controls.Add(current_step);
-            panel5.Controls.Add(button6);
-            panel5.Controls.Add(button5);
+            panel5.Controls.Add(skip_button);
+            panel5.Controls.Add(restart_button);
             panel5.Controls.Add(step_lbl);
             panel5.Controls.Add(step_trb);
             panel5.Controls.Add(play_button);
-            panel5.Controls.Add(button3);
-            panel5.Controls.Add(button2);
+            panel5.Controls.Add(stepForward_button);
+            panel5.Controls.Add(stepBack_button);
             panel5.Dock = DockStyle.Bottom;
             panel5.Location = new Point(0, 606);
             panel5.Name = "panel5";
@@ -761,6 +765,7 @@ namespace DO_AN_LTTQ
             step_trb.TickStyle = TickStyle.None;
             step_trb.Scroll += trackBar1_Scroll;
             step_trb.ValueChanged += step_trb_ValueChanged;
+            step_trb.MouseUp += step_trb_MouseUp;
             // 
             // play_button
             // 
@@ -809,7 +814,6 @@ namespace DO_AN_LTTQ
             Location = new Point(-1, 1);
             Name = "workplace";
             StartPosition = FormStartPosition.CenterScreen;
-            Load += workplace_Load;
             task_panel.ResumeLayout(false);
             task_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
@@ -831,8 +835,6 @@ namespace DO_AN_LTTQ
         private Button close_button;
         private Button subtract_button;
         private Panel task_panel;
-        private ToolStripButton stepbck_button;
-        private ToolStripButton stepfw_button;
         private Label projectname_label;
         private ToolStrip toolStrip2;
         private ToolStrip file_toolstrip;
@@ -868,10 +870,10 @@ namespace DO_AN_LTTQ
         private Button play_button;
         private TrackBar step_trb;
         private Label step_lbl;
-        private Button button3;
-        private Button button2;
-        private Button button6;
-        private Button button5;
+        private Button stepForward_button;
+        private Button stepBack_button;
+        private Button skip_button;
+        private Button restart_button;
         private Button button1;
         private RJButton ok_button;
         private Label status_lbl;

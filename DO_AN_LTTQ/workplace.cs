@@ -31,8 +31,10 @@ namespace DO_AN_LTTQ
         public string textfile_path;
         public int type;
         //0=singly_linkedlist
-        object holder;
-        bool play = true;
+        ds holder;
+
+        Image play_image = Properties.Resources.play_32px;
+        Image pause_image = Image.FromFile(@"C:\Users\ADMIN\Desktop\DO_AN_LTTQ\DO_AN_LTTQ\Resources\pause_32px.png");
 
         [DllImport("user32")]
         private static extern bool HideCaret(IntPtr hWnd);
@@ -181,18 +183,13 @@ namespace DO_AN_LTTQ
                 draw_range.Width = int.Parse(width_tb.Text);
             }
         }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            current_step.Text = step_trb.Value.ToString();
-        }
         private void draw_range_Paint(object sender, PaintEventArgs e)
         {
             switch (type)
             {
                 case 0:
                     {
-                        (holder as sll).draw(e);
+                        holder.draw(e);
                         break;
                     }
             }
@@ -207,8 +204,7 @@ namespace DO_AN_LTTQ
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
-                                int s;
-                                if (!int.TryParse(input_data[i], out s))
+                                if (!int.TryParse(input_data[i], out int s))
                                     return false;
                             }
                         }
@@ -220,8 +216,7 @@ namespace DO_AN_LTTQ
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
-                                float s;
-                                if (!float.TryParse(input_data[i], out s))
+                                if (!float.TryParse(input_data[i], out float s))
                                     return false;
                             }
                         }
@@ -308,7 +303,6 @@ namespace DO_AN_LTTQ
             create_draw_range();
             set_inf_for_ds();
         }
-
         private void set_inf_for_ds()
         {
             switch (type)
@@ -316,9 +310,8 @@ namespace DO_AN_LTTQ
                 case 0:
                     {
                         holder = new sll(input_data);
-                        sll temp = (sll)holder;
-                        temp.get_inf(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb);
-                        temp.modify_al_panel(interact_panel);
+                        holder.get_inf(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button);
+                        holder.modify_panel(interact_panel);
                         break;
                     }
             }
@@ -335,12 +328,19 @@ namespace DO_AN_LTTQ
             Controls.Add(draw_range);
             draw_range.Paint += draw_range_Paint;
             draw_range.Resize += draw_range_resize;
+            draw_range.LocationChanged += draw_range_LocationChanged;
             ControlMoverOrResizer.Init(draw_range);
+        }
+        private void draw_range_LocationChanged(object sender, EventArgs e)
+        {
+            holder.update_ds();
         }
         private void draw_range_resize(object sender, EventArgs e)
         {
             height_tb.Text = draw_range.Height.ToString();
             width_tb.Text = draw_range.Width.ToString();
+            holder.update_ds();
+            holder.updateLocation();
             draw_range.Invalidate();
         }
         private void sinlToolStripMenuItem_Click(object sender, EventArgs e)
@@ -348,13 +348,11 @@ namespace DO_AN_LTTQ
             type = 0;
             update_status("Singly Linked List");
         }
-
         private void binarySearchTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             type = 1;
             update_status("Binary Search Tree");
         }
-
         private void clear_button_Click(object sender, EventArgs e)
         {
             Controls.Remove(draw_range);
@@ -367,8 +365,8 @@ namespace DO_AN_LTTQ
             step_trb.Maximum = 10;
             step_trb.Value = 0;
 
-        }
 
+        }
         private void pNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog s = new SaveFileDialog();
@@ -393,7 +391,6 @@ namespace DO_AN_LTTQ
         {
             status_lbl.Text = "-Choosen Data Structure: " + n + "-";
         }
-
         private void interact_panel_Paint(object sender, PaintEventArgs e)
         {
             Pen p = new Pen(Color.White, 3);
@@ -402,18 +399,13 @@ namespace DO_AN_LTTQ
             e.Graphics.DrawLine(p, 0, interact_panel.Height - 3, interact_panel.Width, interact_panel.Height - 3);
             e.Graphics.DrawLine(p, interact_panel.Width - 3, 0, interact_panel.Width - 3, interact_panel.Height - 3);
         }
-
-        private void workplace_Load(object sender, EventArgs e)
-        {
-        }
-
         private void go_button_Click(object sender, EventArgs e)
         {
             switch (type)
             {
                 case 0://ds lien ket don
                     {
-                        (holder as sll).run_algorithms();
+                        holder.run_algorithms();
                         break;
                     }
             }
@@ -422,25 +414,107 @@ namespace DO_AN_LTTQ
         {
             HideCaret(code_tb.Handle);
         }
-
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if (draw_range != null)
+            {
+                holder.timer.Stop();
+                playButtonUpdateImage();
+                holder.frame = step_trb.Value;
+                holder.turn_off_highlight();
+                holder.enable = holder.get_enable();
+                draw_range.Invalidate();
+            }
+            current_step.Text = step_trb.Value.ToString();
+        }
         private void step_trb_ValueChanged(object sender, EventArgs e)
         {
             current_step.Text = step_trb.Value.ToString();
         }
-
-        private void play_button_Click(object sender, EventArgs e)
+        private void step_trb_MouseUp(object sender, MouseEventArgs e)
         {
-            if (play)
+            if (draw_range != null)
             {
-                play_button.BackgroundImage = Properties.Resources.pause_25px;
-                play = false;
-            }
-            else
-            {
-                play_button.BackgroundImage = Image.FromFile(@"C:\Users\ADMIN\Desktop\DO_AN_LTTQ\DO_AN_LTTQ\Resources\play_32px1.png");
-                play = true;
+                if (play_button.BackgroundImage == pause_image)
+                {
+                    holder.timer.Start();
+                    playButtonUpdateImage();
+                }
             }
         }
+        private void play_button_Click(object sender, EventArgs e)
+        {
+            if (draw_range!=null)
+            {
+                if (holder.timer.Enabled)
+                    holder.timer.Stop();
+                else
+                    holder.timer.Start();
+                playButtonUpdateImage();
+            }
+        }
+        private void playButtonUpdateImage()
+        {
+            if (holder.timer.Enabled)
+                play_button.BackgroundImage = pause_image;
+            else
+                play_button.BackgroundImage = play_image;
+        }
+        private void restart_button_Click(object sender, EventArgs e)
+        {
+            step_trb.Value = 0;
+            holder.frame = 0;
+            holder.turn_off_highlight();
+            draw_range.Invalidate();
+            if (play_button.BackgroundImage == pause_image)
+                holder.timer.Start();
+            holder.enable = holder.get_enable();
+        }
+        private void skip_button_Click(object sender, EventArgs e)
+        {
+            if (draw_range != null)
+            {
+                holder.frame = holder.total_frame;
+                draw_range.Invalidate();
+            }
 
+        }
+        private void stepForward_button_Click(object sender, EventArgs e)
+        {
+            if (draw_range != null)
+            {
+                holder.frame++;
+                if (holder.frame > holder.total_frame)
+                {
+                    holder.frame = holder.total_frame;
+                    return;
+                }
+                draw_range.Invalidate();
+            }
+        }
+        private void stepBack_button_Click(object sender, EventArgs e)
+        {
+            if (draw_range != null)
+            {
+                if (holder.frame == holder.total_frame + 1)
+                {
+                    holder.frame -= 2;
+                    holder.enable = holder.get_enable();
+                }
+                else
+                    holder.frame--;
+                if (holder.frame == 0)
+                {
+                    step_trb.Value = 0;
+                    holder.turn_off_highlight();
+                }
+                if (holder.frame < 0)
+                {
+                    holder.frame = 0;
+                    return;
+                }
+                draw_range.Invalidate();
+            }
+        }
     }
 }
