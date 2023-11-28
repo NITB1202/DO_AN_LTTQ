@@ -310,12 +310,11 @@ namespace DO_AN_LTTQ
                 case 0:
                     {
                         holder = new sll(input_data);
-                        holder.get_inf(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button);
-                        holder.modify_panel(interact_panel);
                         break;
                     }
             }
-
+            holder.get_inf(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
+            holder.modify_panel(interact_panel);
         }
         private void create_draw_range()
         {
@@ -364,11 +363,13 @@ namespace DO_AN_LTTQ
             current_step.Text = "0";
             step_trb.Maximum = 10;
             step_trb.Value = 0;
-
-
+            spd_cbb.SelectedIndex = 1;
         }
         private void pNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (draw_range == null)
+                return;
+
             SaveFileDialog s = new SaveFileDialog();
 
             // Thiết lập các thuộc tính cho hộp thoại lưu tệp
@@ -383,6 +384,12 @@ namespace DO_AN_LTTQ
             if (s.ShowDialog() == DialogResult.OK)
             {
                 Bitmap bmp = new Bitmap(draw_range.Width, draw_range.Height);
+                if (holder.frame == holder.total_frame + 1)
+                {
+                    holder.enable = holder.get_enable();
+                    holder.frame = holder.total_frame;
+                    draw_range.Invalidate();
+                }
                 draw_range.DrawToBitmap(bmp, new Rectangle(0, 0, draw_range.Width, draw_range.Height));
                 bmp.Save(s.FileName, System.Drawing.Imaging.ImageFormat.Png);
             }
@@ -444,7 +451,7 @@ namespace DO_AN_LTTQ
         }
         private void play_button_Click(object sender, EventArgs e)
         {
-            if (draw_range!=null)
+            if (draw_range != null)
             {
                 if (holder.timer.Enabled)
                     holder.timer.Stop();
@@ -514,6 +521,29 @@ namespace DO_AN_LTTQ
                     return;
                 }
                 draw_range.Invalidate();
+            }
+        }
+        private void spd_cbb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (draw_range == null)
+                return;
+            switch(spd_cbb.SelectedIndex) 
+            {
+                case 0:
+                    {
+                        holder.timer.Interval = 2000;
+                        break;
+                    }
+                case 1:
+                    {
+                        holder.timer.Interval = 1000;
+                        break;
+                    }
+                case 2:
+                    {
+                        holder.timer.Interval = 500;
+                        break;
+                    }
             }
         }
     }

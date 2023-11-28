@@ -490,6 +490,7 @@ namespace DO_AN_LTTQ
             spd_cbb.Name = "spd_cbb";
             spd_cbb.Size = new Size(51, 28);
             spd_cbb.TabIndex = 12;
+            spd_cbb.SelectedIndexChanged += spd_cbb_SelectedIndexChanged;
             // 
             // animation_spd_lbl
             // 
@@ -863,7 +864,6 @@ namespace DO_AN_LTTQ
         private Label label6;
         private ComboBox data_type_cbb;
         private Label label5;
-        private Panel panel3;
         private Label label7;
         private Label label4;
         private Panel panel5;

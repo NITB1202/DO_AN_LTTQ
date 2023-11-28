@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace DO_AN_LTTQ
 {
      abstract class ds
@@ -38,6 +37,7 @@ namespace DO_AN_LTTQ
         protected Label total_step;
         protected Button play_button;
         protected int selected_datatype;
+        protected ComboBox speed_cbb;
 
         protected Color item_color = Color.Transparent;
 
@@ -61,10 +61,9 @@ namespace DO_AN_LTTQ
         {
             timer = new System.Windows.Forms.Timer();
             timer.Tick += Timer_Tick;
-            timer.Interval = 1000;
 
         }
-        public virtual void get_inf(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb)
+        public virtual void get_inf(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb,ComboBox spd)
         {
             draw_range = dr;
             code_tb = c;
@@ -73,8 +72,27 @@ namespace DO_AN_LTTQ
             total_step = ts;
             selected_datatype = dt.SelectedIndex;
             play_button = pb;
+            speed_cbb = spd;
 
             step_trb.Value = 0;
+            switch (speed_cbb.SelectedIndex)
+            {
+                case 0:
+                    {
+                        timer.Interval = 2000;
+                        break;
+                    }
+                case 1:
+                    {
+                        timer.Interval = 1000;
+                        break;
+                    }
+                case 2:
+                    {
+                        timer.Interval = 500;
+                        break;
+                    }
+            }
         }
         public abstract void modify_panel(Panel interact_panel);
         public abstract void draw(PaintEventArgs e);
@@ -115,6 +133,7 @@ namespace DO_AN_LTTQ
         public void updateStep(int n)
         {
             code_tb.Clear();
+            step_trb.Value = 0;
             total_step.Text = n.ToString();
             total_frame = n;
             step_trb.Maximum = n;
@@ -145,6 +164,7 @@ namespace DO_AN_LTTQ
             //neu text vuot qua vung nhin
             if (!code_tb.ClientRectangle.Contains(caretLocation))
                 code_tb.ScrollToCaret();
+
 
             code_tb.SelectionColor = Color.Yellow;
         }
