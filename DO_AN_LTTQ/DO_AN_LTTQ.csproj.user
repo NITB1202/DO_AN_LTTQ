@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="bufferingPanel.cs">
+    <Compile Update="Utilities\bufferingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="rbutton.cs">
+    <Compile Update="Utilities\rbutton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="start_page.cs">
+    <Compile Update="Forms\start_page.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="choose_location.cs">
+    <Compile Update="Forms\choose_location.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="workplace.cs">
+    <Compile Update="Forms\workplace.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
