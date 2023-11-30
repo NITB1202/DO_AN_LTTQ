@@ -165,7 +165,6 @@ namespace DO_AN_LTTQ
             if (!code_tb.ClientRectangle.Contains(caretLocation))
                 code_tb.ScrollToCaret();
 
-
             code_tb.SelectionColor = Color.Yellow;
         }
         public void turn_off_highlight()

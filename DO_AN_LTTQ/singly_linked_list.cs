@@ -389,6 +389,10 @@ namespace DO_AN_LTTQ
             code_tb.AppendText("Node* Search(LinkedList l, int x) {\r\n\tNode* current = l.head;\r\n\twhile (current != NULL && current->data != x)\r\n\t\tcurrent = current->next;\r\n\tif (current != NULL)\r\n\t\treturn current;\r\n\treturn NULL;\r\n}");
             setIndent();
         }
+        public void code_remove_head()
+        {
+
+        }
         public void insert_head_animation(object sender, PaintEventArgs e)
         {
             if (enable != 1)
