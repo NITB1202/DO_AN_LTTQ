@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.AxHost;
+using System;
+using Microsoft.Msagl.Drawing;
+using System.Windows.Forms;
+using MsaglLabel = Microsoft.Msagl.Drawing.Label;
+using WinFormsLabel = System.Windows.Forms.Label;
+using System.Security.Permissions;
+using System.Windows.Input;
 
-namespace DO_AN_LTTQ.AllDataStructureClass
+
+namespace DO_AN_LTTQ.AllDataStructureClassDraw
 {
-    internal class DoublyLinkedList : DataStructure
+    internal class GraphDraw : DataStructureDraw
     {
         public override void ChooseOption(object sender, EventArgs e)
         {

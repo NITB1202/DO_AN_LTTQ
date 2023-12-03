@@ -1,6 +1,7 @@
-﻿namespace DO_AN_LTTQ.AllDataStructureClass
+﻿namespace DO_AN_LTTQ.AllDataStructureClassDraw
 {
-    abstract class DataStructure
+    
+    abstract class DataStructureDraw
     {
         //cac but quan ly viec ve
         protected Pen pen = new Pen(Color.Black, 4);
@@ -49,7 +50,7 @@
         protected int opx = 3;
         protected int op_height = 50;//vi tri cua option tiep theo bang so thu tu option*op_height
         protected Size op_size = new Size(612, 50);
-        public DataStructure()
+        public DataStructureDraw()
         {
             timer = new System.Windows.Forms.Timer();
             timer.Tick += Timer_Tick;

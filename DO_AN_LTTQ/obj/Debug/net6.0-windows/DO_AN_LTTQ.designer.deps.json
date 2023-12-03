@@ -5,7 +5,195 @@
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v6.0": {}
+    ".NETCoreApp,Version=v6.0": {
+      "adjunct-Guard/2.0.0": {},
+      "adjunct-System.DataStructures.BinarySearchTree/2.0.0": {
+        "dependencies": {
+          "adjunct-Guard": "2.0.0",
+          "adjunct-System.DataStructures.BinaryTreeBase": "2.0.0",
+          "adjunct-System.DataStructures.FuncComparer": "2.0.0",
+          "adjunct-System.IComparableExtensions": "2.0.0"
+        }
+      },
+      "adjunct-System.DataStructures.BinarySearchTree.Tests/2.0.0": {
+        "dependencies": {
+          "adjunct-System.DataStructures.BinarySearchTree": "2.0.0",
+          "adjunct-XUnit.Should.BooleanExtensions": "2.0.0",
+          "adjunct-XUnit.Should.IEnumerableExtensions": "2.0.0",
+          "adjunct-XUnit.Should.ObjectExtensions": "2.0.0",
+          "xunit": "1.8.0.1549"
+        }
+      },
+      "adjunct-System.DataStructures.BinaryTreeBase/2.0.0": {
+        "dependencies": {
+          "adjunct-Guard": "2.0.0",
+          "adjunct-System.DataStructures.FuncComparer": "2.0.0",
+          "adjunct-System.IComparableExtensions": "2.0.0"
+        }
+      },
+      "adjunct-System.DataStructures.FuncComparer/2.0.0": {},
+      "adjunct-System.IComparableExtensions/2.0.0": {},
+      "adjunct-XUnit.Should.BooleanExtensions/2.0.0": {
+        "dependencies": {
+          "xunit": "1.8.0.1549"
+        }
+      },
+      "adjunct-XUnit.Should.IEnumerableExtensions/2.0.0": {
+        "dependencies": {
+          "xunit": "1.8.0.1549"
+        }
+      },
+      "adjunct-XUnit.Should.ObjectExtensions/2.0.0": {
+        "dependencies": {
+          "xunit": "1.8.0.1549"
+        }
+      },
+      "Microsoft.Msagl/1.1.6": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Msagl.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Microsoft.Msagl.Drawing/1.1.6": {
+        "dependencies": {
+          "Microsoft.Msagl": "1.1.6"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Msagl.Drawing.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Microsoft.Msagl.GraphViewerGDI/1.1.7": {
+        "dependencies": {
+          "Microsoft.Msagl.Drawing": "1.1.6"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Microsoft.Msagl.GraphViewerGdi.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "QuikGraph/2.5.0": {
+        "runtime": {
+          "lib/netstandard2.0/QuikGraph.dll": {
+            "assemblyVersion": "2.5.0.0",
+            "fileVersion": "2.5.0.0"
+          }
+        }
+      },
+      "xunit/1.8.0.1549": {
+        "runtime": {
+          "lib/xunit.dll": {
+            "assemblyVersion": "1.8.0.1549",
+            "fileVersion": "1.8.0.1549"
+          }
+        }
+      }
+    }
   },
-  "libraries": {}
+  "libraries": {
+    "adjunct-Guard/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-svjVrWH8gDvz5uedbI1A+8OdJWpbJfStWx5yniowHhrenqTu14Yi+w9ipXHw3GgHAAHPo5rVKCLr8nWsgYFZWQ==",
+      "path": "adjunct-guard/2.0.0",
+      "hashPath": "adjunct-guard.2.0.0.nupkg.sha512"
+    },
+    "adjunct-System.DataStructures.BinarySearchTree/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NH4klVSsdeXy8dHZEpTZLkTfoT2whRClNlWW20yx2pTx//3B4Vs7XU8vPhTjx43k/bdw4Ky3VSbi6iVpyhi8Vg==",
+      "path": "adjunct-system.datastructures.binarysearchtree/2.0.0",
+      "hashPath": "adjunct-system.datastructures.binarysearchtree.2.0.0.nupkg.sha512"
+    },
+    "adjunct-System.DataStructures.BinarySearchTree.Tests/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R3PrHcb+Xa1q7+4HrBKiE124uFctL4REXwSN6XXNcUAjLPgiQcSJwVrE89f48boXW23Be3mUMV2t/PXg0veCcA==",
+      "path": "adjunct-system.datastructures.binarysearchtree.tests/2.0.0",
+      "hashPath": "adjunct-system.datastructures.binarysearchtree.tests.2.0.0.nupkg.sha512"
+    },
+    "adjunct-System.DataStructures.BinaryTreeBase/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-g7z4PBTMSJ051Ez/ZjPJYo+6FlSz0258Mi/6dyOJVHQrChciTj8WJd+asv+bh9uWXMCbd+x2+H7hodxzjtGr4Q==",
+      "path": "adjunct-system.datastructures.binarytreebase/2.0.0",
+      "hashPath": "adjunct-system.datastructures.binarytreebase.2.0.0.nupkg.sha512"
+    },
+    "adjunct-System.DataStructures.FuncComparer/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yKgrRWZQcdtu5EfPwzXloHC9jG2p95KCkujjKHVHB/tDJdlP5JgANo0yl4QK74DBRJqBtaR7FLDeSzween6XBw==",
+      "path": "adjunct-system.datastructures.funccomparer/2.0.0",
+      "hashPath": "adjunct-system.datastructures.funccomparer.2.0.0.nupkg.sha512"
+    },
+    "adjunct-System.IComparableExtensions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6Z6TVRc3tb9Az9BAFuunaQGeSp97XbQgYJc9orkxrMWlrSkBOdk2e8/cn2sDnHv4Gogp0xbhXY6bcRB9KW+2EQ==",
+      "path": "adjunct-system.icomparableextensions/2.0.0",
+      "hashPath": "adjunct-system.icomparableextensions.2.0.0.nupkg.sha512"
+    },
+    "adjunct-XUnit.Should.BooleanExtensions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4nbfC5B3CuOL6fU08omCuH2+3be90UUTo9q4UErkEV88UKOX4TJJwOtBD0Coq6/275FXqYaplfvul2g04hWhpg==",
+      "path": "adjunct-xunit.should.booleanextensions/2.0.0",
+      "hashPath": "adjunct-xunit.should.booleanextensions.2.0.0.nupkg.sha512"
+    },
+    "adjunct-XUnit.Should.IEnumerableExtensions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-utB0YmWukCv17kE5CVdWdrZaUiTFauzbTPwWiIuHCLNl35tqurh63L5es8InsRLRuEnhO5ZDgMWpOcT8eDl38w==",
+      "path": "adjunct-xunit.should.ienumerableextensions/2.0.0",
+      "hashPath": "adjunct-xunit.should.ienumerableextensions.2.0.0.nupkg.sha512"
+    },
+    "adjunct-XUnit.Should.ObjectExtensions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-e0DG0i/4SVE7HkryPtG3Vj+jJpBUkYeod9hHJMVuOqQHdREpRajGmUnb8tEEpKuRgTISQF2q82RelMrGMTjHbg==",
+      "path": "adjunct-xunit.should.objectextensions/2.0.0",
+      "hashPath": "adjunct-xunit.should.objectextensions.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Msagl/1.1.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fqxj+pmZEo/H2z/LEMFSmtt6GrSj2FKZfz15HhTQRhYRpdewFaC5mPIUxkzELJTac/hbUDb28QBjG/w0JbG2wg==",
+      "path": "microsoft.msagl/1.1.6",
+      "hashPath": "microsoft.msagl.1.1.6.nupkg.sha512"
+    },
+    "Microsoft.Msagl.Drawing/1.1.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xKEOHGDEzf1ulz7GISBxnjsqSl5+YhMhZ1I/UU7GMUkFtrwuShVg+irAZiZeK9VQRePXWeFWVhBlxrc3XulXNQ==",
+      "path": "microsoft.msagl.drawing/1.1.6",
+      "hashPath": "microsoft.msagl.drawing.1.1.6.nupkg.sha512"
+    },
+    "Microsoft.Msagl.GraphViewerGDI/1.1.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-av6SIZxaNILJ2r0ALvRBppOPYNCkGr2OQTx6XhwpB4rwrHtvKpcP5Olj9Qj4Yq6ijthKkmmkhHkDk6MHfpqbtA==",
+      "path": "microsoft.msagl.graphviewergdi/1.1.7",
+      "hashPath": "microsoft.msagl.graphviewergdi.1.1.7.nupkg.sha512"
+    },
+    "QuikGraph/2.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sG+mrPpXwxlXknRK5VqWUGiOmDACa9X+3ftlkQIMgOZUqxVOQSe0+HIU9PTjwqazy0pqSf8MPDXYFGl0GYWcKw==",
+      "path": "quikgraph/2.5.0",
+      "hashPath": "quikgraph.2.5.0.nupkg.sha512"
+    },
+    "xunit/1.8.0.1549": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0FkTJLB/NwvRX9pGqYdFalFCc319YC2uHuMx2iThdqVL5gjiN27/DDR0GhQdGxfK4tvcSr8RH7R8MYBRtUYw+A==",
+      "path": "xunit/1.8.0.1549",
+      "hashPath": "xunit.1.8.0.1549.nupkg.sha512"
+    }
+  }
 }

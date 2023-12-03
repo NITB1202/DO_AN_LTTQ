@@ -57,3 +57,11 @@ C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\refint\D
 C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.pdb
 C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.genruntimeconfig.cache
 C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\ref\DO_AN_LTTQ.dll
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.sourcelink.json
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.csproj.AssemblyReference.cache
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.csproj.CopyComplete
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\QuikGraph.dll
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\xunit.dll
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\Microsoft.Msagl.dll
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\Microsoft.Msagl.Drawing.dll
+C:\Users\PC\source\repos\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\Microsoft.Msagl.GraphViewerGdi.dll

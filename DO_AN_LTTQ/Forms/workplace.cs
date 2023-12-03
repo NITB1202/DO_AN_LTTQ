@@ -1,4 +1,4 @@
-﻿using DO_AN_LTTQ.AllDataStructureClass;
+﻿using DO_AN_LTTQ.AllDataStructureClassDraw;
 using DO_AN_LTTQ.Properties;
 using DO_AN_LTTQ.Utilities;
 using System;
@@ -15,6 +15,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -23,17 +24,19 @@ namespace DO_AN_LTTQ
 {
     public partial class workplace : Form
     {
+
+
         private System.Windows.Forms.TextBox input;
-        private Label l;
-        public Panel st; //settings panel
-        public Panel al; //algorithm panel
+        private Label label;
+        public Panel settings_panel; //settings panel
+        public Panel algorithm_panel; //algorithm panel
         public DoubleBufferedPanel draw_range;
         public string[] input_data;
         public string save_path;
         public string textfile_path;
-        public int type;
+        public int type = -1;
         //0=singly_linkedlist
-        DataStructure holder;
+        DataStructureDraw holder;
 
         Image play_image = Properties.Resources.play_32px;
         Image pause_image = Properties.Resources.pause_25px;
@@ -44,7 +47,7 @@ namespace DO_AN_LTTQ
         public workplace()
         {
             InitializeComponent();
-
+            WindowState = FormWindowState.Maximized;
             spd_cbb.SelectedIndex = 1;
             data_type_cbb.SelectedIndex = 0;
             input_type_cbb.SelectedIndex = 0;
@@ -76,8 +79,13 @@ namespace DO_AN_LTTQ
         {
             //ve duong thang tren panel algorithms
             Pen p = new Pen(Color.White, 3);
+<<<<<<< Updated upstream
             e.Graphics.DrawLine(p, 0, 38, 33, 38);
             e.Graphics.DrawLine(p, 272, 38, al.Width, 38);
+=======
+            e.Graphics.DrawLine(p, 0, 38, 34, 38);
+            e.Graphics.DrawLine(p, 218, 38, algorithm_panel.Width, 38);
+>>>>>>> Stashed changes
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -89,6 +97,7 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
+<<<<<<< Updated upstream
                         if (st.Controls.Contains(input))
                             st.Controls.Remove(input);
                         l = new Label();
@@ -97,12 +106,27 @@ namespace DO_AN_LTTQ
                         l.ForeColor = Color.White;
                         l.Location = new Point(11, 310);
                         st.Controls.Add(l);
+=======
+                        if (settings_panel.Controls.Contains(input))
+                            settings_panel.Controls.Remove(input);
+                        label = new Label();
+                        label.Text = "Total node:";
+                        label.Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point);
+                        label.ForeColor = Color.White;
+                        label.Location = new Point(12, 232);
+                        settings_panel.Controls.Add(label);
+>>>>>>> Stashed changes
 
                         input = new System.Windows.Forms.TextBox();
                         input.Height = 100;
                         input.Width = 50;
+<<<<<<< Updated upstream
                         input.Location = new Point(125, 310);
                         st.Controls.Add(input);
+=======
+                        input.Location = new Point(114, 227);
+                        settings_panel.Controls.Add(input);
+>>>>>>> Stashed changes
                         input.MaxLength = 4;
                         input.Text = "0";
 
@@ -112,26 +136,31 @@ namespace DO_AN_LTTQ
                     }
                 case 1:
                     {
-                        if (st.Controls.Contains(l))
+                        if (settings_panel.Controls.Contains(label))
                         {
-                            st.Controls.Remove(l);
-                            st.Controls.Remove(input);
+                            settings_panel.Controls.Remove(label);
+                            settings_panel.Controls.Remove(input);
                         }
                         input = new System.Windows.Forms.TextBox();
                         input.Height = 150;
                         input.Width = 255;
                         input.Multiline = true;
                         input.ScrollBars = ScrollBars.Vertical;
+<<<<<<< Updated upstream
                         input.Location = new Point(55, 320);
                         st.Controls.Add(input);
+=======
+                        input.Location = new Point(40, 250);
+                        settings_panel.Controls.Add(input);
+>>>>>>> Stashed changes
                         break;
                     }
                 case 2:
                     {
-                        if (st.Controls.Contains(input))
+                        if (settings_panel.Controls.Contains(input))
                         {
-                            st.Controls.Remove(l);
-                            st.Controls.Remove(input);
+                            settings_panel.Controls.Remove(label);
+                            settings_panel.Controls.Remove(input);
                         }
                         OpenFileDialog open = new OpenFileDialog();
                         open.InitialDirectory = @"C:\";
@@ -188,6 +217,7 @@ namespace DO_AN_LTTQ
         }
         private void draw_range_Paint(object sender, PaintEventArgs e)
         {
+<<<<<<< Updated upstream
             switch (type)
             {
                 case 0:
@@ -196,6 +226,12 @@ namespace DO_AN_LTTQ
                         break;
                     }
             }
+=======
+            //viet de test thu
+            holder = new BinarySearchTreeDraw(input_data);
+            //
+            holder.Draw(e);
+>>>>>>> Stashed changes
         }
         private bool check_data()
         {
@@ -203,7 +239,7 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1|| type==11||type==21)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -215,7 +251,7 @@ namespace DO_AN_LTTQ
                     }
                 case 1:
                     {
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1|| type == 11|| type ==21)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -227,7 +263,7 @@ namespace DO_AN_LTTQ
                     }
                 case 2:
                     {
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1 || type == 11 || type == 21)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -246,13 +282,14 @@ namespace DO_AN_LTTQ
             {
                 case 0://random input
                     {
-                        if (type == 0 || type == 1)//dang list va tree
+                        if (type == 0 || type == 1||type==1 ||type==11)//dang list va tree
                             random_input(int.Parse(input.Text));
+
                         break;
                     }
                 case 1://input tu textbox
                     {
-                        if (type == 0 || type == 1)//dang list va tree
+                        if (type == 0 || type == 1|| type == 11)//dang list va tree
                         {
                             //tach input vao mang
                             string temp = input.Text.Replace("\r\n", " ");
@@ -267,7 +304,7 @@ namespace DO_AN_LTTQ
                     {
                         input_data = File.ReadAllLines(textfile_path);
 
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1 || type == 11 || type == 21)
                         {
                             if (input_data.Length == 1)
                             {
@@ -304,17 +341,37 @@ namespace DO_AN_LTTQ
             }
             //tao vung ve
             create_draw_range();
-            set_inf_for_ds();
+            set_info_for_datastructure();
         }
-        private void set_inf_for_ds()
+        private void set_info_for_datastructure()
         {
             switch (type)
             {
                 case 0:
                     {
+<<<<<<< Updated upstream
                         holder = new SinglyLinkedList(input_data);
                         holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button);
                         holder.ModifyPanel(interact_panel);
+=======
+                        holder = new SinglyLinkedListDraw(input_data);
+                        break;
+                    }
+
+                case 1:
+                    {
+                        holder = new BinarySearchTreeDraw(input_data);
+                        break;
+                    }
+                case 11:
+                    {
+                        holder = new BinarySearchTreeDraw(input_data);
+                        break;
+                    }
+                case 21:
+                    {
+                       // DrawGraph();
+>>>>>>> Stashed changes
                         break;
                     }
             }
@@ -356,6 +413,11 @@ namespace DO_AN_LTTQ
             type = 1;
             update_status("Binary Search Tree");
         }
+        private void graphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            type = 21;
+            update_status("Graph");
+        }
         private void clear_button_Click(object sender, EventArgs e)
         {
             Controls.Remove(draw_range);
@@ -367,8 +429,13 @@ namespace DO_AN_LTTQ
             current_step.Text = "0";
             step_trb.Maximum = 10;
             step_trb.Value = 0;
+<<<<<<< Updated upstream
 
 
+=======
+            spd_cbb.SelectedIndex = 1;
+            holder = null;
+>>>>>>> Stashed changes
         }
         private void pNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -519,5 +586,38 @@ namespace DO_AN_LTTQ
                 draw_range.Invalidate();
             }
         }
+<<<<<<< Updated upstream
+=======
+        private void spd_cbb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (draw_range == null)
+                return;
+            switch (spd_cbb.SelectedIndex)
+            {
+                case 0:
+                    {
+                        holder.timer.Interval = 2000;
+                        break;
+                    }
+                case 1:
+                    {
+                        holder.timer.Interval = 1000;
+                        break;
+                    }
+                case 2:
+                    {
+                        holder.timer.Interval = 500;
+                        break;
+                    }
+            }
+        }
+        private void doublyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+        
+
+        //viet xong nho update ham set_info_for_datastructure
+
+>>>>>>> Stashed changes
     }
 }

@@ -56,7 +56,7 @@ namespace DO_AN_LTTQ
             pNGToolStripMenuItem = new ToolStripMenuItem();
             gIFToolStripMenuItem = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
-            st = new Panel();
+            settings_panel = new Panel();
             height_tb = new TextBox();
             label2 = new Label();
             ok_button = new RJButton();
@@ -70,7 +70,7 @@ namespace DO_AN_LTTQ
             animation_spd_lbl = new Label();
             label1 = new Label();
             box_label = new Label();
-            al = new Panel();
+            algorithm_panel = new Panel();
             code_tb = new RichTextBox();
             go_button = new RJButton();
             interact_panel = new Panel();
@@ -91,8 +91,8 @@ namespace DO_AN_LTTQ
             task_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).BeginInit();
             file_toolstrip.SuspendLayout();
-            st.SuspendLayout();
-            al.SuspendLayout();
+            settings_panel.SuspendLayout();
+            algorithm_panel.SuspendLayout();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)step_trb).BeginInit();
             SuspendLayout();
@@ -205,7 +205,11 @@ namespace DO_AN_LTTQ
             file_toolstrip.Name = "file_toolstrip";
             file_toolstrip.Padding = new Padding(0);
             file_toolstrip.RenderMode = ToolStripRenderMode.Professional;
+<<<<<<< Updated upstream
             file_toolstrip.Size = new Size(222, 47);
+=======
+            file_toolstrip.Size = new Size(261, 48);
+>>>>>>> Stashed changes
             file_toolstrip.Stretch = true;
             file_toolstrip.TabIndex = 9;
             file_toolstrip.Text = "file_toolStrip";
@@ -229,7 +233,11 @@ namespace DO_AN_LTTQ
             // 
             sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, doublyToolStripMenuItem, queueToolStripMenuItem });
             sToolStripMenuItem.Name = "sToolStripMenuItem";
+<<<<<<< Updated upstream
             sToolStripMenuItem.Size = new Size(132, 26);
+=======
+            sToolStripMenuItem.Size = new Size(180, 22);
+>>>>>>> Stashed changes
             sToolStripMenuItem.Text = "List";
             // 
             // sinlToolStripMenuItem
@@ -255,7 +263,11 @@ namespace DO_AN_LTTQ
             // 
             treeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binarySearchTreeToolStripMenuItem, btreeToolStripMenuItem });
             treeToolStripMenuItem.Name = "treeToolStripMenuItem";
+<<<<<<< Updated upstream
             treeToolStripMenuItem.Size = new Size(132, 26);
+=======
+            treeToolStripMenuItem.Size = new Size(180, 22);
+>>>>>>> Stashed changes
             treeToolStripMenuItem.Text = "Tree";
             // 
             // binarySearchTreeToolStripMenuItem
@@ -274,8 +286,13 @@ namespace DO_AN_LTTQ
             // graphToolStripMenuItem
             // 
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
+<<<<<<< Updated upstream
             graphToolStripMenuItem.Size = new Size(132, 26);
+=======
+            graphToolStripMenuItem.Size = new Size(180, 22);
+>>>>>>> Stashed changes
             graphToolStripMenuItem.Text = "Graph";
+            graphToolStripMenuItem.Click += graphToolStripMenuItem_Click;
             // 
             // save_button
             // 
@@ -338,8 +355,9 @@ namespace DO_AN_LTTQ
             clear_button.TextImageRelation = TextImageRelation.TextAboveImage;
             clear_button.Click += clear_button_Click;
             // 
-            // st
+            // settings_panel
             // 
+<<<<<<< Updated upstream
             st.BackColor = Color.FromArgb(23, 21, 32);
             st.Controls.Add(height_tb);
             st.Controls.Add(label2);
@@ -359,6 +377,29 @@ namespace DO_AN_LTTQ
             st.Name = "st";
             st.Size = new Size(375, 620);
             st.TabIndex = 10;
+=======
+            settings_panel.BackColor = Color.FromArgb(23, 21, 32);
+            settings_panel.Controls.Add(height_tb);
+            settings_panel.Controls.Add(label2);
+            settings_panel.Controls.Add(ok_button);
+            settings_panel.Controls.Add(input_type_cbb);
+            settings_panel.Controls.Add(label6);
+            settings_panel.Controls.Add(data_type_cbb);
+            settings_panel.Controls.Add(label5);
+            settings_panel.Controls.Add(width_tb);
+            settings_panel.Controls.Add(label3);
+            settings_panel.Controls.Add(spd_cbb);
+            settings_panel.Controls.Add(animation_spd_lbl);
+            settings_panel.Controls.Add(label1);
+            settings_panel.Controls.Add(box_label);
+            settings_panel.Dock = DockStyle.Right;
+            settings_panel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            settings_panel.Location = new Point(1000, 31);
+            settings_panel.Margin = new Padding(3, 2, 3, 2);
+            settings_panel.Name = "settings_panel";
+            settings_panel.Size = new Size(328, 507);
+            settings_panel.TabIndex = 10;
+>>>>>>> Stashed changes
             // 
             // height_tb
             // 
@@ -400,7 +441,12 @@ namespace DO_AN_LTTQ
             ok_button.FlatStyle = FlatStyle.Flat;
             ok_button.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             ok_button.ForeColor = Color.White;
+<<<<<<< Updated upstream
             ok_button.Location = new Point(272, 489);
+=======
+            ok_button.Location = new Point(255, 397);
+            ok_button.Margin = new Padding(3, 2, 3, 2);
+>>>>>>> Stashed changes
             ok_button.Name = "ok_button";
             ok_button.Size = new Size(50, 50);
             ok_button.TabIndex = 22;
@@ -531,8 +577,9 @@ namespace DO_AN_LTTQ
             box_label.Text = "      Settings";
             box_label.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // al
+            // algorithm_panel
             // 
+<<<<<<< Updated upstream
             al.BackColor = Color.FromArgb(98, 188, 150);
             al.BackgroundImage = Properties.Resources.fix5;
             al.BackgroundImageLayout = ImageLayout.Stretch;
@@ -547,6 +594,23 @@ namespace DO_AN_LTTQ
             al.Size = new Size(1375, 266);
             al.TabIndex = 11;
             al.Paint += panel4_Paint;
+=======
+            algorithm_panel.BackColor = Color.FromArgb(98, 188, 150);
+            algorithm_panel.BackgroundImage = Properties.Resources.fix5;
+            algorithm_panel.BackgroundImageLayout = ImageLayout.Stretch;
+            algorithm_panel.Controls.Add(code_tb);
+            algorithm_panel.Controls.Add(go_button);
+            algorithm_panel.Controls.Add(interact_panel);
+            algorithm_panel.Controls.Add(label4);
+            algorithm_panel.Controls.Add(label7);
+            algorithm_panel.Dock = DockStyle.Bottom;
+            algorithm_panel.Location = new Point(0, 538);
+            algorithm_panel.Margin = new Padding(3, 2, 3, 2);
+            algorithm_panel.Name = "algorithm_panel";
+            algorithm_panel.Size = new Size(1328, 250);
+            algorithm_panel.TabIndex = 11;
+            algorithm_panel.Paint += panel4_Paint;
+>>>>>>> Stashed changes
             // 
             // code_tb
             // 
@@ -707,7 +771,12 @@ namespace DO_AN_LTTQ
             panel5.Controls.Add(stepForward_button);
             panel5.Controls.Add(stepBack_button);
             panel5.Dock = DockStyle.Bottom;
+<<<<<<< Updated upstream
             panel5.Location = new Point(0, 606);
+=======
+            panel5.Location = new Point(0, 497);
+            panel5.Margin = new Padding(3, 2, 3, 2);
+>>>>>>> Stashed changes
             panel5.Name = "panel5";
             panel5.Size = new Size(1000, 55);
             panel5.TabIndex = 13;
@@ -790,7 +859,11 @@ namespace DO_AN_LTTQ
             status_lbl.Dock = DockStyle.Bottom;
             status_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             status_lbl.ForeColor = Color.FromArgb(40, 125, 105);
+<<<<<<< Updated upstream
             status_lbl.Location = new Point(0, 571);
+=======
+            status_lbl.Location = new Point(0, 465);
+>>>>>>> Stashed changes
             status_lbl.Name = "status_lbl";
             status_lbl.Size = new Size(1000, 35);
             status_lbl.TabIndex = 14;
@@ -802,11 +875,15 @@ namespace DO_AN_LTTQ
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+<<<<<<< Updated upstream
             ClientSize = new Size(1375, 927);
+=======
+            ClientSize = new Size(1328, 788);
+>>>>>>> Stashed changes
             Controls.Add(status_lbl);
             Controls.Add(panel5);
-            Controls.Add(st);
-            Controls.Add(al);
+            Controls.Add(settings_panel);
+            Controls.Add(algorithm_panel);
             Controls.Add(file_toolstrip);
             Controls.Add(task_panel);
             ForeColor = Color.Coral;
@@ -820,10 +897,16 @@ namespace DO_AN_LTTQ
             ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
             file_toolstrip.ResumeLayout(false);
             file_toolstrip.PerformLayout();
+<<<<<<< Updated upstream
             st.ResumeLayout(false);
             st.PerformLayout();
             al.ResumeLayout(false);
             al.PerformLayout();
+=======
+            settings_panel.ResumeLayout(false);
+            settings_panel.PerformLayout();
+            algorithm_panel.ResumeLayout(false);
+>>>>>>> Stashed changes
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)step_trb).EndInit();

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DO_AN_LTTQ.AllDataStructureClass
+namespace DO_AN_LTTQ.AllDataStructureClassDraw
 {
-    internal class Stack : DataStructure
+    internal class DoublyLinkedListDraw : DataStructureDraw
     {
         public override void ChooseOption(object sender, EventArgs e)
         {
@@ -18,24 +18,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             throw new NotImplementedException();
         }
 
-        public override bool Equals(object? obj)
-        {
-            return base.Equals(obj);
-        }
-
         public override int GetEnable()
         {
             throw new NotImplementedException();
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override void GetInformation(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb)
-        {
-            base.GetInformation(dr, c, strb, cs, ts, dt, pb);
         }
 
         public override void ModifyPanel(Panel interact_panel)
@@ -46,11 +31,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         public override void RunAlgorithms()
         {
             throw new NotImplementedException();
-        }
-
-        public override string? ToString()
-        {
-            return base.ToString();
         }
 
         public override void UpdateDataStructure()

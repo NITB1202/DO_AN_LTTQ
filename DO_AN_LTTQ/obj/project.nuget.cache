@@ -1,8 +1,42 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "SBwf/MZCulAUYeoY9OEKqwIDD/jGDc6NIUb0dY7JoJf3n3dci6rUz0Z67rR1Tg759GzQZaGzJvoki+5MnDK0Kg==",
   "success": true,
   "projectFilePath": "C:\\Users\\PC\\source\\repos\\DO_AN_LTTQ\\DO_AN_LTTQ\\DO_AN_LTTQ.csproj",
   "expectedPackageFiles": [],
   "logs": []
+=======
+  "dgSpecHash": "tWhinMh4Hq7kOhkG7R/aMDXxikJ0WlDCvw94J1BSC95B7RNjTUQf18ZZpu2jnRg0IfHG9mljWOzNz6yhYQneYQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\PC\\source\\repos\\DO_AN_LTTQ\\DO_AN_LTTQ\\DO_AN_LTTQ.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-guard\\2.0.0\\adjunct-guard.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-system.datastructures.binarysearchtree\\2.0.0\\adjunct-system.datastructures.binarysearchtree.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-system.datastructures.binarysearchtree.tests\\2.0.0\\adjunct-system.datastructures.binarysearchtree.tests.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-system.datastructures.binarytreebase\\2.0.0\\adjunct-system.datastructures.binarytreebase.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-system.datastructures.funccomparer\\2.0.0\\adjunct-system.datastructures.funccomparer.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-system.icomparableextensions\\2.0.0\\adjunct-system.icomparableextensions.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-xunit.should.booleanextensions\\2.0.0\\adjunct-xunit.should.booleanextensions.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-xunit.should.ienumerableextensions\\2.0.0\\adjunct-xunit.should.ienumerableextensions.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\adjunct-xunit.should.objectextensions\\2.0.0\\adjunct-xunit.should.objectextensions.2.0.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\microsoft.msagl\\1.1.6\\microsoft.msagl.1.1.6.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\microsoft.msagl.drawing\\1.1.6\\microsoft.msagl.drawing.1.1.6.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\microsoft.msagl.graphviewergdi\\1.1.7\\microsoft.msagl.graphviewergdi.1.1.7.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\quikgraph\\2.5.0\\quikgraph.2.5.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\xunit\\1.8.0.1549\\xunit.1.8.0.1549.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'xunit 1.8.0.1549' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "xunit",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    }
+  ]
+>>>>>>> Stashed changes
 }
