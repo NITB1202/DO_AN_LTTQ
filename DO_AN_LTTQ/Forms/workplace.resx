@@ -124,6 +124,16 @@
   <metadata name="file_toolstrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>152, 17</value>
   </metadata>
+  <data name="open_button.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADESURBVEhL7ZQ9CsJAEIW31AtYqr3X8CYeyStoKWglOYLg
+        CQSxNTnC/uZFXhgJGtwlRcD9YBjYmXlvUmRUZryEEJbOuZMx5oa4dwO1A3ombE8DIgVEeml6vPdTjsSj
+        tS6p1Qu+6oF0/RbW2guW2WKZGaUFmFRoGgwYHSkttCbYYIO0Tg3OB+g9KS28maz4lEQzT5OKT0I26ZJN
+        ovgfk9ftQtNQf3xJaeGXKxwD9M6UFrDBAoU96h+va0xAZ4c8p3RmdChVA49I5uPhzANLAAAAAElFTkSu
+        QmCC
+</value>
+  </data>
   <data name="new_button.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

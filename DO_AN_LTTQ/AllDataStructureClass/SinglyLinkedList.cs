@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
@@ -77,6 +80,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             draw_range.Paint += insert_tail_animation;
             draw_range.Paint += insert_position_animation;
             draw_range.Paint += search_animation;
+            draw_range.Paint += remove_head_animation;
+            draw_range.Paint += remove_tail_animation;
+            draw_range.Paint += remove_pos_animation;
         }
         public override void ModifyPanel(Panel interact_panel)
         {
@@ -145,7 +151,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l3.ForeColor = Color.Snow;
             l3.Location = new Point(45, 12);
             l3.AutoSize = true;
-            l3.Text = "Remove";
+            l3.Text = "Remove at";
 
             //picture box
             PictureBox p1 = new PictureBox();
@@ -208,19 +214,31 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         public void create_positon_tb(object sender, EventArgs e)
         {
             ComboBox c = (ComboBox)sender;
-            if (c.SelectedIndex == 2)
+            if(c == c1)
             {
-                if (insert_panel.Contains(c))
-                    insert_panel.Controls.Add(po1_tb);
-                if (remove_panel.Contains(c))
-                    remove_panel.Controls.Add(po2_tb);
+                if (c1.SelectedIndex == 2)
+                {
+                    if (!insert_panel.Controls.Contains(po1_tb))
+                        insert_panel.Controls.Add(po1_tb);
+                }
+                else
+                {
+                    if (insert_panel.Controls.Contains(po1_tb))
+                        insert_panel.Controls.Remove(po1_tb);
+                }
             }
-            else
+            else 
             {
-                if (insert_panel.Contains(po1_tb))
-                    insert_panel.Controls.Remove(po1_tb);
-                if (remove_panel.Contains(po2_tb))
-                    remove_panel.Controls.Remove(po2_tb);
+                if (c2.SelectedIndex == 2)
+                {
+                    if (!remove_panel.Controls.Contains(po2_tb))
+                        remove_panel.Controls.Add(po2_tb);
+                }
+                else
+                {
+                    if (remove_panel.Controls.Contains(po2_tb))
+                        remove_panel.Controls.Remove(po2_tb);
+                }
             }
         }
         public override void ChooseOption(object sender, EventArgs e)
@@ -380,30 +398,36 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public void code_remove_head()
         {
-
+            code_tb.AppendText("void removeHead(LinkedList& l) {\r\n\tif(l.head == NULL)\r\n        \treturn;\r\n\tNode* oldHead = l.head;\r\n\tl.head = l.head->next;\r\n\tif(l.head == NULL)\r\n\t\tl.tail = NULL;\r\n\tdelete oldHead;\r\n}");
+            SetIndent();
+        }
+        public void code_remove_tail()
+        {
+            code_tb.AppendText("void removeTail(LinkedList& l) {\r\n\tif (l.head == NULL)\r\n\t\treturn;\r\n\telse\r\n\t\tif (l.head == l.tail) {\r\n\t\t\tdelete l.head;\r\n\t\t\tl.head = l.tail = NULL;\r\n\t\t}\r\n\t\telse {\r\n            \t\tNode* current = l.head;\r\n            \t\twhile (current->next != l.tail)\r\n                \t\tcurrent = current->next;\r\n\t\t\tdelete l.tail;\r\n\t\t\tl.tail = current;\r\n\t\t\tl.tail->next = NULL;\r\n\t \t}\r\n}");
+            SetIndent();
+        }
+        public void code_remove_pos()
+        {
+            code_tb.AppendText("void removeAtPosition(LinkedList l,int position) {\r\n\tif (!l.head)\r\n\t\treturn;\r\n\tif (position == 0) {\r\n\t\tremoveHead(l);\r\n            \treturn;\r\n        }\r\n        Node* current = l.head;\r\n        Node* previous = NULL;\r\n        for (int i = 0; current && i < position; ++i) {\r\n            \tprevious = current;\r\n            \tcurrent = current->next;\r\n        }\r\n        if (!current) \r\n        \treturn;\r\n        previous->next = current->next;\r\n        delete current;\r\n        if (!previous->next)\r\n        \tl.tail = previous;\r\n}");
+            SetIndent();
         }
         public void insert_head_animation(object sender, PaintEventArgs e)
         {
             if (enable != 1)
                 return;
-            int headX = startX;
             step_trb.Value = frame;
+            TurnOffHighlight();
             switch (frame)
             {
                 case 1:
                     {
                         TurnOffHighlight();
                         if (count == 0)
-                        {
-                            draw_node(input, e, headX, tempY, Color.MediumSeaGreen);
-                        }
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         else
                         {
-                            if (count == 1)
-                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
-                            else
-                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
-                            draw_node(input, e, headX - 80, tempY, Color.MediumSeaGreen);
+                            DrawUnchangeableLabel(e);
+                            draw_node(input, e, startX - 80, tempY, Color.MediumSeaGreen);
                         }
                         step_trb.Value = 1;
                         HighlightCurrentLine(1);
@@ -411,57 +435,46 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     }
                 case 2:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
-                        {
-                            draw_node(input, e, headX, tempY, Color.MediumSeaGreen);
-                        }
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         else
                         {
-                            if (count == 1)
-                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
-                            else
-                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
-                            draw_node(input, e, headX - 80, tempY, Color.MediumSeaGreen);
+                            DrawUnchangeableLabel(e);
+                            draw_node(input, e, startX - 80, tempY, Color.MediumSeaGreen);
                         }
                         HighlightCurrentLine(2);
                         break;
                     }
                 case 3:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
                         {
-                            draw_node(input, e, headX, tempY, Color.Black);
-                            e.Graphics.DrawString("Head", font_label, Brushes.Red, headX - 5, tempY + 50);
+                            draw_node(input, e, startX, tempY, Color.Black);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, tempY + 50);
                             HighlightCurrentLine(3);
                         }
                         else
                         {
-                            if (count == 1)
-                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
-                            else
-                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
-                            draw_node(input, e, headX - 80, tempY, Color.Black);
-                            draw_arrow(e, headX - 80, tempY, Color.MediumSeaGreen);
+                            DrawUnchangeableLabel(e);
+                            draw_node(input, e, startX - 80, tempY, Color.Black);
+                            draw_arrow(e, startX - 80, tempY, Color.MediumSeaGreen);
                             HighlightCurrentLine(7);
                         }
                         break;
                     }
                 case 4:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
                         {
-                            draw_node(input, e, headX, tempY, Color.Black);
-                            draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            draw_node(input, e, startX, tempY, Color.Black);
+                            draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
                             HighlightCurrentLine(4);
                         }
                         else
                         {
-                            draw_node(input, e, headX - 80, tempY, Color.Black);
-                            draw_arrow(e, headX - 80, tempY, Color.Black);
-                            draw_label(e, headX - 85, tempY + 50, tempX - 80, tempY + 50);
+                            draw_node(input, e, startX - 80, tempY, Color.Black);
+                            draw_arrow(e, startX - 80, tempY, Color.Black);
+                            draw_label(e, startX - 85, tempY + 50, tempX - 80, tempY + 50);
                             HighlightCurrentLine(8);
                         }
                         break;
@@ -472,23 +485,17 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         {
             if (enable != 2)
                 return;
-            int headX = startX;
             step_trb.Value = frame;
+            TurnOffHighlight();
             switch (frame)
             {
                 case 1:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
-                        {
-                            draw_node(input, e, headX, tempY, Color.MediumSeaGreen);
-                        }
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         else
                         {
-                            if (count == 1)
-                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
-                            else
-                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            DrawUnchangeableLabel(e);
                             draw_node(input, e, tempX, tempY, Color.MediumSeaGreen);
                         }
                         HighlightCurrentLine(1);
@@ -496,17 +503,11 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     }
                 case 2:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
-                        {
-                            draw_node(input, e, headX, tempY, Color.MediumSeaGreen);
-                        }
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         else
                         {
-                            if (count == 1)
-                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
-                            else
-                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            DrawUnchangeableLabel(e);
                             draw_node(input, e, tempX, tempY, Color.MediumSeaGreen);
                         }
                         HighlightCurrentLine(2);
@@ -514,19 +515,15 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     }
                 case 3:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
                         {
-                            draw_node(input, e, headX, tempY, Color.Black);
-                            e.Graphics.DrawString("Head", font_label, Brushes.Red, headX - 5, tempY + 50);
+                            draw_node(input, e, startX, tempY, Color.Black);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, tempY + 50);
                             HighlightCurrentLine(3);
                         }
                         else
                         {
-                            if (count == 1)
-                                draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
-                            else
-                                draw_label(e, headX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            DrawUnchangeableLabel(e);
                             draw_node(input, e, tempX, tempY, Color.Black);
                             draw_arrow(e, tempX - 80, tempY, Color.MediumSeaGreen);
                             HighlightCurrentLine(7);
@@ -535,18 +532,17 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     }
                 case 4:
                     {
-                        TurnOffHighlight();
                         if (count == 0)
                         {
-                            draw_node(input, e, headX, tempY, Color.Black);
-                            draw_label(e, headX - 5, tempY + 50, headX - 5, tempY + 75);
+                            draw_node(input, e, startX, tempY, Color.Black);
+                            draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
                             HighlightCurrentLine(4);
                         }
                         else
                         {
                             draw_node(input, e, tempX, tempY, Color.Black);
                             draw_arrow(e, tempX - 80, tempY, Color.Black);
-                            draw_label(e, headX - 5, tempY + 50, tempX, tempY + 50);
+                            draw_label(e, startX - 5, tempY + 50, tempX, tempY + 50);
                             HighlightCurrentLine(8);
                         }
                         break;
@@ -558,20 +554,15 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (enable != 3)
                 return;
             step_trb.Value = frame;
-            if(select_position == 1)
+            TurnOffHighlight();
+            if (select_position == 1)
             {
                 switch(frame)
                 {
                     case 1:
                         {
-                            TurnOffHighlight();
                             if (count != 0)
-                            {
-                                if(count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
-                            }
+                                DrawUnchangeableLabel(e);
                             HighlightCurrentLine(2);
                             break;
                         }
@@ -579,14 +570,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             code_tb.Clear();
                             code_addposition();
-                            TurnOffHighlight();
                             if (count != 0)
-                            {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
-                            }
+                                DrawUnchangeableLabel(e);
                             HighlightCurrentLine(3);
                             break;
                         }
@@ -595,15 +580,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             code_tb.Clear();
                             code_addhead();
                             if (count == 0)
-                            {
                                 draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
-                            }
                             else
                             {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                                DrawUnchangeableLabel(e);
                                 draw_node(input, e, startX - 80, tempY, Color.MediumSeaGreen);
                             }
                             HighlightCurrentLine(1);
@@ -611,17 +591,11 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                      case 4: 
                         {
-                            TurnOffHighlight();
                             if (count == 0)
-                            {
                                 draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
-                            }
                             else
                             {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                                DrawUnchangeableLabel(e);
                                 draw_node(input, e, startX - 80, tempY, Color.MediumSeaGreen);
                             }
                             HighlightCurrentLine(2);
@@ -629,7 +603,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                     case 5:
                         {
-                            TurnOffHighlight();
                             if (count == 0)
                             {
                                 draw_node(input, e, startX, tempY, Color.Black);
@@ -638,10 +611,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             }
                             else
                             {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                                DrawUnchangeableLabel(e);
                                 draw_node(input, e, startX - 80, tempY, Color.Black);
                                 draw_arrow(e, startX - 80, tempY, Color.MediumSeaGreen);
                                 HighlightCurrentLine(7);
@@ -695,17 +665,12 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 {
                     case 1:
                         {
-                            TurnOffHighlight();
-                            if(count == 1)
-                                draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                            else
-                                draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                            DrawUnchangeableLabel(e);
                             HighlightCurrentLine(2);
                             break;
                         }
                     case 2:
                         {
-                            TurnOffHighlight();
                             if (count == 1)
                             {
                                 draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
@@ -722,7 +687,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                     case 3:
                         {
-                            TurnOffHighlight();
                             if (count == 1)
                             {
                                 draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
@@ -743,7 +707,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             }
             if (((frame < total_frame-4 && select_position != count+1)||(select_position == count+1 && frame<total_frame-7)) && frame>3) 
             {
-                TurnOffHighlight();
                 draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
                 int loop = frame / 3; 
                 int line = frame % 3;
@@ -792,14 +755,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             }
             if (select_position == count + 1 && frame>=total_frame-7)
             {
-                TurnOffHighlight();
                 if (frame != total_frame && frame != total_frame - 1)
-                {
-                    if (count == 1)
-                        draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                    else
-                        draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
-                }
+                    DrawUnchangeableLabel(e);
                 int temp = total_frame - frame;
                 int loop = (total_frame - 11) / 3;
                 switch (temp)
@@ -841,17 +798,11 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             code_tb.Clear();
                             code_addtail();
-                            TurnOffHighlight();
                             if (count == 0)
-                            {
                                 draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
-                            }
                             else
                             {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                                DrawUnchangeableLabel(e);
                                 draw_node(input, e, tempX, tempY, Color.MediumSeaGreen);
                             }
                             HighlightCurrentLine(1);
@@ -859,17 +810,11 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                     case 3:
                         {
-                            TurnOffHighlight();
                             if (count == 0)
-                            {
                                 draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
-                            }
                             else
                             {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                                DrawUnchangeableLabel(e);
                                 draw_node(input, e, tempX, tempY, Color.MediumSeaGreen);
                             }
                             HighlightCurrentLine(2);
@@ -877,7 +822,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                     case 2:
                         {
-                            TurnOffHighlight();
                             if (count == 0)
                             {
                                 draw_node(input, e, startX, tempY, Color.Black);
@@ -886,10 +830,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             }
                             else
                             {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+                                DrawUnchangeableLabel(e);
                                 draw_node(input, e, tempX, tempY, Color.Black);
                                 draw_arrow(e, tempX - 80, tempY, Color.MediumSeaGreen);
                                 HighlightCurrentLine(7);
@@ -938,7 +879,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             }
             if (frame >= total_frame-4)
             {
-                TurnOffHighlight();
                 draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
                 int temp = total_frame - frame;
                 int loop = 0;
@@ -1024,9 +964,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (enable != 7)
                 return;
             step_trb.Value = frame;
-            if(frame == 1)
+            TurnOffHighlight();
+            if (frame == 1)
             {
-                TurnOffHighlight();
                 HighlightCurrentLine(1);
                 if (count != 0)
                 {
@@ -1053,7 +993,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                         case 0:
                             {
-                                TurnOffHighlight();
                                 HighlightCurrentLine(2);
                                 if (count != 0)
                                 {
@@ -1076,7 +1015,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             }
                         case 1:
                             {
-                                TurnOffHighlight();
                                 HighlightCurrentLine(3);
                                 if (count != 0)
                                 {
@@ -1106,7 +1044,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 {
                     case 2:
                         {
-                            TurnOffHighlight();
                             HighlightCurrentLine(2);
                             if (count != 0)
                             {
@@ -1132,7 +1069,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                     case 1:
                         {
-                            TurnOffHighlight();
                             HighlightCurrentLine(4);
                             if (count != 0)
                             {
@@ -1158,19 +1094,13 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                     case 0: 
                         {
-                            TurnOffHighlight();
                             if (pos_find != -1)
                                 HighlightCurrentLine(5);
                             else
                                 HighlightCurrentLine(6);
                             e.Graphics.DrawString("Return: ", font_label, Brushes.Red, draw_range.Width / 2 - 80, startY + 150);
                             if (count != 0)
-                            {
-                                if (count == 1)
-                                    draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
-                                else
-                                    draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
-                            }
+                                DrawUnchangeableLabel(e);
                             if (pos_find != -1)
                             {
                                 draw_node(linkedList[pos_find], e, startX + 80 * pos_find, startY, Color.RoyalBlue);
@@ -1197,6 +1127,287 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             e.Graphics.DrawString("Count: ", font_label, Brushes.Black, startX-100, startY + 150);
             e.Graphics.DrawString(n.ToString(), font_label, Brushes.Red, startX-30, startY + 150);
         }
+        public void remove_head_animation(object sender, PaintEventArgs e)
+        {
+            if (enable != 4)
+                return;
+            step_trb.Value = frame;
+            TurnOffHighlight();
+            if (count == 0)
+            {
+                switch(frame)
+                {
+                    case 1:
+                        {
+                            HighlightCurrentLine(1);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HighlightCurrentLine(2);
+                            break;
+                        }
+                }
+                return;
+            }
+            switch (frame)
+            {
+                case 1:
+                    {
+                        HighlightCurrentLine(1);
+                        DrawUnchangeableLabel(e);
+                        break;
+                    }
+                case 2:
+                    {
+                        HighlightCurrentLine(3);
+                        DrawUnchangeableLabel(e);
+                        if (count == 1)
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 100);
+                        else
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 75);
+                        break;
+                    }
+                case 3: 
+                    {
+                        HighlightCurrentLine(4);
+                        if (count == 1)
+                        {
+                            e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX - 5, startY + 50);
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 75);
+                        }
+                        else
+                        {
+                            if(count == 2)
+                                draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
+                            else
+                                draw_label(e, startX + 75, startY + 50, tempX-80, startY + 50);
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 50);
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        HighlightCurrentLine(5);
+                        if (count == 1)
+                        {
+                            e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX - 5, startY + 50);
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 75);
+                        }
+                        else
+                        {
+                            if (count == 2)
+                                draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
+                            else
+                                draw_label(e, startX + 75, startY + 50, tempX - 80, startY + 50);
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 50);
+                        }
+                        break;
+                    }
+            }
+            if(count == 1)
+            {
+                switch(frame)
+                {
+                    case 5:
+                        {
+                            HighlightCurrentLine(6);
+                            e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 50);
+                            break;
+                        }
+                    case 6: 
+                        {
+                            HighlightCurrentLine(7);
+                            draw_node(linkedList[0], e, startX, startY, Color.White);
+                            break;
+                        }
+                }
+                return;
+            }
+            if(frame == 5)
+            {
+                HighlightCurrentLine(7);
+                draw_node(linkedList[0], e, startX, startY, Color.White);
+                draw_arrow(e, startX, startY, Color.White);
+                if (count == 2)
+                    draw_label(e, startX + 75, startY + 50, startX+75, startY + 75);
+                else
+                    draw_label(e, startX + 75, startY + 50, tempX - 80, startY + 50);
+            }
+        }
+        public void remove_tail_animation(object sender, PaintEventArgs e)
+        {
+            if (enable != 5)
+                return;
+            step_trb.Value = frame;
+            TurnOffHighlight();
+            if (count == 0)
+            {
+                switch(frame)
+                {
+                    case 1:
+                        HighlightCurrentLine(1);
+                        break;
+                    case 2: 
+                        HighlightCurrentLine(2);
+                        break;
+                }
+                return;
+            }
+            if(count == 1)
+            {
+                switch(frame)
+                {
+                    case 1:
+                        {
+                            HighlightCurrentLine(1);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HighlightCurrentLine(4);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 3:
+                        {
+                            HighlightCurrentLine(5);
+                            draw_node(linkedList[0], e, startX, startY, Color.White);
+                            e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX - 5, startY + 50);
+                            break;
+                        }
+                    case 4:
+                        {
+                            HighlightCurrentLine(6);
+                            draw_node(linkedList[0], e, startX, startY, Color.White);
+                            break;
+                        }
+                }
+                return;
+            }
+            if (frame < 4)
+            {
+                switch (frame)
+                {
+                    case 1:
+                        {
+                            HighlightCurrentLine(1);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HighlightCurrentLine(4);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 3:
+                        {
+                            HighlightCurrentLine(9);
+                            DrawUnchangeableLabel(e);
+                            e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                            draw_node(linkedList[0], e, startX, startY, Color.RoyalBlue);
+                            break;
+                        }
+                }
+            }
+            if(frame>=4&&frame<total_frame-3)
+            {
+                int pos = frame % 2;
+                int loop = frame / 2-2;
+                switch(pos)
+                {
+                    case 0:
+                        {
+                            HighlightCurrentLine(10);
+                            DrawUnchangeableLabel(e);
+                            if(frame==4)
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX +80*loop- 5, startY + 50);
+                            draw_node(linkedList[loop], e, startX + 80 * loop, startY, Color.RoyalBlue);
+                            draw_node(linkedList[loop + 1], e, startX + 80 * (loop + 1), startY, Color.Coral);
+                            break;
+                        }
+                    case 1:
+                        {
+                            HighlightCurrentLine(11);
+                            DrawUnchangeableLabel(e);
+                            e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (loop+1) - 5, startY + 50);
+                            draw_node(linkedList[loop+1], e, startX + 80 * (loop+1), startY, Color.RoyalBlue);
+                            break;
+                        }
+                }
+            }
+            if(frame>=total_frame-3)
+            {
+                int temp = total_frame - frame;
+                switch(temp)
+                {
+                    case 3:
+                        {
+                            HighlightCurrentLine(10);
+                            DrawUnchangeableLabel(e);
+                            draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.RoyalBlue);
+                            draw_node(linkedList[count-1], e, startX + 80 * (count-1), startY, Color.Coral);
+                            if(count==2)
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Current",font_label,Brushes.Red, startX +80*(count-2)-5, startY + 50);
+                            break;
+                        }
+                    case 2: 
+                        {
+                            HighlightCurrentLine(12);
+                            draw_node(linkedList[count-1], e, startX + 80 * (count-1), startY, Color.White);
+                            draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
+                            if (count == 2)
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 50);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
+                            break;
+                        }
+                    case 1: 
+                        {
+                            HighlightCurrentLine(13);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
+                            if (count == 2)
+                                draw_label(e, startX - 5, startY + 50, startX - 5, startY + 75);
+                            else
+                                draw_label(e, startX - 5, startY+50, startX + 80 * (count - 2), startY + 50);
+                            break;
+                        }
+                    case 0:
+                        {
+                            HighlightCurrentLine(14);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
+                            if (count == 2)
+                                draw_label(e, startX - 5, startY + 50, startX - 5, startY + 75);
+                            else
+                                draw_label(e, startX - 5, startY + 50, startX + 80 * (count - 2), startY + 50);
+                            break;
+                        }
+                }
+            }
+        }
+        public void remove_pos_animation(object sender, PaintEventArgs e)
+        {
+            if (enable != 6)
+                return;
+            step_trb.Value = frame;
+            TurnOffHighlight();
+        }
+        public void DrawUnchangeableLabel(PaintEventArgs e)
+        {
+            if (count == 1)
+                draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
+            else
+                draw_label(e, startX - 5, tempY + 50, tempX - 80, tempY + 50);
+        }
         public override void UpdateDataStructure()
         {
             if (update_data)
@@ -1210,19 +1421,38 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             case 0:
                                 {
                                     linkedList.Insert(0,input);
-                                    startX -= 80; 
+                                    startX -= 80;
                                     break;
                                 }
                             case 1:
-                                linkedList.Add(input);
-                                break;
+                                {
+                                    linkedList.Add(input);
+                                    break;
+                                }
                             case 2:
                                 {
                                     linkedList.Insert(select_position-1,input);
                                     break;
                                 }
                         }
-                        
+                        break;
+                    }
+                case 2:
+                    {
+                        switch(select_sub_algorithm)
+                        {
+                            case 0:
+                                {
+                                    linkedList.RemoveAt(0);
+                                    startX += 80;
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    linkedList.RemoveAt(count-1);
+                                    break;
+                                }
+                        }
                         break;
                     }
             }
@@ -1233,7 +1463,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         {
             if (runningAnimation)
                 return;
-            if (input != null)
+            if (select_algorithm!=-1)
                 UpdateDataStructure();
             //chay thuat toan dua vao lua chon do hoa
             switch (select_op)
@@ -1292,6 +1522,57 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         }
                         break;
                     }
+                case 2:
+                    {
+                        select_algorithm = 2;
+                        if (count == 0)
+                            updateStep(2);
+                        switch (c2.SelectedIndex)
+                        {
+                            case 0:
+                                {
+                                    select_sub_algorithm = 0;
+                                    if(count!=0)
+                                    {
+                                        if (count == 1)
+                                            updateStep(6);
+                                        else
+                                            updateStep(5);
+                                    }
+                                    code_remove_head();
+                                    enable = 4;
+                                    break;
+                                }
+                            case 1: 
+                                {
+                                    select_sub_algorithm = 1;
+                                    if(count!=0)
+                                    {
+                                        if (count == 1)
+                                            updateStep(4);
+                                        else
+                                            updateStep(7 + 2 * (count - 2));
+                                    }
+                                    code_remove_tail();
+                                    enable = 5;
+                                    break;
+                                }
+                            case 2: 
+                                {
+                                    select_sub_algorithm = 2;
+                                    select_position=int.Parse(po2_tb.Text);
+                                    if(count!=0)
+                                    {
+
+                                    }
+                                    code_remove_pos();
+                                    enable = 6;
+                                    break;
+                                }
+
+                        }
+                        break;
+                    }
                 case 3://thuat toan search
                     {
                         if(!CheckValue(v3))
@@ -1324,14 +1605,37 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public override int GetEnable()
         {
-            if (select_algorithm == 1 && select_sub_algorithm == 0)//addhead
-                return 1;
-            if (select_algorithm == 1 && select_sub_algorithm == 1)
-                return 2;
-            if (select_algorithm == 1 && select_sub_algorithm == 2)
-                return 3;
-            if (select_algorithm == 3)
-                return 7;
+            switch (select_algorithm)
+            {
+                case 1:
+                    {
+                        switch(select_sub_algorithm)
+                        {
+                            case 0: 
+                                    return 1;
+                            case 1:
+                                    return 2;
+                            case 2:
+                                    return 3;
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        switch(select_sub_algorithm)
+                        {
+                            case 0:
+                                return 4;
+                            case 1:
+                                return 5;
+                            case 2:
+                                return 6;
+                        }
+                        break;
+                    }
+                case 3:
+                        return 7;
+            }
             return -1;
         }
         public override void UpdateLocation()

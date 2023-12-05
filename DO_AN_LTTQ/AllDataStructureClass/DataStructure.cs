@@ -6,7 +6,7 @@
         protected Pen pen = new Pen(Color.Black, 4);
         protected SolidBrush brush = new SolidBrush(Color.Black);
         protected Font font_data = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point); //font chu du lieu
-        protected Font font_label = new Font("Segoe UI Historic", 11.8F, FontStyle.Bold, GraphicsUnit.Point); //font chu label
+        protected Font font_label = new Font("Segoe UI Historic", 12, FontStyle.Bold, GraphicsUnit.Point); //font chu label
 
         //timer chay animation
         public System.Windows.Forms.Timer timer;
@@ -21,7 +21,7 @@
         public bool runningAnimation = false;
         public bool update_data = false;
         public Image play_image = Properties.Resources.play_32px;
-        public Image pause_image = Properties.Resources.pause_25px;
+        public Image pause_image = Properties.Resources.pause_32px;
         //lay dia chi cua nhung nhung thu se tac dong tren form
         protected Panel draw_range;
         protected RichTextBox code_tb;
@@ -120,7 +120,7 @@
         }
         private bool IsValidSingleCharacter(string str)
         {
-            return str.Length <= 1;
+            return str.Length == 1;
         }
         public void ShowError()
         {
@@ -171,8 +171,6 @@
         }
         public void SetIndent()
         {
-            int indent_width = 20;
-
             for (int i = 0; i < code_tb.Lines.Length; i++)
             {
                 code_tb.SelectionStart = code_tb.GetFirstCharIndexFromLine(i);

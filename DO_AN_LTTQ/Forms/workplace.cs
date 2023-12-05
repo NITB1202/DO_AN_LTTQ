@@ -25,8 +25,8 @@ namespace DO_AN_LTTQ
     {
         private System.Windows.Forms.TextBox input;
         private Label l;
-        public Panel st; //settings panel
-        public Panel al; //algorithm panel
+        public DoubleBufferedPanel st; //settings panel
+        public DoubleBufferedPanel al; //algorithm panel
         public DoubleBufferedPanel draw_range;
         public string[] input_data;
         public string save_path;
@@ -36,8 +36,10 @@ namespace DO_AN_LTTQ
         DataStructure holder;
 
         Image play_image = Properties.Resources.play_32px;
-        Image pause_image = Properties.Resources.pause_25px;
+        Image pause_image = Properties.Resources.pause_32px;
 
+        private bool isDragging = false;
+        private int mouseX, mouseY;
 
         [DllImport("user32")]
         private static extern bool HideCaret(IntPtr hWnd);
@@ -51,6 +53,7 @@ namespace DO_AN_LTTQ
 
             type = -1;
             this.DoubleBuffered = true;
+            UpdateSize();
         }
         public void update_label(string lb)
         {
@@ -79,7 +82,7 @@ namespace DO_AN_LTTQ
             e.Graphics.DrawLine(p, 0, 38, 34, 38);
             e.Graphics.DrawLine(p, 218, 38, al.Width, 38);
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void minimize_button_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
@@ -182,7 +185,7 @@ namespace DO_AN_LTTQ
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.Enter)
                 e.Handled = true;
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyChar == (char)Keys.Enter && draw_range != null)
             {
                 draw_range.Height = int.Parse(height_tb.Text);
                 draw_range.Width = int.Parse(width_tb.Text);
@@ -298,8 +301,10 @@ namespace DO_AN_LTTQ
                 return;
             }
             //tao vung ve
-            create_draw_range();
             set_inf_for_ds();
+            create_draw_range();
+            holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
+            holder.ModifyPanel(interact_panel);
         }
         private void set_inf_for_ds()
         {
@@ -310,17 +315,20 @@ namespace DO_AN_LTTQ
                         holder = new SinglyLinkedList(input_data);
                         break;
                     }
+                case 1:
+                    {
+                        holder = new BinarySearchTreeDraw(input_data);
+                        break;
+                    }
             }
-            holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
-            holder.ModifyPanel(interact_panel);
         }
         private void create_draw_range()
         {
             draw_range = new DoubleBufferedPanel();
-
             draw_range.BorderStyle = BorderStyle.FixedSingle;
-            draw_range.Height = 600;
-            draw_range.Width = 1000;
+            draw_range.BackColor = Color.Transparent;
+            draw_range.Height = int.Parse(height_tb.Text);
+            draw_range.Width = int.Parse(width_tb.Text);
             draw_range.AutoScroll = true;
             Controls.Add(draw_range);
             draw_range.Paint += draw_range_Paint;
@@ -353,8 +361,7 @@ namespace DO_AN_LTTQ
         private void clear_button_Click(object sender, EventArgs e)
         {
             Controls.Remove(draw_range);
-            height_tb.Text = "600";
-            width_tb.Text = "1000";
+            UpdateSize();
             interact_panel.Controls.Clear();
             code_tb.Clear();
             total_step.Text = "10";
@@ -406,7 +413,8 @@ namespace DO_AN_LTTQ
         }
         private void go_button_Click(object sender, EventArgs e)
         {
-            holder.RunAlgorithms();
+            if (draw_range != null)
+                holder.RunAlgorithms();
         }
         private void code_tb_MouseDown(object sender, MouseEventArgs e)
         {
@@ -540,6 +548,57 @@ namespace DO_AN_LTTQ
         private void doublyToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
-        //viet xong nho update ham set_inf_for_ds
+
+        //moi viet them
+        private void task_panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                mouseX = e.X;
+                mouseY = e.Y;
+            }
+        }
+        private void task_panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Cursor = Cursors.Hand;
+                int deltaX = e.X - mouseX;
+                int deltaY = e.Y - mouseY;
+                this.Location = new System.Drawing.Point(this.Location.X + deltaX, this.Location.Y + deltaY);
+            }
+        }
+        private void task_panel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = false;
+            }
+            Cursor = Cursors.Default;
+        }
+        private void UpdateSize()
+        {
+            width_tb.Text = (ClientRectangle.Width - st.Width).ToString();
+            height_tb.Text = (ClientRectangle.Height - al.Height).ToString();
+        }
+        private void MaximizeWindow()
+        {
+            if (WindowState == FormWindowState.Normal)
+                WindowState = FormWindowState.Maximized;
+            else
+                WindowState = FormWindowState.Normal;
+            if (draw_range == null)
+                UpdateSize();
+        }
+        private void task_panel_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            MaximizeWindow();
+        }
+
+        private void maximize_button_Click(object sender, EventArgs e)
+        {
+            MaximizeWindow();
+        }
     }
 }

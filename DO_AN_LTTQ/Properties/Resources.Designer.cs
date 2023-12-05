@@ -63,26 +63,6 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _933_530 {
-            get {
-                object obj = ResourceManager.GetObject("933_530", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap arrow_fix {
-            get {
-                object obj = ResourceManager.GetObject("arrow_fix", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap close_25px {
             get {
                 object obj = ResourceManager.GetObject("close_25px", resourceCulture);
@@ -123,16 +103,6 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fix {
-            get {
-                object obj = ResourceManager.GetObject("fix", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap fix1 {
             get {
                 object obj = ResourceManager.GetObject("fix1", resourceCulture);
@@ -143,29 +113,9 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fix2 {
-            get {
-                object obj = ResourceManager.GetObject("fix2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap fix3 {
             get {
                 object obj = ResourceManager.GetObject("fix3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fix4 {
-            get {
-                object obj = ResourceManager.GetObject("fix4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,39 +173,9 @@ namespace DO_AN_LTTQ.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LOGO_2 {
+        internal static System.Drawing.Bitmap maximize_button_25px {
             get {
-                object obj = ResourceManager.GetObject("LOGO 2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LOGO_2__1_ {
-            get {
-                object obj = ResourceManager.GetObject("LOGO 2 (1)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LOGO_21 {
-            get {
-                object obj = ResourceManager.GetObject("LOGO 21", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LOGO_22 {
-            get {
-                object obj = ResourceManager.GetObject("LOGO 22", resourceCulture);
+                object obj = ResourceManager.GetObject("maximize_button_25px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -286,6 +206,16 @@ namespace DO_AN_LTTQ.Properties {
         internal static System.Drawing.Bitmap pause_25px {
             get {
                 object obj = ResourceManager.GetObject("pause_25px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pause_32px {
+            get {
+                object obj = ResourceManager.GetObject("pause_32px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -346,16 +276,6 @@ namespace DO_AN_LTTQ.Properties {
         internal static System.Drawing.Bitmap subtract_25px {
             get {
                 object obj = ResourceManager.GetObject("subtract_25px", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Zoom_In_25px {
-            get {
-                object obj = ResourceManager.GetObject("Zoom In_25px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

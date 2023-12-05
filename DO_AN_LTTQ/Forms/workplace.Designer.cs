@@ -35,11 +35,13 @@ namespace DO_AN_LTTQ
             close_button = new Button();
             subtract_button = new Button();
             task_panel = new Panel();
-            button1 = new Button();
+            minimize_button = new Button();
+            maximize_button = new Button();
             panel1 = new Panel();
             app_label = new PictureBox();
             projectname_label = new Label();
             file_toolstrip = new ToolStrip();
+            open_button = new ToolStripButton();
             new_button = new ToolStripDropDownButton();
             sToolStripMenuItem = new ToolStripMenuItem();
             sinlToolStripMenuItem = new ToolStripMenuItem();
@@ -56,7 +58,7 @@ namespace DO_AN_LTTQ
             pNGToolStripMenuItem = new ToolStripMenuItem();
             gIFToolStripMenuItem = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
-            st = new Panel();
+            st = new DoubleBufferedPanel();
             height_tb = new TextBox();
             label2 = new Label();
             ok_button = new RJButton();
@@ -70,7 +72,7 @@ namespace DO_AN_LTTQ
             animation_spd_lbl = new Label();
             label1 = new Label();
             box_label = new Label();
-            al = new Panel();
+            al = new DoubleBufferedPanel();
             code_tb = new RichTextBox();
             go_button = new RJButton();
             interact_panel = new Panel();
@@ -80,7 +82,7 @@ namespace DO_AN_LTTQ
             restart_button = new Button();
             stepForward_button = new Button();
             stepBack_button = new Button();
-            panel5 = new Panel();
+            animation_bar = new DoubleBufferedPanel();
             total_step = new Label();
             label9 = new Label();
             current_step = new Label();
@@ -93,7 +95,7 @@ namespace DO_AN_LTTQ
             file_toolstrip.SuspendLayout();
             st.SuspendLayout();
             al.SuspendLayout();
-            panel5.SuspendLayout();
+            animation_bar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)step_trb).BeginInit();
             SuspendLayout();
             // 
@@ -133,7 +135,8 @@ namespace DO_AN_LTTQ
             // task_panel
             // 
             task_panel.BackColor = Color.FromArgb(23, 21, 32);
-            task_panel.Controls.Add(button1);
+            task_panel.Controls.Add(minimize_button);
+            task_panel.Controls.Add(maximize_button);
             task_panel.Controls.Add(panel1);
             task_panel.Controls.Add(app_label);
             task_panel.Controls.Add(projectname_label);
@@ -146,24 +149,46 @@ namespace DO_AN_LTTQ
             task_panel.Name = "task_panel";
             task_panel.Size = new Size(1328, 31);
             task_panel.TabIndex = 1;
+            task_panel.MouseDoubleClick += task_panel_MouseDoubleClick;
+            task_panel.MouseDown += task_panel_MouseDown;
+            task_panel.MouseMove += task_panel_MouseMove;
+            task_panel.MouseUp += task_panel_MouseUp;
             // 
-            // button1
+            // minimize_button
             // 
-            button1.BackColor = Color.FromArgb(23, 21, 32);
-            button1.BackgroundImage = Properties.Resources.subtract_25px;
-            button1.BackgroundImageLayout = ImageLayout.Center;
-            button1.Dock = DockStyle.Right;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
-            button1.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(1266, 0);
-            button1.Margin = new Padding(3, 2, 3, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(33, 31);
-            button1.TabIndex = 12;
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            minimize_button.BackColor = Color.FromArgb(23, 21, 32);
+            minimize_button.BackgroundImage = Properties.Resources.subtract_25px;
+            minimize_button.BackgroundImageLayout = ImageLayout.Center;
+            minimize_button.Dock = DockStyle.Right;
+            minimize_button.FlatAppearance.BorderSize = 0;
+            minimize_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            minimize_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            minimize_button.FlatStyle = FlatStyle.Flat;
+            minimize_button.Location = new Point(1233, 0);
+            minimize_button.Margin = new Padding(3, 2, 3, 2);
+            minimize_button.Name = "minimize_button";
+            minimize_button.Size = new Size(33, 31);
+            minimize_button.TabIndex = 14;
+            minimize_button.UseVisualStyleBackColor = false;
+            minimize_button.Click += minimize_button_Click;
+            // 
+            // maximize_button
+            // 
+            maximize_button.BackColor = Color.FromArgb(23, 21, 32);
+            maximize_button.BackgroundImage = Properties.Resources.maximize_button_25px;
+            maximize_button.BackgroundImageLayout = ImageLayout.Center;
+            maximize_button.Dock = DockStyle.Right;
+            maximize_button.FlatAppearance.BorderSize = 0;
+            maximize_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
+            maximize_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            maximize_button.FlatStyle = FlatStyle.Flat;
+            maximize_button.Location = new Point(1266, 0);
+            maximize_button.Margin = new Padding(3, 2, 3, 2);
+            maximize_button.Name = "maximize_button";
+            maximize_button.Size = new Size(33, 31);
+            maximize_button.TabIndex = 13;
+            maximize_button.UseVisualStyleBackColor = false;
+            maximize_button.Click += maximize_button_Click;
             // 
             // panel1
             // 
@@ -189,12 +214,12 @@ namespace DO_AN_LTTQ
             // projectname_label
             // 
             projectname_label.AutoSize = true;
-            projectname_label.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            projectname_label.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             projectname_label.ForeColor = SystemColors.ButtonHighlight;
             projectname_label.ImageAlign = ContentAlignment.MiddleLeft;
             projectname_label.Location = new Point(42, 8);
             projectname_label.Name = "projectname_label";
-            projectname_label.Size = new Size(84, 17);
+            projectname_label.Size = new Size(88, 17);
             projectname_label.TabIndex = 4;
             projectname_label.Text = "Project name";
             projectname_label.TextAlign = ContentAlignment.MiddleRight;
@@ -204,41 +229,55 @@ namespace DO_AN_LTTQ
             file_toolstrip.BackColor = Color.Black;
             file_toolstrip.BackgroundImageLayout = ImageLayout.None;
             file_toolstrip.Dock = DockStyle.None;
-            file_toolstrip.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            file_toolstrip.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             file_toolstrip.GripMargin = new Padding(0, 0, 0, -5);
             file_toolstrip.GripStyle = ToolStripGripStyle.Hidden;
             file_toolstrip.ImageScalingSize = new Size(20, 20);
-            file_toolstrip.Items.AddRange(new ToolStripItem[] { new_button, save_button, export_button, clear_button });
+            file_toolstrip.Items.AddRange(new ToolStripItem[] { open_button, new_button, save_button, export_button, clear_button });
             file_toolstrip.Location = new Point(-1, 31);
             file_toolstrip.Name = "file_toolstrip";
             file_toolstrip.Padding = new Padding(0);
             file_toolstrip.RenderMode = ToolStripRenderMode.Professional;
-            file_toolstrip.Size = new Size(230, 48);
+            file_toolstrip.Size = new Size(278, 44);
             file_toolstrip.Stretch = true;
             file_toolstrip.TabIndex = 9;
             file_toolstrip.Text = "file_toolStrip";
+            // 
+            // open_button
+            // 
+            open_button.BackColor = Color.FromArgb(23, 21, 32);
+            open_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            open_button.ForeColor = SystemColors.ButtonHighlight;
+            open_button.Image = (Image)resources.GetObject("open_button.Image");
+            open_button.ImageTransparentColor = Color.Magenta;
+            open_button.Name = "open_button";
+            open_button.Size = new Size(45, 41);
+            open_button.Text = "Open";
+            open_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            open_button.ToolTipText = "Open project from folder";
             // 
             // new_button
             // 
             new_button.BackColor = Color.FromArgb(23, 21, 32);
             new_button.DropDownItems.AddRange(new ToolStripItem[] { sToolStripMenuItem, treeToolStripMenuItem, graphToolStripMenuItem });
-            new_button.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            new_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             new_button.ForeColor = SystemColors.ControlLightLight;
             new_button.Image = (Image)resources.GetObject("new_button.Image");
             new_button.ImageTransparentColor = Color.Magenta;
             new_button.MergeAction = MergeAction.Insert;
             new_button.Name = "new_button";
-            new_button.Size = new Size(55, 45);
+            new_button.Size = new Size(48, 41);
             new_button.Text = "New";
             new_button.TextDirection = ToolStripTextDirection.Horizontal;
             new_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            new_button.ToolTipText = "Create a new data structure";
             // 
             // sToolStripMenuItem
             // 
             sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, doublyToolStripMenuItem, queueToolStripMenuItem });
             sToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             sToolStripMenuItem.Name = "sToolStripMenuItem";
-            sToolStripMenuItem.Size = new Size(114, 22);
+            sToolStripMenuItem.Size = new Size(180, 22);
             sToolStripMenuItem.Text = "List";
             // 
             // sinlToolStripMenuItem
@@ -266,7 +305,7 @@ namespace DO_AN_LTTQ
             treeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binarySearchTreeToolStripMenuItem, btreeToolStripMenuItem });
             treeToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             treeToolStripMenuItem.Name = "treeToolStripMenuItem";
-            treeToolStripMenuItem.Size = new Size(114, 22);
+            treeToolStripMenuItem.Size = new Size(180, 22);
             treeToolStripMenuItem.Text = "Tree";
             // 
             // binarySearchTreeToolStripMenuItem
@@ -286,71 +325,73 @@ namespace DO_AN_LTTQ
             // 
             graphToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(114, 22);
+            graphToolStripMenuItem.Size = new Size(180, 22);
             graphToolStripMenuItem.Text = "Graph";
             // 
             // save_button
             // 
             save_button.BackColor = Color.FromArgb(23, 21, 32);
             save_button.DropDownItems.AddRange(new ToolStripItem[] { saveAsPNGToolStripMenuItem, saveAsToolStripMenuItem });
-            save_button.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            save_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             save_button.ForeColor = SystemColors.ControlLightLight;
             save_button.Image = (Image)resources.GetObject("save_button.Image");
             save_button.ImageTransparentColor = Color.Magenta;
             save_button.Name = "save_button";
-            save_button.Size = new Size(56, 45);
+            save_button.Size = new Size(49, 41);
             save_button.Text = "Save";
             save_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            save_button.ToolTipText = "Save project";
             // 
             // saveAsPNGToolStripMenuItem
             // 
             saveAsPNGToolStripMenuItem.Name = "saveAsPNGToolStripMenuItem";
-            saveAsPNGToolStripMenuItem.Size = new Size(141, 26);
+            saveAsPNGToolStripMenuItem.Size = new Size(180, 22);
             saveAsPNGToolStripMenuItem.Text = "Save";
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(141, 26);
+            saveAsToolStripMenuItem.Size = new Size(180, 22);
             saveAsToolStripMenuItem.Text = "Save as...";
             // 
             // export_button
             // 
             export_button.BackColor = Color.FromArgb(23, 21, 32);
             export_button.DropDownItems.AddRange(new ToolStripItem[] { pNGToolStripMenuItem, gIFToolStripMenuItem });
-            export_button.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            export_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             export_button.ForeColor = SystemColors.ControlLightLight;
             export_button.Image = (Image)resources.GetObject("export_button.Image");
             export_button.ImageTransparentColor = Color.Magenta;
             export_button.Name = "export_button";
-            export_button.Size = new Size(67, 45);
+            export_button.Size = new Size(61, 41);
             export_button.Text = "Export";
             export_button.TextImageRelation = TextImageRelation.TextAboveImage;
             // 
             // pNGToolStripMenuItem
             // 
             pNGToolStripMenuItem.Name = "pNGToolStripMenuItem";
-            pNGToolStripMenuItem.Size = new Size(112, 26);
+            pNGToolStripMenuItem.Size = new Size(180, 22);
             pNGToolStripMenuItem.Text = "PNG";
             pNGToolStripMenuItem.Click += pNGToolStripMenuItem_Click;
             // 
             // gIFToolStripMenuItem
             // 
             gIFToolStripMenuItem.Name = "gIFToolStripMenuItem";
-            gIFToolStripMenuItem.Size = new Size(112, 26);
+            gIFToolStripMenuItem.Size = new Size(180, 22);
             gIFToolStripMenuItem.Text = "GIF";
             // 
             // clear_button
             // 
             clear_button.BackColor = Color.FromArgb(23, 21, 32);
-            clear_button.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            clear_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             clear_button.ForeColor = SystemColors.ButtonHighlight;
             clear_button.Image = (Image)resources.GetObject("clear_button.Image");
             clear_button.ImageTransparentColor = Color.Magenta;
             clear_button.Name = "clear_button";
-            clear_button.Size = new Size(50, 45);
+            clear_button.Size = new Size(42, 41);
             clear_button.Text = "Clear";
             clear_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            clear_button.ToolTipText = "Erase the current data structure";
             clear_button.Click += clear_button_Click;
             // 
             // st
@@ -585,11 +626,11 @@ namespace DO_AN_LTTQ
             code_tb.Cursor = Cursors.No;
             code_tb.Font = new Font("Cascadia Mono", 12F, FontStyle.Bold, GraphicsUnit.Point);
             code_tb.ForeColor = Color.White;
-            code_tb.Location = new Point(749, 72);
+            code_tb.Location = new Point(749, 69);
             code_tb.Margin = new Padding(3, 2, 3, 2);
             code_tb.Name = "code_tb";
             code_tb.ReadOnly = true;
-            code_tb.Size = new Size(550, 156);
+            code_tb.Size = new Size(550, 170);
             code_tb.TabIndex = 24;
             code_tb.Text = "";
             code_tb.MouseDown += code_tb_MouseDown;
@@ -609,7 +650,7 @@ namespace DO_AN_LTTQ
             go_button.FlatStyle = FlatStyle.Flat;
             go_button.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             go_button.ForeColor = Color.White;
-            go_button.Location = new Point(612, 200);
+            go_button.Location = new Point(605, 201);
             go_button.Margin = new Padding(3, 2, 3, 2);
             go_button.Name = "go_button";
             go_button.Size = new Size(81, 38);
@@ -621,10 +662,11 @@ namespace DO_AN_LTTQ
             // 
             // interact_panel
             // 
+            interact_panel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             interact_panel.AutoScroll = true;
             interact_panel.BackColor = Color.Transparent;
             interact_panel.BorderStyle = BorderStyle.FixedSingle;
-            interact_panel.Location = new Point(26, 72);
+            interact_panel.Location = new Point(26, 73);
             interact_panel.Margin = new Padding(3, 2, 3, 2);
             interact_panel.Name = "interact_panel";
             interact_panel.Size = new Size(555, 156);
@@ -639,7 +681,7 @@ namespace DO_AN_LTTQ
             label4.ForeColor = Color.Snow;
             label4.Image = Properties.Resources.code_25px;
             label4.ImageAlign = ContentAlignment.MiddleLeft;
-            label4.Location = new Point(749, 43);
+            label4.Location = new Point(749, 44);
             label4.Name = "label4";
             label4.Size = new Size(142, 23);
             label4.TabIndex = 12;
@@ -662,6 +704,7 @@ namespace DO_AN_LTTQ
             // 
             // skip_button
             // 
+            skip_button.Anchor = AnchorStyles.Right;
             skip_button.BackColor = Color.DarkGray;
             skip_button.BackgroundImage = (Image)resources.GetObject("skip_button.BackgroundImage");
             skip_button.BackgroundImageLayout = ImageLayout.Zoom;
@@ -679,6 +722,7 @@ namespace DO_AN_LTTQ
             // 
             // restart_button
             // 
+            restart_button.Anchor = AnchorStyles.Right;
             restart_button.BackColor = Color.DarkGray;
             restart_button.BackgroundImage = (Image)resources.GetObject("restart_button.BackgroundImage");
             restart_button.BackgroundImageLayout = ImageLayout.Zoom;
@@ -696,6 +740,7 @@ namespace DO_AN_LTTQ
             // 
             // stepForward_button
             // 
+            stepForward_button.Anchor = AnchorStyles.Right;
             stepForward_button.BackColor = Color.DarkGray;
             stepForward_button.BackgroundImage = (Image)resources.GetObject("stepForward_button.BackgroundImage");
             stepForward_button.BackgroundImageLayout = ImageLayout.Zoom;
@@ -713,6 +758,7 @@ namespace DO_AN_LTTQ
             // 
             // stepBack_button
             // 
+            stepBack_button.Anchor = AnchorStyles.Right;
             stepBack_button.BackColor = Color.DarkGray;
             stepBack_button.BackgroundImage = (Image)resources.GetObject("stepBack_button.BackgroundImage");
             stepBack_button.BackgroundImageLayout = ImageLayout.Zoom;
@@ -728,28 +774,29 @@ namespace DO_AN_LTTQ
             stepBack_button.UseVisualStyleBackColor = false;
             stepBack_button.Click += stepBack_button_Click;
             // 
-            // panel5
+            // animation_bar
             // 
-            panel5.BackColor = Color.DarkGray;
-            panel5.Controls.Add(total_step);
-            panel5.Controls.Add(label9);
-            panel5.Controls.Add(current_step);
-            panel5.Controls.Add(skip_button);
-            panel5.Controls.Add(restart_button);
-            panel5.Controls.Add(step_lbl);
-            panel5.Controls.Add(step_trb);
-            panel5.Controls.Add(play_button);
-            panel5.Controls.Add(stepForward_button);
-            panel5.Controls.Add(stepBack_button);
-            panel5.Dock = DockStyle.Bottom;
-            panel5.Location = new Point(0, 559);
-            panel5.Margin = new Padding(3, 2, 3, 2);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(1000, 41);
-            panel5.TabIndex = 13;
+            animation_bar.BackColor = Color.DarkGray;
+            animation_bar.Controls.Add(total_step);
+            animation_bar.Controls.Add(label9);
+            animation_bar.Controls.Add(current_step);
+            animation_bar.Controls.Add(skip_button);
+            animation_bar.Controls.Add(restart_button);
+            animation_bar.Controls.Add(step_lbl);
+            animation_bar.Controls.Add(step_trb);
+            animation_bar.Controls.Add(play_button);
+            animation_bar.Controls.Add(stepForward_button);
+            animation_bar.Controls.Add(stepBack_button);
+            animation_bar.Dock = DockStyle.Bottom;
+            animation_bar.Location = new Point(0, 559);
+            animation_bar.Margin = new Padding(3, 2, 3, 2);
+            animation_bar.Name = "animation_bar";
+            animation_bar.Size = new Size(1000, 41);
+            animation_bar.TabIndex = 13;
             // 
             // total_step
             // 
+            total_step.Anchor = AnchorStyles.Left;
             total_step.AutoSize = true;
             total_step.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             total_step.ForeColor = Color.Snow;
@@ -761,6 +808,7 @@ namespace DO_AN_LTTQ
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.Left;
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.Snow;
@@ -772,6 +820,7 @@ namespace DO_AN_LTTQ
             // 
             // current_step
             // 
+            current_step.Anchor = AnchorStyles.Left;
             current_step.AutoSize = true;
             current_step.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             current_step.ForeColor = Color.Snow;
@@ -783,6 +832,7 @@ namespace DO_AN_LTTQ
             // 
             // step_lbl
             // 
+            step_lbl.Anchor = AnchorStyles.Left;
             step_lbl.AutoSize = true;
             step_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             step_lbl.ForeColor = Color.Snow;
@@ -794,6 +844,7 @@ namespace DO_AN_LTTQ
             // 
             // step_trb
             // 
+            step_trb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             step_trb.AutoSize = false;
             step_trb.Location = new Point(214, 9);
             step_trb.Margin = new Padding(3, 2, 3, 2);
@@ -807,6 +858,7 @@ namespace DO_AN_LTTQ
             // 
             // play_button
             // 
+            play_button.Anchor = AnchorStyles.Right;
             play_button.BackColor = Color.DarkGray;
             play_button.BackgroundImage = (Image)resources.GetObject("play_button.BackgroundImage");
             play_button.BackgroundImageLayout = ImageLayout.Zoom;
@@ -826,7 +878,7 @@ namespace DO_AN_LTTQ
             // 
             status_lbl.BackColor = Color.Transparent;
             status_lbl.Dock = DockStyle.Bottom;
-            status_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            status_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             status_lbl.ForeColor = Color.FromArgb(40, 125, 105);
             status_lbl.Location = new Point(0, 527);
             status_lbl.Name = "status_lbl";
@@ -842,7 +894,7 @@ namespace DO_AN_LTTQ
             BackColor = Color.White;
             ClientSize = new Size(1328, 850);
             Controls.Add(status_lbl);
-            Controls.Add(panel5);
+            Controls.Add(animation_bar);
             Controls.Add(st);
             Controls.Add(al);
             Controls.Add(file_toolstrip);
@@ -854,6 +906,7 @@ namespace DO_AN_LTTQ
             Margin = new Padding(3, 2, 3, 2);
             Name = "workplace";
             StartPosition = FormStartPosition.CenterScreen;
+            Text = " ";
             task_panel.ResumeLayout(false);
             task_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
@@ -862,8 +915,8 @@ namespace DO_AN_LTTQ
             st.ResumeLayout(false);
             st.PerformLayout();
             al.ResumeLayout(false);
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
+            animation_bar.ResumeLayout(false);
+            animation_bar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)step_trb).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -903,7 +956,7 @@ namespace DO_AN_LTTQ
         private Label label5;
         private Label label7;
         private Label label4;
-        private Panel panel5;
+        private DoubleBufferedPanel animation_bar;
         private Button play_button;
         private TrackBar step_trb;
         private Label step_lbl;
@@ -911,7 +964,6 @@ namespace DO_AN_LTTQ
         private Button stepBack_button;
         private Button skip_button;
         private Button restart_button;
-        private Button button1;
         private RJButton ok_button;
         private Label status_lbl;
         private ToolStripMenuItem queueToolStripMenuItem;
@@ -921,10 +973,12 @@ namespace DO_AN_LTTQ
         private Label label2;
         private TextBox width_tb;
         private TextBox height_tb;
-        private Label label14;
         private RichTextBox code_tb;
         private Label total_step;
         private Label label9;
         private Label current_step;
+        private Button minimize_button;
+        private Button maximize_button;
+        private ToolStripButton open_button;
     }
 }
