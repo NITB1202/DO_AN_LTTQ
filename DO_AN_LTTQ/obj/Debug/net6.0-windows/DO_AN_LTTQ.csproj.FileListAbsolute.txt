@@ -57,3 +57,23 @@ C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\refint\D
 C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.pdb
 C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.genruntimeconfig.cache
 C:\Users\PC\Source\Repos\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\ref\DO_AN_LTTQ.dll
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\DO_AN_LTTQ.exe
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\DO_AN_LTTQ.deps.json
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\DO_AN_LTTQ.runtimeconfig.json
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\DO_AN_LTTQ.dll
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\bin\Debug\net6.0-windows\DO_AN_LTTQ.pdb
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.csproj.AssemblyReference.cache
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.choose_location.resources
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.start_page.resources
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.workplace.resources
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.Properties.Resources.resources
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.csproj.GenerateResource.cache
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.GeneratedMSBuildEditorConfig.editorconfig
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.AssemblyInfoInputs.cache
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.AssemblyInfo.cs
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.csproj.CoreCompileInputs.cache
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.dll
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\refint\DO_AN_LTTQ.dll
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.pdb
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\DO_AN_LTTQ.genruntimeconfig.cache
+E:\LTTQ\DO AN\DO_AN_LTTQ\DO_AN_LTTQ\obj\Debug\net6.0-windows\ref\DO_AN_LTTQ.dll

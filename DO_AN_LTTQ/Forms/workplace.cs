@@ -33,6 +33,7 @@ namespace DO_AN_LTTQ
         public string textfile_path;
         public int type;
         //0=singly_linkedlist
+        // 2= stack
         DataStructure holder;
 
         Image play_image = Properties.Resources.play_32px;
@@ -201,7 +202,7 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1 || type ==2)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -213,7 +214,7 @@ namespace DO_AN_LTTQ
                     }
                 case 1:
                     {
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1|| type ==2)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -225,7 +226,7 @@ namespace DO_AN_LTTQ
                     }
                 case 2:
                     {
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1 || type == 2)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -244,7 +245,7 @@ namespace DO_AN_LTTQ
             {
                 case 0://random input
                     {
-                        if (type == 0 || type == 1)//dang list va tree
+                        if (type == 0 || type == 1 || type == 2)//dang list va tree
                             random_input(int.Parse(input.Text));
                         break;
                     }
@@ -265,7 +266,7 @@ namespace DO_AN_LTTQ
                     {
                         input_data = File.ReadAllLines(textfile_path);
 
-                        if (type == 0 || type == 1)
+                        if (type == 0 || type == 1 || type == 2)
                         {
                             if (input_data.Length == 1)
                             {
@@ -320,6 +321,11 @@ namespace DO_AN_LTTQ
                         holder = new BinarySearchTreeDraw(input_data);
                         break;
                     }
+                case 2:
+                    {
+                        holder = new Stack(input_data);
+                        break;
+                    }
             }
         }
         private void create_draw_range()
@@ -358,6 +364,7 @@ namespace DO_AN_LTTQ
             type = 1;
             update_status("Binary Search Tree");
         }
+
         private void clear_button_Click(object sender, EventArgs e)
         {
             Controls.Remove(draw_range);
@@ -545,9 +552,7 @@ namespace DO_AN_LTTQ
                     }
             }
         }
-        private void doublyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
+
 
         //moi viet them
         private void task_panel_MouseDown(object sender, MouseEventArgs e)
@@ -591,14 +596,17 @@ namespace DO_AN_LTTQ
             if (draw_range == null)
                 UpdateSize();
         }
-        private void task_panel_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            MaximizeWindow();
-        }
+
 
         private void maximize_button_Click(object sender, EventArgs e)
         {
             MaximizeWindow();
+        }
+
+        private void stack_Click(object sender, EventArgs e)
+        {
+            type =2;
+            update_status("Stack");
         }
     }
 }
