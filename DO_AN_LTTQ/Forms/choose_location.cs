@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,13 +15,17 @@ namespace DO_AN_LTTQ
 {
     public partial class choose_location : Form
     {
+        bool isDragging;
+        int mouseX, mouseY;
+
         string select = @"C:\DataStructureVisualizations";
         string path;
-        private workplace wp;
+
+        public start_page spage;
         public choose_location()
         {
             InitializeComponent();
-            wp = new workplace();
+            this.DoubleBuffered = true;
         }
 
         private bool check_invalid(string str)
@@ -36,19 +41,13 @@ namespace DO_AN_LTTQ
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Close();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
+            spage.Show();
+            this.Close();
         }
 
         private void back_button_Click(object sender, EventArgs e)
         {
-            start_page sp = new start_page();
-            this.Hide();
-            sp.ShowDialog();
+            spage.Show();
             this.Close();
         }
 
@@ -68,14 +67,14 @@ namespace DO_AN_LTTQ
 
             //tao file.dsv
             string file_path = path + "\\" + project_name_bar.Text + ".dsv";
-            File.Create(file_path);
-
+            FileStream temp = File.Create(file_path);
+            temp.Close();
             //mo man hinh lam viec chinh
+            workplace wp = new workplace();
             wp.update_label(project_name_bar.Text);
             wp.save_path = file_path;
-            this.Hide();
             wp.ShowDialog();
-            this.Close();
+            spage.Close();
         }
 
         private void more_button_Click(object sender, EventArgs e)
@@ -129,6 +128,34 @@ namespace DO_AN_LTTQ
         {
             if (e.KeyCode == Keys.Enter)
                 done_button.PerformClick();
+        }
+
+        private void task_panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                mouseX = e.X;
+                mouseY = e.Y;
+            }
+        }
+
+        private void task_panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Cursor = Cursors.Hand;
+                int deltaX = e.X - mouseX;
+                int deltaY = e.Y - mouseY;
+                this.Location = new System.Drawing.Point(this.Location.X + deltaX, this.Location.Y + deltaY);
+            }
+        }
+
+        private void task_panel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                isDragging = false;
+            Cursor = Cursors.Default;
         }
     }
 }

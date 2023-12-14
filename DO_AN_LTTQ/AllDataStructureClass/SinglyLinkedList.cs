@@ -19,6 +19,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
     internal class SinglyLinkedList : DataStructure
     {
         List<string> linkedList;
+
         int startX;
         int startY;
 
@@ -38,18 +39,14 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         int image_length = 0;
         int count = 0;
 
-        //du lieu su dung khi bat dau thuat toan
-        string input = null;
-        int select_algorithm = -1;
-        int select_sub_algorithm = -1;
-        int select_position = -1;
-        int pos_find = -1;
-
+        public int pos_find = -1;
         public SinglyLinkedList(string[] input_info)
         {
             linkedList = new List<string>();
             for (int i = 0; i < input_info.Length; i++)
                 linkedList.Add(input_info[i]);
+            count = input_info.Length;
+            image_length = (2 * input_info.Length - 1) * 40;
 
             po1_tb = new TextBox();
             po1_tb.Font = tb_font;
@@ -64,11 +61,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             po2_tb.Size = new Size(66, 27);
             po2_tb.Location = new Point(295, 12);
             po2_tb.KeyPress += NumberOnly;
-
-            count = input_info.Length;
-            image_length = (2 * input_info.Length - 1) * 40;
-
         }
+ 
         public override void GetInformation(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb,ComboBox spd)
         {
             base.GetInformation(dr, c, strb, cs, ts, dt, pb, spd);
@@ -125,7 +119,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             //o dien gia tri
             v1 = new TextBox();
             v1.Font = tb_font;
-            v1.MaxLength = 3;
+            v1.MaxLength = 4;
             v1.Location = new Point(170, 12);
             v1.Size = new Size(66, 27);
 
@@ -408,7 +402,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public void code_remove_pos()
         {
-            code_tb.AppendText("void removeAtPosition(LinkedList l,int position) {\r\n\tif (!l.head)\r\n\t\treturn;\r\n\tif (position == 0) {\r\n\t\tremoveHead(l);\r\n            \treturn;\r\n        }\r\n        Node* current = l.head;\r\n        Node* previous = NULL;\r\n        for (int i = 0; current && i < position; ++i) {\r\n            \tprevious = current;\r\n            \tcurrent = current->next;\r\n        }\r\n        if (!current) \r\n        \treturn;\r\n        previous->next = current->next;\r\n        delete current;\r\n        if (!previous->next)\r\n        \tl.tail = previous;\r\n}");
+            code_tb.AppendText("void removeAtPosition(LinkedList l,int position) {\r\n\tif (position == 1) {\r\n\t\tremoveHead(l);\r\n\t\treturn;\r\n\t}\r\n\tNode* current = l.head;\r\n\tNode* previous = NULL;\r\n\tfor (int i = 1; current && i < position; i++) {\r\n\t\tprevious = current;\r\n\t\tcurrent = current->next;\r\n\t}\r\n\tprevious->next = current->next;\r\n\tdelete current;\r\n\tif (previous->next == NULL)\r\n\t\tl.tail = previous;\r\n}");
             SetIndent();
         }
         public void insert_head_animation(object sender, PaintEventArgs e)
@@ -1400,6 +1394,367 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 return;
             step_trb.Value = frame;
             TurnOffHighlight();
+            if(select_position==1)
+            {
+                switch(frame)
+                {
+                    case 1:
+                        {
+                            HighlightCurrentLine(1);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 2:
+                        {
+                            code_tb.Clear();
+                            code_remove_pos();
+                            HighlightCurrentLine(2);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 3:
+                        {
+                            code_tb.Clear();
+                            code_remove_head();
+                            HighlightCurrentLine(1);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 4:
+                        {
+                            HighlightCurrentLine(3);
+                            DrawUnchangeableLabel(e);
+                            if (count == 1)
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 100);
+                            else
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 75);
+                            break;
+                        }
+                    case 5:
+                        {
+                            HighlightCurrentLine(4);
+                            if (count == 1)
+                            {
+                                e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX - 5, startY + 50);
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 75);
+                            }
+                            else
+                            {
+                                if (count == 2)
+                                    draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
+                                else
+                                    draw_label(e, startX + 75, startY + 50, tempX - 80, startY + 50);
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 50);
+                            }
+                            break;
+                        }
+                    case 6:
+                        {
+                            HighlightCurrentLine(5);
+                            if (count == 1)
+                            {
+                                e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX - 5, startY + 50);
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 75);
+                            }
+                            else
+                            {
+                                if (count == 2)
+                                    draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
+                                else
+                                    draw_label(e, startX + 75, startY + 50, tempX - 80, startY + 50);
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 50);
+                            }
+                            break;
+                        }
+                }
+                if (count == 1)
+                {
+                    switch (frame)
+                    {
+                        case 7:
+                            {
+                                HighlightCurrentLine(6);
+                                e.Graphics.DrawString("oldHead", font_label, Brushes.Red, startX - 5, startY + 50);
+                                break;
+                            }
+                        case 8:
+                            {
+                                code_tb.Clear();
+                                code_remove_head();
+                                HighlightCurrentLine(7);
+                                draw_node(linkedList[0], e, startX, startY, Color.White);
+                                break;
+                            }
+                    }
+                }
+                else 
+                    if (frame == 7)
+                    {
+                        code_tb.Clear();
+                        code_remove_head();
+                        HighlightCurrentLine(7);
+                        draw_node(linkedList[0], e, startX, startY, Color.White);
+                        draw_arrow(e, startX, startY, Color.White);
+                        if (count == 2)
+                            draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
+                        else
+                            draw_label(e, startX + 75, startY + 50, tempX - 80, startY + 50);
+                    }
+                if(frame == total_frame)
+                {
+                    code_tb.Clear();
+                    code_remove_pos();
+                    draw_node(linkedList[0], e, startX, startY, Color.White);
+                    draw_arrow(e, startX, startY, Color.White);
+                    if(count!=1)
+                    {
+                        if (count == 2)
+                            draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
+                        else
+                            draw_label(e, startX + 75, startY + 50, tempX - 80, startY + 50);
+                    }
+                    HighlightCurrentLine(3);
+                }
+                return;
+            }
+            if (frame < 4)
+            {
+                switch (frame)
+                {
+                    case 1:
+                        {
+                            HighlightCurrentLine(1);
+                            DrawUnchangeableLabel(e);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HighlightCurrentLine(5);
+                            DrawUnchangeableLabel(e);
+                            e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                            break;
+                        }
+                    case 3:
+                        {
+                            HighlightCurrentLine(6);
+                            DrawUnchangeableLabel(e);
+                            e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX - 85, startY + 50);
+                            break;
+                        }
+                }
+            }
+            if((frame>=4)&&((select_position==count && frame<total_frame-4) || (select_position!=count && frame<total_frame-3)))
+            {
+                DrawUnchangeableLabel(e);
+                int pos = (frame - 4) % 3;
+                int loop = (frame - 4) / 3;
+                switch (pos)
+                {
+                    case 0:
+                        {
+                            HighlightCurrentLine(7);
+                            DrawUnchangeableLabel(e);
+                            if (count == 1 || frame == 4)
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                            else
+                            {
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80*loop - 5, startY + 50);
+                                draw_node(linkedList[loop-1],e,startX+80*(loop-1),startY,Color.Coral);
+                            }
+                            draw_node(linkedList[loop], e, startX + 80 * loop, startY, Color.RoyalBlue);
+                            if(frame==7)
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (loop - 1) - 5, startY + 75);
+                            else
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX+80*(loop-1)-5, startY + 50);
+                            break;
+                        }
+                    case 1: 
+                        {
+                            HighlightCurrentLine(8);
+                            DrawUnchangeableLabel(e);
+                            if (frame == 5)
+                            {
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 75);
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 100);
+                            }
+                            else
+                            {
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 50);
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 75);
+                            }
+                            draw_node(linkedList[loop], e, startX + 80 * loop, startY, Color.RoyalBlue);
+                            break;
+                        }
+                    case 2: 
+                        {
+                            HighlightCurrentLine(9);
+                            DrawUnchangeableLabel(e);
+                            draw_node(linkedList[loop + 1], e, startX + 80 * (loop + 1), startY,Color.RoyalBlue);
+                            draw_node(linkedList[loop],e,startX+80*loop,startY, Color.Coral);
+                            if(count==2||(select_position==count&&frame==total_frame-5))
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80*(count-1), startY + 75);
+                            else
+                                e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (loop + 1) - 5, startY + 50);
+                            if(frame==6)
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * loop - 5, startY + 50);
+                            break;
+                        }
+                }
+                return;
+            }
+            if(select_position==count)
+            {
+                int temp = total_frame - frame;
+                switch(temp)
+                {
+                    case 4:
+                        {
+                            HighlightCurrentLine(7);
+                            DrawUnchangeableLabel(e);
+                            draw_node(linkedList[count-1],e,startX+80*(count-1),startY,Color.RoyalBlue);
+                            e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (count - 1), startY+75);
+                            draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
+                            if(count==2)
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2)-5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY+50);
+                            break;
+                        }
+                    case 3:
+                        {
+                            HighlightCurrentLine(11);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY-80, Color.RoyalBlue);
+                            draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
+                            draw_arrow(e, startX + 80 * (count - 2), startY, Color.Coral);
+                            Point start = new Point(startX + 80 * (count - 1)+20, startY - 40);
+                            Point end = new Point(startX + 80 * (count - 1)+20, startY);
+                            draw_arrow2(e, start, end, Color.Black);
+                            e.Graphics.DrawString("NULL", font_label, Brushes.Black, startX + 80 * (count - 1)+5, startY+10);
+                            if (count == 2)
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 50);
+                            e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (count - 1)-5, startY -110);
+                            e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX + 80 * (count - 1)-5, startY - 135);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX-5, startY+50);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HighlightCurrentLine(12);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
+                            draw_arrow(e, startX +80*(count-2),startY,Color.White);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
+                            if (count == 2)
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 50);
+                            break;
+                        }
+                    case 1:
+                        {
+                            HighlightCurrentLine(13);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
+                            draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
+                            if (count == 2)
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 50);
+                            break;
+                        }
+                    case 0:
+                        {
+                            HighlightCurrentLine(14);
+                            draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
+                            if (count == 2)
+                                e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX + 80 * (count - 2) - 5, startY + 75);
+                            else
+                                e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX + 80 * (count - 2), startY + 50);
+                            break;
+                        }
+                }
+                return;
+            }
+            int t = total_frame - frame;
+            DrawUnchangeableLabel(e);
+            switch (t)
+            {
+                case 3:
+                    {
+                        HighlightCurrentLine(7);
+                        draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.RoyalBlue); 
+                        e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (select_position - 1)-5, startY + 50);
+                        draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
+                        if(select_position==2)
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 75);
+                        else
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 50);
+                        break;
+                    }
+                case 2:
+                    {
+                        HighlightCurrentLine(11);
+                        draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.White);
+                        draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY - 80, Color.RoyalBlue);
+                        e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (select_position - 1) - 5, startY -30);
+                        draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
+                        if (select_position == 2)
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 75);
+                        else
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 50);
+                        draw_arrow(e, startX + 80 * (select_position - 2), startY, Color.White);
+                        draw_arrow(e, startX + 80 * (select_position - 1), startY, Color.White);
+                        Point start = new Point(startX + 80 * (select_position - 2)+40, startY+20);
+                        Point end = new Point(startX + 80 * select_position, startY+20);
+                        draw_arrow2(e, start,end, Color.Coral);
+                        Point s = new Point(startX + 80 * (select_position - 1) + 40, startY - 60);
+                        Point ed = new Point(startX+80*select_position+20, startY);
+                        draw_arrow2(e, s, ed, Color.Black);
+                        break;
+                    }
+                case 1:
+                    {
+                        HighlightCurrentLine(12);
+                        draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.White);
+                        draw_arrow(e, startX + 80 * (select_position - 2), startY, Color.White);
+                        draw_arrow(e, startX + 80 * (select_position - 1), startY, Color.White);
+                        draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
+                        Point start = new Point(startX + 80 * (select_position - 2) + 40, startY + 20);
+                        Point end = new Point(startX + 80 * select_position, startY + 20);
+                        draw_arrow2(e, start, end, Color.Coral);
+                        if (select_position == 2)
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 75);
+                        else
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 50);
+                        break;
+                    }
+                case 0:
+                    {
+                        HighlightCurrentLine(13);
+                        draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.White);
+                        draw_arrow(e, startX + 80 * (select_position - 2), startY, Color.White);
+                        draw_arrow(e, startX + 80 * (select_position - 1), startY, Color.White);
+                        draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
+                        Point start = new Point(startX + 80 * (select_position - 2) + 40, startY + 20);
+                        Point end = new Point(startX + 80 * select_position, startY + 20);
+                        draw_arrow2(e, start, end, Color.Coral);
+                        if (select_position == 2)
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 75);
+                        else
+                            e.Graphics.DrawString("Previous", font_label, Brushes.Red, startX + 80 * (select_position - 2) - 5, startY + 50);
+                        break;
+                    }
+
+            }
         }
         public void DrawUnchangeableLabel(PaintEventArgs e)
         {
@@ -1421,7 +1776,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             case 0:
                                 {
                                     linkedList.Insert(0,input);
-                                    startX -= 80;
+                                    if(count>1)
+                                        startX -= 80;
                                     break;
                                 }
                             case 1:
@@ -1432,6 +1788,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             case 2:
                                 {
                                     linkedList.Insert(select_position-1,input);
+                                    if (count > 1 && select_position == 1)
+                                        startX -= 80;
                                     break;
                                 }
                         }
@@ -1444,7 +1802,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             case 0:
                                 {
                                     linkedList.RemoveAt(0);
-                                    startX += 80;
+                                    if(count>1)
+                                        startX += 80;
                                     break;
                                 }
                             case 1:
@@ -1452,18 +1811,30 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                                     linkedList.RemoveAt(count-1);
                                     break;
                                 }
+                            case 2:
+                                {
+                                    linkedList.RemoveAt(select_position - 1);
+                                    if (count > 1 && select_position == 1)
+                                        startX += 80;
+                                    break;
+                                }
                         }
                         break;
                     }
             }
             count = linkedList.Count();
+            if(count==0)
+            {
+                startX = draw_range.Width / 2;
+                startY= draw_range.Height / 2;
+            }
             update_data = true;
         }
         public override void RunAlgorithms()
         {
             if (runningAnimation)
                 return;
-            if (select_algorithm!=-1)
+            if (select_algorithm!=-1&&!error)
                 UpdateDataStructure();
             //chay thuat toan dua vao lua chon do hoa
             switch (select_op)
@@ -1559,17 +1930,29 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                                 }
                             case 2: 
                                 {
+                                    if (!checkPos(po2_tb))
+                                        return;
                                     select_sub_algorithm = 2;
                                     select_position=int.Parse(po2_tb.Text);
                                     if(count!=0)
                                     {
-
+                                        if (select_position == 1)
+                                            if (count == 1)
+                                                updateStep(9);
+                                            else
+                                                updateStep(8);
+                                        else
+                                        {
+                                            if (select_position == count)
+                                                updateStep(8 + 3 * (select_position - 1));
+                                            else
+                                                updateStep(7 + 3 * (select_position - 1));
+                                        }
                                     }
                                     code_remove_pos();
                                     enable = 6;
                                     break;
                                 }
-
                         }
                         break;
                     }
@@ -1598,6 +1981,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             }
             TurnOffHighlight();
             update_data = false;
+            error = false;
             draw_range.Invalidate();
             frame = 0;
             timer.Start();
@@ -1651,14 +2035,29 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public bool checkPos(TextBox tb)
         {
-            //xu ly null nua
-
-            if (int.Parse(tb.Text) > count+1 || int.Parse(tb.Text) < 0)
+            if(String.IsNullOrEmpty(tb.Text))
             {
-                MessageBox.Show("Position out of bounds. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Position textbox is empty","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                error = true;
+                return false;
+            }
+            if (tb==po1_tb && (int.Parse(tb.Text) > count+1 || int.Parse(tb.Text) < 1))
+            {
+                MessageBox.Show("Position out of bounds", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                error= true;
+                return false;
+            }
+            if (tb == po2_tb && (int.Parse(tb.Text) > count || int.Parse(tb.Text) < 1))
+            {
+                MessageBox.Show("Position out of bounds", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                error = true;
                 return false;
             }
             return true;
+        }
+        public override void SaveData()
+        {
+            save_data = linkedList;
         }
     }
 }

@@ -1,16 +1,22 @@
 ﻿using System.Net.NetworkInformation;
 using System;
 using System.IO;
+using Microsoft.VisualBasic.Devices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DO_AN_LTTQ
 {
     public partial class start_page : Form
     {
-        private workplace wp;
+        bool isDragging;
+        int mouseX, mouseY;
+
+        public choose_location cl;
+        public workplace wp;
         public start_page()
         {
             InitializeComponent();
-            wp = new workplace();
+            this.DoubleBuffered = true;
         }
 
         private void close_button_Click(object sender, EventArgs e)
@@ -23,10 +29,10 @@ namespace DO_AN_LTTQ
         }
         private void new_button_Click(object sender, EventArgs e)
         {
-            choose_location f = new choose_location();
             this.Hide();
-            f.ShowDialog();
-            this.Close();
+            cl=new choose_location();
+            cl.spage = this;
+            cl.Show();
         }
         private void open_button_Click(object sender, EventArgs e)
         {
@@ -34,17 +40,50 @@ namespace DO_AN_LTTQ
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = defaultPath;
-            openFileDialog.Filter = "All Files|*.*";
+            openFileDialog.Filter = "DSV File|*.dsv|All Files|*.*";
             openFileDialog.Title = "Select Files";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                wp.save_path = openFileDialog.FileName;
-                wp.update_label(Path.GetFileNameWithoutExtension(wp.save_path));
-                this.Hide();
-                wp.ShowDialog();
-                this.Close();
+                if (Path.GetExtension(openFileDialog.FileName) == ".dsv")
+                {
+                    wp = new workplace();
+                    wp.save_path = openFileDialog.FileName;
+                    wp.update_label(Path.GetFileNameWithoutExtension(wp.save_path));
+                    wp.load_file(wp.save_path);
+                    this.Hide();
+                    wp.ShowDialog();
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Can't open file","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
+        private void task_panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                mouseX = e.X;
+                mouseY = e.Y;
+            }
+        }
+        private void task_panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Cursor = Cursors.Hand;
+                int deltaX = e.X - mouseX;
+                int deltaY = e.Y - mouseY;
+                this.Location = new System.Drawing.Point(this.Location.X + deltaX, this.Location.Y + deltaY);
+            }
+        }
+        private void task_panel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                isDragging = false;
+            Cursor = Cursors.Default;
+        }
+
     }
 }

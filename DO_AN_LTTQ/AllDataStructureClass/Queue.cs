@@ -7,11 +7,13 @@ using System;
 using System.Windows.Forms;
 using DO_AN_LTTQ.Properties;
 
+
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
-    internal class Stack : DataStructure
+    
+    internal class Queue : DataStructure
     {
-        List<string> stack;
+        List<string> queue;
         int startX;
         int startY;
 
@@ -37,15 +39,13 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         int select_sub_algorithm = -1;
         int select_position = -1;
         int pos_find = -1;
-
-        public Stack(string[] input_info)
+        
+        public Queue(string[] input_info)
         {
-            startX = 470; // Tọa độ X của hình chữ nhật
-            //startY = this.draw_range.Height-200;
-            startY=450;
-            stack = new List<string>();
+            
+            queue = new List<string>();
             for (int i = 0; i < input_info.Length; i++)
-                stack.Add(input_info[i]);
+                queue.Add(input_info[i]);
 
             po1_tb = new TextBox();
             po1_tb.Font = tb_font;
@@ -68,7 +68,16 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         public override void GetInformation(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb, ComboBox spd)
         {
             base.GetInformation(dr, c, strb, cs, ts, dt, pb, spd);
-            
+            //startX = (draw_range.Width - image_length) / 2;
+            startY = draw_range.Height / 2;
+            //draw_range.Paint += insert_head_animation;
+            //draw_range.Paint += insert_tail_animation;
+            //draw_range.Paint += insert_position_animation;
+            //draw_range.Paint += search_animation;
+            //draw_range.Paint += remove_head_animation;
+            //draw_range.Paint += remove_tail_animation;
+            //draw_range.Paint += remove_pos_animation;
+
             draw_range.Paint += search_animation;
         }
         public override void ModifyPanel(Panel interact_panel)
@@ -103,7 +112,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             c1.DropDownStyle = ComboBoxStyle.DropDownList;
             c1.FormattingEnabled = true;
             c1.Font = tb_font;
-            c1.Items.AddRange(new object[] { "head", "tail", "position" });
+            c1.Items.AddRange(new object[] { "front", "back", "position" });
             c1.Location = new Point(295, 12);
             c1.Size = new Size(80, 30);
             c1.SelectedIndex = 0;
@@ -153,7 +162,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             c2.Font = tb_font;
             c2.DropDownStyle = ComboBoxStyle.DropDownList;
             c2.FormattingEnabled = true;
-            c2.Items.AddRange(new object[] { "head", "tail", "position" });
+            c2.Items.AddRange(new object[] { "front", "back", "position" });
             c2.Location = new Point(170, 12);
             c2.Size = new Size(80, 30);
             c2.SelectedIndex = 0;
@@ -266,62 +275,58 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 search_panel.BackColor = Color.DarkGray;
             }
         }
-      
-        
+
+
         public override void Draw(PaintEventArgs e)
         {
-           
-            const int rectangleWidth = 80; // Chiều rộng của hình chữ nhật
-            int rectangleHeight = 30 * stack.Count + 10; // Chiều cao của hình chữ nhật
+            const int squareSize = 40; // Kích thước cạnh của hình vuông
 
-            // Tính toán để vẽ stack ở giữa hình chữ nhật
-            int tempX = startX; // Tạo biến tạm cho tọa độ X của stack
-            int tempY = startY; // Tạo biến tạm cho tọa độ Y của stack
-
-            Pen pen = new Pen(Color.Black, 1);
-
-            // Vẽ hình chữ nhật biểu diễn Stack và các node
-            for (int i = 0; i< stack.Count; i++)
+            int totalSquareWidth = (squareSize ) * queue.Count ; // Tính tổng chiều rộng của các node
+            int startX = (draw_range.Width - totalSquareWidth) / 2; // Tọa độ X của node đầu tiên
+            tempX = startX;
+            tempY = startY;
+            // Vẽ các nút cho mỗi phần tử trong danh sách liên kết
+            for (int i = 0; i < count; i++)
             {
-                string data = stack[i];
+                draw_node(queue[i], e, tempX, tempY, Color.Black);
 
-                // Vẽ hình chữ nhật đại diện cho node trong Stack
-                e.Graphics.DrawRectangle(pen, tempX, tempY, rectangleWidth -10, 30);
-
-                // Hiển thị dữ liệu của node trong hình chữ nhật
-                SizeF textSize = e.Graphics.MeasureString(data, font_data);
-                float textX = tempX - 5 + (rectangleWidth - textSize.Width) / 2;
-                float textY = tempY + (30 - textSize.Height) / 2;
-                e.Graphics.DrawString(data, font_data, Brushes.Black, textX, textY);
-
-                // Di chuyển vị trí vẽ tiếp theo lên trên để vẽ node tiếp theo
-                tempY -= 30;
+                // Di chuyển đến vị trí mới để vẽ nút tiếp theo
+                tempX += 40;
             }
-
-            // Vẽ các cạnh của hình chữ nhật
-            e.Graphics.DrawLine(pen, startX - 12, startY +40, startX + rectangleWidth, startY +40);
-            e.Graphics.DrawLine(pen, startX -12, startY +40, startX -12, startY - rectangleHeight+ 20);
-            e.Graphics.DrawLine(pen, startX + rectangleWidth, startY +40, startX + rectangleWidth, startY - rectangleHeight+20);
-
-            //if (enable == -1 || frame == 0) //khong chay thuat toan ve
-            //{
-            //    if (count > 0)
-            //    {
-            //        int headX = startX - 5;
-            //        if (count == 1)
-            //            draw_label(e, headX, tempY + 50, tempX - 85, tempY + 75);
-            //        else
-            //            draw_label(e, headX, tempY + 50, tempX - 80, tempY + 50);
-            //    }
-            //}
-
+            if (enable == -1 || frame == 0) //khong chay thuat toan ve
+            {
+                if (count > 0)
+                {
+                    int headX = startX - 5;
+                    if (count == 1)
+                        draw_label(e, headX, tempY + 50, tempX - 85, tempY + 75);
+                    else
+                        draw_label(e, headX, tempY + 50, tempX - 80, tempY + 50);
+                }
+            }
         }
-        //private void draw_label(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
-        //{
-        //    e.Graphics.DrawString("Stack", font_label, Brushes.Red, headX + 20, headY -30);
-           
-        //}
+        private void draw_node(string nodeText, PaintEventArgs e, int drawx, int drawy, Color color)
+        {
+            // Vẽ hình chữ nhật đại diện cho nút
+            Pen p = new Pen(color, 4);
+            e.Graphics.DrawRectangle(p, drawx, drawy, 40, 40);
 
+            // Hiển thị dữ liệu của nút trong hình chữ nhật
+            SizeF textSize = e.Graphics.MeasureString(nodeText, font_data);
+
+            // Tính toán tọa độ để đặt chuỗi vào giữa hình chữ nhật
+            float textX = drawx + (40 - textSize.Width) / 2;
+            float textY = drawy + (40 - textSize.Height) / 2;
+            SolidBrush b = new SolidBrush(color);
+
+            e.Graphics.DrawString(nodeText, font_data, b, textX, textY);
+        }
+        
+        private void draw_label(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
+        {
+            e.Graphics.DrawString("Front", font_label, Brushes.Red, headX, headY);
+            e.Graphics.DrawString("Back", font_label, Brushes.Red, tailX +40, tailY);
+        }
         public override bool Equals(object? obj)
         {
             return base.Equals(obj);
@@ -329,7 +334,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
         public override int GetEnable()
         {
-            return -1;
+            throw new NotImplementedException();
         }
 
         public override int GetHashCode()
@@ -337,9 +342,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             return base.GetHashCode();
         }
 
-        
 
-        
+
+
 
         public override void RunAlgorithms()
         {
@@ -366,7 +371,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
                 e.Handled = true;
         }
-       
+
 
         public void search_animation(object sender, PaintEventArgs e)
         {
@@ -374,7 +379,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public override void SaveData()
         {
-            save_data = stack;
+            save_data = queue;
         }
     }
+
+
+
 }

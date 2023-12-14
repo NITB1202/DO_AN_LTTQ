@@ -41,22 +41,20 @@ namespace DO_AN_LTTQ
             app_label = new PictureBox();
             projectname_label = new Label();
             file_toolstrip = new ToolStrip();
-            open_button = new ToolStripButton();
+            file_button = new ToolStripDropDownButton();
+            new_file_button = new ToolStripMenuItem();
+            open_button = new ToolStripMenuItem();
+            save_button = new ToolStripMenuItem();
+            save_as_button = new ToolStripMenuItem();
             new_button = new ToolStripDropDownButton();
             sToolStripMenuItem = new ToolStripMenuItem();
             sinlToolStripMenuItem = new ToolStripMenuItem();
-            doublyToolStripMenuItem = new ToolStripMenuItem();
-            queueToolStripMenuItem = new ToolStripMenuItem();
+            stack_button = new ToolStripMenuItem();
+            queue_button = new ToolStripMenuItem();
             treeToolStripMenuItem = new ToolStripMenuItem();
             binarySearchTreeToolStripMenuItem = new ToolStripMenuItem();
             btreeToolStripMenuItem = new ToolStripMenuItem();
-            graphToolStripMenuItem = new ToolStripMenuItem();
-            save_button = new ToolStripDropDownButton();
-            saveAsPNGToolStripMenuItem = new ToolStripMenuItem();
-            saveAsToolStripMenuItem = new ToolStripMenuItem();
-            export_button = new ToolStripDropDownButton();
-            pNGToolStripMenuItem = new ToolStripMenuItem();
-            gIFToolStripMenuItem = new ToolStripMenuItem();
+            graph_button = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
             st = new DoubleBufferedPanel();
             height_tb = new TextBox();
@@ -75,7 +73,7 @@ namespace DO_AN_LTTQ
             al = new DoubleBufferedPanel();
             code_tb = new RichTextBox();
             go_button = new RJButton();
-            interact_panel = new Panel();
+            interact_panel = new DoubleBufferedPanel();
             label4 = new Label();
             label7 = new Label();
             skip_button = new Button();
@@ -233,33 +231,65 @@ namespace DO_AN_LTTQ
             file_toolstrip.GripMargin = new Padding(0, 0, 0, -5);
             file_toolstrip.GripStyle = ToolStripGripStyle.Hidden;
             file_toolstrip.ImageScalingSize = new Size(20, 20);
-            file_toolstrip.Items.AddRange(new ToolStripItem[] { open_button, new_button, save_button, export_button, clear_button });
+            file_toolstrip.Items.AddRange(new ToolStripItem[] { file_button, new_button, clear_button });
             file_toolstrip.Location = new Point(-1, 31);
             file_toolstrip.Name = "file_toolstrip";
             file_toolstrip.Padding = new Padding(0);
             file_toolstrip.RenderMode = ToolStripRenderMode.Professional;
-            file_toolstrip.Size = new Size(278, 44);
+            file_toolstrip.Size = new Size(165, 44);
             file_toolstrip.Stretch = true;
             file_toolstrip.TabIndex = 9;
             file_toolstrip.Text = "file_toolStrip";
             // 
+            // file_button
+            // 
+            file_button.AutoSize = false;
+            file_button.BackColor = Color.FromArgb(23, 21, 32);
+            file_button.DropDownItems.AddRange(new ToolStripItem[] { new_file_button, open_button, save_button, save_as_button });
+            file_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            file_button.ForeColor = Color.White;
+            file_button.Image = (Image)resources.GetObject("file_button.Image");
+            file_button.ImageTransparentColor = Color.Magenta;
+            file_button.Name = "file_button";
+            file_button.Size = new Size(42, 41);
+            file_button.Text = "File";
+            file_button.TextImageRelation = TextImageRelation.TextAboveImage;
+            // 
+            // new_file_button
+            // 
+            new_file_button.Name = "new_file_button";
+            new_file_button.ShortcutKeys = Keys.Control | Keys.N;
+            new_file_button.Size = new Size(157, 22);
+            new_file_button.Text = "&New";
+            new_file_button.Click += new_file_button_Click;
+            // 
             // open_button
             // 
-            open_button.BackColor = Color.FromArgb(23, 21, 32);
-            open_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            open_button.ForeColor = SystemColors.ButtonHighlight;
-            open_button.Image = (Image)resources.GetObject("open_button.Image");
-            open_button.ImageTransparentColor = Color.Magenta;
             open_button.Name = "open_button";
-            open_button.Size = new Size(45, 41);
-            open_button.Text = "Open";
-            open_button.TextImageRelation = TextImageRelation.TextAboveImage;
-            open_button.ToolTipText = "Open project from folder";
+            open_button.ShortcutKeys = Keys.Control | Keys.O;
+            open_button.Size = new Size(157, 22);
+            open_button.Text = "&Open";
+            open_button.Click += open_button_Click;
+            // 
+            // save_button
+            // 
+            save_button.Name = "save_button";
+            save_button.ShortcutKeys = Keys.Control | Keys.S;
+            save_button.Size = new Size(157, 22);
+            save_button.Text = "&Save";
+            save_button.Click += save_button_Click;
+            // 
+            // save_as_button
+            // 
+            save_as_button.Name = "save_as_button";
+            save_as_button.Size = new Size(157, 22);
+            save_as_button.Text = "Save as";
+            save_as_button.Click += save_as_button_Click;
             // 
             // new_button
             // 
             new_button.BackColor = Color.FromArgb(23, 21, 32);
-            new_button.DropDownItems.AddRange(new ToolStripItem[] { sToolStripMenuItem, treeToolStripMenuItem, graphToolStripMenuItem });
+            new_button.DropDownItems.AddRange(new ToolStripItem[] { sToolStripMenuItem, treeToolStripMenuItem, graph_button });
             new_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             new_button.ForeColor = SystemColors.ControlLightLight;
             new_button.Image = (Image)resources.GetObject("new_button.Image");
@@ -274,7 +304,7 @@ namespace DO_AN_LTTQ
             // 
             // sToolStripMenuItem
             // 
-            sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, doublyToolStripMenuItem, queueToolStripMenuItem });
+            sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, stack_button, queue_button });
             sToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             sToolStripMenuItem.Name = "sToolStripMenuItem";
             sToolStripMenuItem.Size = new Size(180, 22);
@@ -287,18 +317,19 @@ namespace DO_AN_LTTQ
             sinlToolStripMenuItem.Text = "Singly linked list";
             sinlToolStripMenuItem.Click += sinlToolStripMenuItem_Click;
             // 
-            // doublyToolStripMenuItem
+            // stack_button
             // 
-            doublyToolStripMenuItem.Name = "doublyToolStripMenuItem";
-            doublyToolStripMenuItem.Size = new Size(168, 22);
-            doublyToolStripMenuItem.Text = "Stack";
-            doublyToolStripMenuItem.Click += doublyToolStripMenuItem_Click;
+            stack_button.Name = "stack_button";
+            stack_button.Size = new Size(168, 22);
+            stack_button.Text = "Stack";
+            stack_button.Click += stack_button_Click;
             // 
-            // queueToolStripMenuItem
+            // queue_button
             // 
-            queueToolStripMenuItem.Name = "queueToolStripMenuItem";
-            queueToolStripMenuItem.Size = new Size(168, 22);
-            queueToolStripMenuItem.Text = "Queue";
+            queue_button.Name = "queue_button";
+            queue_button.Size = new Size(168, 22);
+            queue_button.Text = "Queue";
+            queue_button.Click += queue_button_Click;
             // 
             // treeToolStripMenuItem
             // 
@@ -320,65 +351,15 @@ namespace DO_AN_LTTQ
             btreeToolStripMenuItem.Name = "btreeToolStripMenuItem";
             btreeToolStripMenuItem.Size = new Size(180, 22);
             btreeToolStripMenuItem.Text = "B-tree";
+            btreeToolStripMenuItem.Click += btreeToolStripMenuItem_Click;
             // 
-            // graphToolStripMenuItem
+            // graph_button
             // 
-            graphToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            graphToolStripMenuItem.Name = "graphToolStripMenuItem";
-            graphToolStripMenuItem.Size = new Size(180, 22);
-            graphToolStripMenuItem.Text = "Graph";
-            // 
-            // save_button
-            // 
-            save_button.BackColor = Color.FromArgb(23, 21, 32);
-            save_button.DropDownItems.AddRange(new ToolStripItem[] { saveAsPNGToolStripMenuItem, saveAsToolStripMenuItem });
-            save_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            save_button.ForeColor = SystemColors.ControlLightLight;
-            save_button.Image = (Image)resources.GetObject("save_button.Image");
-            save_button.ImageTransparentColor = Color.Magenta;
-            save_button.Name = "save_button";
-            save_button.Size = new Size(49, 41);
-            save_button.Text = "Save";
-            save_button.TextImageRelation = TextImageRelation.TextAboveImage;
-            save_button.ToolTipText = "Save project";
-            // 
-            // saveAsPNGToolStripMenuItem
-            // 
-            saveAsPNGToolStripMenuItem.Name = "saveAsPNGToolStripMenuItem";
-            saveAsPNGToolStripMenuItem.Size = new Size(180, 22);
-            saveAsPNGToolStripMenuItem.Text = "Save";
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(180, 22);
-            saveAsToolStripMenuItem.Text = "Save as...";
-            // 
-            // export_button
-            // 
-            export_button.BackColor = Color.FromArgb(23, 21, 32);
-            export_button.DropDownItems.AddRange(new ToolStripItem[] { pNGToolStripMenuItem, gIFToolStripMenuItem });
-            export_button.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            export_button.ForeColor = SystemColors.ControlLightLight;
-            export_button.Image = (Image)resources.GetObject("export_button.Image");
-            export_button.ImageTransparentColor = Color.Magenta;
-            export_button.Name = "export_button";
-            export_button.Size = new Size(61, 41);
-            export_button.Text = "Export";
-            export_button.TextImageRelation = TextImageRelation.TextAboveImage;
-            // 
-            // pNGToolStripMenuItem
-            // 
-            pNGToolStripMenuItem.Name = "pNGToolStripMenuItem";
-            pNGToolStripMenuItem.Size = new Size(180, 22);
-            pNGToolStripMenuItem.Text = "PNG";
-            pNGToolStripMenuItem.Click += pNGToolStripMenuItem_Click;
-            // 
-            // gIFToolStripMenuItem
-            // 
-            gIFToolStripMenuItem.Name = "gIFToolStripMenuItem";
-            gIFToolStripMenuItem.Size = new Size(180, 22);
-            gIFToolStripMenuItem.Text = "GIF";
+            graph_button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            graph_button.Name = "graph_button";
+            graph_button.Size = new Size(180, 22);
+            graph_button.Text = "Graph";
+            graph_button.Click += graph_button_Click;
             // 
             // clear_button
             // 
@@ -907,6 +888,7 @@ namespace DO_AN_LTTQ
             Name = "workplace";
             StartPosition = FormStartPosition.CenterScreen;
             Text = " ";
+            FormClosing += workplace_FormClosing;
             task_panel.ResumeLayout(false);
             task_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)app_label).EndInit();
@@ -932,16 +914,10 @@ namespace DO_AN_LTTQ
         private ToolStripDropDownButton new_button;
         private ToolStripMenuItem sToolStripMenuItem;
         private ToolStripMenuItem sinlToolStripMenuItem;
-        private ToolStripMenuItem doublyToolStripMenuItem;
+        private ToolStripMenuItem stack_button;
         private ToolStripMenuItem treeToolStripMenuItem;
         private ToolStripMenuItem binarySearchTreeToolStripMenuItem;
         private ToolStripMenuItem btreeToolStripMenuItem;
-        private ToolStripDropDownButton save_button;
-        private ToolStripMenuItem saveAsPNGToolStripMenuItem;
-        private ToolStripMenuItem saveAsToolStripMenuItem;
-        private ToolStripDropDownButton export_button;
-        private ToolStripMenuItem pNGToolStripMenuItem;
-        private ToolStripMenuItem gIFToolStripMenuItem;
         private ToolStripButton clear_button;
         private PictureBox app_label;
         private Panel panel1;
@@ -966,9 +942,9 @@ namespace DO_AN_LTTQ
         private Button restart_button;
         private RJButton ok_button;
         private Label status_lbl;
-        private ToolStripMenuItem queueToolStripMenuItem;
-        private ToolStripMenuItem graphToolStripMenuItem;
-        private Panel interact_panel;
+        private ToolStripMenuItem queue_button;
+        private ToolStripMenuItem graph_button;
+        private DoubleBufferedPanel interact_panel;
         private RJButton go_button;
         private Label label2;
         private TextBox width_tb;
@@ -979,6 +955,10 @@ namespace DO_AN_LTTQ
         private Label current_step;
         private Button minimize_button;
         private Button maximize_button;
-        private ToolStripButton open_button;
+        private ToolStripDropDownButton file_button;
+        private ToolStripMenuItem new_file_button;
+        private ToolStripMenuItem open_button;
+        private ToolStripMenuItem save_button;
+        private ToolStripMenuItem save_as_button;
     }
 }

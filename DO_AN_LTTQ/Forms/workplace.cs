@@ -16,14 +16,20 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Security.Principal;
+using System.Configuration;
+
 
 namespace DO_AN_LTTQ
 {
     public partial class workplace : Form
     {
-        private System.Windows.Forms.TextBox input;
+        private RJButton more_bt;
+        private TextBox path_tb;
+        private Label path_lb;
+        private TextBox input;
         private Label l;
         public DoubleBufferedPanel st; //settings panel
         public DoubleBufferedPanel al; //algorithm panel
@@ -63,18 +69,6 @@ namespace DO_AN_LTTQ
         {
             Close();
         }
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
             //ve duong thang tren panel algorithms
@@ -86,14 +80,22 @@ namespace DO_AN_LTTQ
         {
             WindowState = FormWindowState.Minimized;
         }
+        private void remove_all_input_type_componet()
+        {
+            st.Controls.Remove(input);
+            st.Controls.Remove(l);
+            st.Controls.Remove(more_bt);
+            st.Controls.Remove(path_lb);
+            st.Controls.Remove(path_tb);
+        }
         private void input_type_cbb_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (input_type_cbb.SelectedIndex)
             {
                 case 0:
                     {
-                        if (st.Controls.Contains(input))
-                            st.Controls.Remove(input);
+                        remove_all_input_type_componet();
+
                         l = new Label();
                         l.Text = "Total node:";
                         l.Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point);
@@ -116,12 +118,9 @@ namespace DO_AN_LTTQ
                     }
                 case 1:
                     {
-                        if (st.Controls.Contains(l))
-                        {
-                            st.Controls.Remove(l);
-                            st.Controls.Remove(input);
-                        }
-                        input = new System.Windows.Forms.TextBox();
+                        remove_all_input_type_componet();
+
+                        input = new TextBox();
                         input.Font = new Font("Segeo UI", 10);
                         input.Height = 150;
                         input.Width = 255;
@@ -133,19 +132,64 @@ namespace DO_AN_LTTQ
                     }
                 case 2:
                     {
-                        if (st.Controls.Contains(input))
-                        {
-                            st.Controls.Remove(l);
-                            st.Controls.Remove(input);
-                        }
+                        remove_all_input_type_componet();
+
+                        more_bt = new RJButton();
+                        more_bt.BackColor = Color.RoyalBlue;
+                        more_bt.BackgroundImage = Properties.Resources.more_25px;
+                        more_bt.BackgroundImageLayout = ImageLayout.Center;
+                        more_bt.BorderRadius = 5;
+                        more_bt.BorderSize = 0;
+                        more_bt.FlatStyle = FlatStyle.Flat;
+                        more_bt.Location = new Point(272, 226);
+                        more_bt.Size = new Size(44, 23);
+                        more_bt.FlatAppearance.MouseDownBackColor = Color.MidnightBlue;
+                        more_bt.FlatAppearance.MouseOverBackColor = Color.MidnightBlue;
+                        more_bt.Click += more_bt_click;
+                        st.Controls.Add(more_bt);
+
+                        path_tb = new TextBox();
+                        path_tb.BackColor = SystemColors.ControlDarkDark;
+                        path_tb.BorderStyle = BorderStyle.None;
+                        path_tb.Font = new Font("Segoe UI", 10.5F, FontStyle.Regular, GraphicsUnit.Point);
+                        path_tb.ForeColor = Color.White;
+                        path_tb.Location = new Point(65, 228);
+                        path_tb.ReadOnly = true;
+                        path_tb.Size = new Size(201, 22);
+                        st.Controls.Add(path_tb);
+
+                        path_lb = new Label();
+                        path_lb.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                        path_lb.ForeColor = Color.Snow;
+                        path_lb.Location = new Point(13, 228);
+                        path_lb.Text = "Path:";
+                        st.Controls.Add(path_lb);
+
                         OpenFileDialog open = new OpenFileDialog();
+                        open.Title = "Choose file";
                         open.InitialDirectory = @"C:\";
                         open.Filter = "Text|*.txt";
                         if (open.ShowDialog() == DialogResult.OK)
+                        {
                             textfile_path = open.FileName;
+                            path_tb.Text = open.FileName;
+                        }
                         break;
                     }
             }
+        }
+        private void more_bt_click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Title = "Choose file";
+            open.InitialDirectory = @"C:\";
+            open.Filter = "Text|*.txt";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                textfile_path = open.FileName;
+                path_tb.Text = open.FileName;
+            }
+
         }
         private void check_tb_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -229,7 +273,7 @@ namespace DO_AN_LTTQ
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
-                                if (input_data[i].Length > 1)
+                                if (String.IsNullOrEmpty(input_data[i]) || input_data[i].Length != 1)
                                     return false;
                             }
                         }
@@ -267,14 +311,11 @@ namespace DO_AN_LTTQ
 
                         if (type == 0 || type == 1)
                         {
-                            if (input_data.Length == 1)
-                            {
-                                string temp = input_data[0].Replace("\r\n", " ");
-                                input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                if (!check_data())
-                                    return false;
-                            }
-                            else
+                            string temp = null;
+                            foreach (string line in input_data)
+                                temp += line + " ";
+                            input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                            if (!check_data())
                                 return false;
                         }
                         break;
@@ -291,7 +332,7 @@ namespace DO_AN_LTTQ
             }
             if (Controls.Contains(draw_range))
             {
-                MessageBox.Show("The panel has already existed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The data structure has already existed. Please remove it before creating a new one.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             //xu li du lieu nhap
@@ -301,12 +342,12 @@ namespace DO_AN_LTTQ
                 return;
             }
             //tao vung ve
-            set_inf_for_ds();
+            initialize_ds();
+            holder.ModifyPanel(interact_panel);
             create_draw_range();
             holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
-            holder.ModifyPanel(interact_panel);
         }
-        private void set_inf_for_ds()
+        private void initialize_ds()
         {
             switch (type)
             {
@@ -317,7 +358,32 @@ namespace DO_AN_LTTQ
                     }
                 case 1:
                     {
+                        holder = new Stack(input_data);
+                        break;
+                    }
+                case 2:
+                    {
+                        holder = new Queue(input_data);
+                        break;
+                    }
+                case 3:
+                    {
                         holder = new BinarySearchTreeDraw(input_data);
+                        break;
+                    }
+                case 4:
+                    {
+                        //holder = new BTreeDraw(input_data, degree);
+                        break;
+                    }
+                case 5:
+                    {
+                        //holder = new Graph(input_data);
+                        break;
+                    }
+                default:
+                    {
+                        holder = null;
                         break;
                     }
             }
@@ -348,19 +414,10 @@ namespace DO_AN_LTTQ
             holder.UpdateLocation();
             draw_range.Invalidate();
         }
-        private void sinlToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            type = 0;
-            update_status("Singly Linked List");
-        }
-        private void binarySearchTreeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            type = 1;
-            update_status("Binary Search Tree");
-        }
         private void clear_button_Click(object sender, EventArgs e)
         {
             Controls.Remove(draw_range);
+            draw_range = null;
             UpdateSize();
             interact_panel.Controls.Clear();
             code_tb.Clear();
@@ -370,38 +427,48 @@ namespace DO_AN_LTTQ
             step_trb.Value = 0;
             spd_cbb.SelectedIndex = 1;
         }
-        private void pNGToolStripMenuItem_Click(object sender, EventArgs e)
+        public void update_status()
         {
-            if (draw_range == null)
-                return;
-
-            SaveFileDialog s = new SaveFileDialog();
-
-            // Thiết lập các thuộc tính cho hộp thoại lưu tệp
-            s.InitialDirectory = @"C:\DataStructureVisualizations\" + Path.GetFileNameWithoutExtension(save_path);
-            s.Title = "Save File";
-            s.CheckPathExists = true;
-            s.DefaultExt = "png";
-            s.Filter = "PNG (*.png)|*.png";
-            s.FilterIndex = 1;
-            s.RestoreDirectory = true;
-
-            if (s.ShowDialog() == DialogResult.OK)
+            string temp = null;
+            switch (type)
             {
-                Bitmap bmp = new Bitmap(draw_range.Width, draw_range.Height);
-                if (holder.frame == holder.total_frame + 1)
-                {
-                    holder.enable = holder.GetEnable();
-                    holder.frame = holder.total_frame;
-                    draw_range.Invalidate();
-                }
-                draw_range.DrawToBitmap(bmp, new Rectangle(0, 0, draw_range.Width, draw_range.Height));
-                bmp.Save(s.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                case 0:
+                    {
+                        temp = "Singly Linked List";
+                        break;
+                    }
+                case 1:
+                    {
+                        temp = "Stack";
+                        break;
+                    }
+                case 2:
+                    {
+                        temp = "Queue";
+                        break;
+                    }
+                case 3:
+                    {
+                        temp = "Binary Search Tree";
+                        break;
+                    }
+                case 4:
+                    {
+                        temp = "B-tree";
+                        break;
+                    }
+                case 5:
+                    {
+                        temp = "Graph";
+                        break;
+                    }
+                default:
+                    {
+                        temp = "None";
+                        break;
+                    }
             }
-        }
-        private void update_status(string n)
-        {
-            status_lbl.Text = "-Choosen Data Structure: " + n + "-";
+            status_lbl.Text = "-Choosen Data Structure: " + temp + "-";
         }
         private void interact_panel_Paint(object sender, PaintEventArgs e)
         {
@@ -545,11 +612,6 @@ namespace DO_AN_LTTQ
                     }
             }
         }
-        private void doublyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
-
-        //moi viet them
         private void task_panel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -572,9 +634,7 @@ namespace DO_AN_LTTQ
         private void task_panel_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-            {
                 isDragging = false;
-            }
             Cursor = Cursors.Default;
         }
         private void UpdateSize()
@@ -595,10 +655,196 @@ namespace DO_AN_LTTQ
         {
             MaximizeWindow();
         }
-
         private void maximize_button_Click(object sender, EventArgs e)
         {
             MaximizeWindow();
+        }
+        private void save_file(string path)
+        {
+            StreamWriter writer = new StreamWriter(path);
+            writer.WriteLine(spd_cbb.SelectedIndex);//1
+            writer.WriteLine(width_tb.Text);//2
+            writer.WriteLine(height_tb.Text);//3
+            writer.WriteLine(data_type_cbb.SelectedIndex);//4
+            writer.WriteLine(type);//5
+            if (holder == null)
+            {
+                writer.Close();
+                return;
+            }
+            holder.SaveData();
+            for (int i = 0; i < holder.save_data.Count; i++)
+                writer.Write(holder.save_data[i] + " ");
+            writer.WriteLine();//6
+            writer.WriteLine(holder.select_algorithm);//7
+            writer.WriteLine(holder.select_sub_algorithm);//8
+            writer.WriteLine(holder.input);//9
+            writer.WriteLine(holder.select_position);//10
+            writer.WriteLine(holder.total_frame);//11
+            writer.WriteLine(holder.frame);//12
+            writer.Write(code_tb.Text);
+            writer.Close();
+        }
+        public void load_file(string path)
+        {
+            update_label(Path.GetFileNameWithoutExtension(path));
+            StreamReader reader = new StreamReader(path);
+
+            //kiem tra file co rong hay khong
+            List<string> info = new List<string>();
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                info.Add(line);
+            }
+            reader.Close();
+            if (info.Count == 0)
+                return;
+            spd_cbb.SelectedIndex = int.Parse(info[0]);
+            width_tb.Text = info[1];
+            height_tb.Text = info[2];
+            data_type_cbb.SelectedIndex = int.Parse(info[3]);
+            type = int.Parse(info[4]);
+            update_status();
+            if (info.Count == 5)
+                return;
+            input_data = info[5].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            initialize_ds();
+            holder.ModifyPanel(interact_panel);
+            if (draw_range != null)
+            {
+                DialogResult res = MessageBox.Show("Do you want to save?", "Notifcation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                    save_button.PerformClick();
+                Controls.Remove(draw_range);
+            }
+            create_draw_range();
+            holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
+            holder.select_algorithm = int.Parse(info[6]);
+            holder.select_sub_algorithm = int.Parse(info[7]);
+            holder.enable = holder.GetEnable();
+            holder.input = info[8];
+            holder.select_position = int.Parse(info[9]);
+            holder.total_frame = int.Parse(info[10]);
+            step_trb.Maximum = holder.total_frame;
+            total_step.Text = holder.total_frame.ToString();
+            holder.frame = int.Parse(info[11]);
+            if (holder.frame > holder.total_frame)
+                holder.frame = holder.total_frame;
+            for (int i = 12; i < info.Count; i++)
+                code_tb.AppendText(info[i] + "\n");
+            holder.SetIndent();
+            holder.timer.Stop();
+            playButtonUpdateImage();
+            draw_range.Invalidate();
+        }
+        private void open_button_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "DSV File|*.dsv";
+            open.InitialDirectory = @"C:\DataStructureVisualizations";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                save_path = open.FileName;
+                load_file(save_path);
+            }
+        }
+        private void save_as_button_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "DSV File|*.dsv|PNG File|*.png";
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                if (save.FilterIndex == 1)
+                {
+                    FileStream file = File.Create(save.FileName);
+                    file.Close();
+                    save_path = save.FileName;
+                    update_label(Path.GetFileNameWithoutExtension(save.FileName));
+                    save_file(save.FileName);
+                }
+                else
+                {
+                    if (draw_range == null)
+                    {
+                        MessageBox.Show("The sheet is empty.", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
+                    Bitmap bmp = new Bitmap(draw_range.Width, draw_range.Height);
+                    if (holder.frame == holder.total_frame + 1)
+                    {
+                        holder.enable = holder.GetEnable();
+                        holder.frame = holder.total_frame;
+                        draw_range.Invalidate();
+                    }
+                    draw_range.DrawToBitmap(bmp, new Rectangle(0, 0, draw_range.Width, draw_range.Height));
+                    bmp.Save(save.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                }
+            }
+        }
+        private void save_button_Click(object sender, EventArgs e)
+        {
+            if (save_path == null)
+                save_as_button.PerformClick();
+            else
+            {
+                save_file(save_path);
+                MessageBox.Show("Saved sucessfully!");
+            }
+        }
+        private void new_file_button_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Do you want to save before switching to a new file?", "Notification", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+                save_button.PerformClick();
+            clear_button.PerformClick();
+            save_path = null;
+            type = -1;
+            update_status();
+            update_label("project1");
+
+        }
+        private void workplace_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult r=MessageBox.Show("Do you want to exit?","Notification",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            if (r == DialogResult.Yes)
+            {
+                DialogResult res = MessageBox.Show("Do you want to save changes before closing?", "Notification", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                    save_button.PerformClick();
+            }
+            else
+                e.Cancel = true;
+        }
+        private void sinlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            type = 0;
+            update_status();
+        }
+        private void stack_button_Click(object sender, EventArgs e)
+        {
+            type = 1;
+            update_status();
+        }
+        private void queue_button_Click(object sender, EventArgs e)
+        {
+            type = 2;
+            update_status();
+        }
+        private void binarySearchTreeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            type = 3;
+            update_status();
+        }
+        private void btreeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            type = 4;
+            update_status();
+        }
+        private void graph_button_Click(object sender, EventArgs e)
+        {
+            type = 5;
+            update_status();
         }
     }
 }
