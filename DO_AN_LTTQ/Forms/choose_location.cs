@@ -64,7 +64,6 @@ namespace DO_AN_LTTQ
                 return;
             }
             Directory.CreateDirectory(path);
-
             //tao file.dsv
             string file_path = path + "\\" + project_name_bar.Text + ".dsv";
             FileStream temp = File.Create(file_path);

@@ -687,10 +687,10 @@ namespace DO_AN_LTTQ
         }
         public void load_file(string path)
         {
+            clear_button.PerformClick();
             update_label(Path.GetFileNameWithoutExtension(path));
             StreamReader reader = new StreamReader(path);
 
-            //kiem tra file co rong hay khong
             List<string> info = new List<string>();
             while (!reader.EndOfStream)
             {

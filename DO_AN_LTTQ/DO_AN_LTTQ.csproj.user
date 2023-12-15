@@ -4,6 +4,9 @@
     <Compile Update="Utilities\bufferingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Utilities\DoubleBufferedFlowPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Utilities\rbutton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -15,6 +18,9 @@
     </Compile>
     <Compile Update="Forms\workplace.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Utilities\file_view.cs">
+      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
 </Project>
