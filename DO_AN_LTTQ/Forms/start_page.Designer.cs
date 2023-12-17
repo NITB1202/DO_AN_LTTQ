@@ -59,8 +59,11 @@ namespace DO_AN_LTTQ
             task_panel.Location = new Point(0, 0);
             task_panel.Margin = new Padding(3, 2, 3, 2);
             task_panel.Name = "task_panel";
-            task_panel.Size = new Size(793, 36);
+            task_panel.Size = new Size(798, 36);
             task_panel.TabIndex = 0;
+            task_panel.MouseDown += task_panel_MouseDown;
+            task_panel.MouseMove += task_panel_MouseMove;
+            task_panel.MouseUp += task_panel_MouseUp;
             // 
             // subtract_button
             // 
@@ -72,7 +75,7 @@ namespace DO_AN_LTTQ
             subtract_button.FlatAppearance.MouseDownBackColor = SystemColors.ControlDarkDark;
             subtract_button.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
             subtract_button.FlatStyle = FlatStyle.Flat;
-            subtract_button.Location = new Point(741, 0);
+            subtract_button.Location = new Point(746, 0);
             subtract_button.Margin = new Padding(3, 2, 3, 2);
             subtract_button.Name = "subtract_button";
             subtract_button.Size = new Size(26, 36);
@@ -90,7 +93,7 @@ namespace DO_AN_LTTQ
             close_button.FlatAppearance.MouseDownBackColor = Color.IndianRed;
             close_button.FlatAppearance.MouseOverBackColor = Color.IndianRed;
             close_button.FlatStyle = FlatStyle.Flat;
-            close_button.Location = new Point(767, 0);
+            close_button.Location = new Point(772, 0);
             close_button.Margin = new Padding(3, 2, 3, 2);
             close_button.Name = "close_button";
             close_button.Size = new Size(26, 36);
@@ -169,7 +172,7 @@ namespace DO_AN_LTTQ
             started_label.BackColor = Color.Transparent;
             started_label.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             started_label.ForeColor = SystemColors.ButtonHighlight;
-            started_label.Location = new Point(578, 62);
+            started_label.Location = new Point(594, 64);
             started_label.Name = "started_label";
             started_label.Size = new Size(141, 30);
             started_label.TabIndex = 6;
@@ -183,7 +186,7 @@ namespace DO_AN_LTTQ
             support_link.BackColor = Color.Transparent;
             support_link.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             support_link.LinkColor = Color.Navy;
-            support_link.Location = new Point(612, 196);
+            support_link.Location = new Point(627, 186);
             support_link.Name = "support_link";
             support_link.Size = new Size(86, 21);
             support_link.TabIndex = 13;
@@ -220,7 +223,7 @@ namespace DO_AN_LTTQ
             new_button.ForeColor = Color.White;
             new_button.Image = Properties.Resources.file_25px;
             new_button.ImageAlign = ContentAlignment.MiddleLeft;
-            new_button.Location = new Point(555, 103);
+            new_button.Location = new Point(570, 105);
             new_button.Margin = new Padding(3, 2, 3, 2);
             new_button.Name = "new_button";
             new_button.Size = new Size(192, 38);
@@ -247,7 +250,7 @@ namespace DO_AN_LTTQ
             open_button.ForeColor = Color.White;
             open_button.Image = Properties.Resources.opened_folder_25px;
             open_button.ImageAlign = ContentAlignment.MiddleLeft;
-            open_button.Location = new Point(555, 146);
+            open_button.Location = new Point(570, 146);
             open_button.Margin = new Padding(3, 2, 3, 2);
             open_button.Name = "open_button";
             open_button.Size = new Size(192, 38);
@@ -262,7 +265,7 @@ namespace DO_AN_LTTQ
             version_llb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             version_llb.AutoSize = true;
             version_llb.BackColor = Color.Transparent;
-            version_llb.Location = new Point(712, 376);
+            version_llb.Location = new Point(717, 376);
             version_llb.Name = "version_llb";
             version_llb.Size = new Size(63, 15);
             version_llb.TabIndex = 18;
@@ -280,7 +283,7 @@ namespace DO_AN_LTTQ
             BackColor = Color.FromArgb(98, 188, 150);
             BackgroundImage = Properties.Resources.fix3;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(793, 398);
+            ClientSize = new Size(798, 398);
             Controls.Add(version_llb);
             Controls.Add(open_button);
             Controls.Add(new_button);

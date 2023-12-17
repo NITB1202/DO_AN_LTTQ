@@ -52,8 +52,19 @@
         protected int opx = 3;
         protected int op_height = 50;//vi tri cua option tiep theo bang so thu tu option*op_height
         protected Size op_size = new Size(612, 50);
+
+        //du lieu su dung khi bat dau thuat toan
+        public string input = null;
+        public int select_algorithm = -1;
+        public int select_sub_algorithm = -1;
+        public int select_position = -1;
+        public bool error = false;
+
+        //luu load du lieu
+        public List<string> save_data;
         public DataStructure()
         {
+            save_data = new List<string>();
             timer = new System.Windows.Forms.Timer();
             timer.Tick += Timer_Tick;
 
@@ -107,6 +118,7 @@
                 case 2:
                     return IsValidSingleCharacter(str);
                 default:
+                    error = true;
                     return false;
             }
         }
@@ -120,11 +132,11 @@
         }
         private bool IsValidSingleCharacter(string str)
         {
-            return str.Length == 1;
+            return !String.IsNullOrEmpty(str) && str.Length == 1;
         }
         public void ShowError()
         {
-            MessageBox.Show("Invalid input. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Invalid input", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public abstract void RunAlgorithms();
         public void updateStep(int n)
@@ -181,5 +193,6 @@
         public abstract void UpdateDataStructure();
         public abstract int GetEnable();
         public abstract void UpdateLocation();
+        public abstract void SaveData();
     }
 }
