@@ -236,7 +236,7 @@ namespace DO_AN_LTTQ
             file_toolstrip.Name = "file_toolstrip";
             file_toolstrip.Padding = new Padding(0);
             file_toolstrip.RenderMode = ToolStripRenderMode.Professional;
-            file_toolstrip.Size = new Size(165, 44);
+            file_toolstrip.Size = new Size(134, 44);
             file_toolstrip.Stretch = true;
             file_toolstrip.TabIndex = 9;
             file_toolstrip.Text = "file_toolStrip";
@@ -307,7 +307,7 @@ namespace DO_AN_LTTQ
             sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, stack_button, queue_button });
             sToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             sToolStripMenuItem.Name = "sToolStripMenuItem";
-            sToolStripMenuItem.Size = new Size(180, 22);
+            sToolStripMenuItem.Size = new Size(112, 22);
             sToolStripMenuItem.Text = "List";
             // 
             // sinlToolStripMenuItem
@@ -336,7 +336,7 @@ namespace DO_AN_LTTQ
             treeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binarySearchTreeToolStripMenuItem, btreeToolStripMenuItem });
             treeToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             treeToolStripMenuItem.Name = "treeToolStripMenuItem";
-            treeToolStripMenuItem.Size = new Size(180, 22);
+            treeToolStripMenuItem.Size = new Size(112, 22);
             treeToolStripMenuItem.Text = "Tree";
             // 
             // binarySearchTreeToolStripMenuItem
@@ -357,7 +357,7 @@ namespace DO_AN_LTTQ
             // 
             graph_button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             graph_button.Name = "graph_button";
-            graph_button.Size = new Size(180, 22);
+            graph_button.Size = new Size(112, 22);
             graph_button.Text = "Graph";
             graph_button.Click += graph_button_Click;
             // 
@@ -887,7 +887,7 @@ namespace DO_AN_LTTQ
             Margin = new Padding(3, 2, 3, 2);
             Name = "workplace";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = " ";
+            Text = " Data Structure Visualizations";
             FormClosing += workplace_FormClosing;
             task_panel.ResumeLayout(false);
             task_panel.PerformLayout();

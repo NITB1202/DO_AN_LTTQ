@@ -309,6 +309,7 @@ namespace DO_AN_LTTQ
             Margin = new Padding(3, 2, 3, 2);
             Name = "start_page";
             StartPosition = FormStartPosition.CenterScreen;
+            Text = "Data Structure Visualizations";
             task_panel.ResumeLayout(false);
             project_panel.ResumeLayout(false);
             project_panel.PerformLayout();

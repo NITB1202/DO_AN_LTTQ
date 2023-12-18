@@ -303,6 +303,7 @@ namespace DO_AN_LTTQ
             Margin = new Padding(3, 2, 3, 2);
             Name = "choose_location";
             StartPosition = FormStartPosition.CenterScreen;
+            Text = "Data Structure Visualizations";
             KeyDown += choose_location_KeyDown;
             task_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();

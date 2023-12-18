@@ -20,7 +20,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Configuration;
-
+using Microsoft.VisualBasic.Logging;
 
 namespace DO_AN_LTTQ
 {
@@ -288,13 +288,13 @@ namespace DO_AN_LTTQ
             {
                 case 0://random input
                     {
-                        if (type == 0 || type == 1)//dang list va tree
+                        if (type != 4 && type != 5)
                             random_input(int.Parse(input.Text));
                         break;
                     }
                 case 1://input tu textbox
                     {
-                        if (type == 0 || type == 1)//dang list va tree
+                        if(type != 4 && type != 5)//dang list va tree
                         {
                             //tach input vao mang
                             string temp = input.Text.Replace("\r\n", " ");
@@ -309,7 +309,7 @@ namespace DO_AN_LTTQ
                     {
                         input_data = File.ReadAllLines(textfile_path);
 
-                        if (type == 0 || type == 1)
+                        if (type != 4 && type != 5)
                         {
                             string temp = null;
                             foreach (string line in input_data)
@@ -721,6 +721,11 @@ namespace DO_AN_LTTQ
             create_draw_range();
             holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
             holder.select_algorithm = int.Parse(info[6]);
+            if(holder.select_algorithm == -1)
+            {
+                draw_range.Invalidate();
+                return;
+            }
             holder.select_sub_algorithm = int.Parse(info[7]);
             holder.enable = holder.GetEnable();
             holder.input = info[8];
@@ -753,6 +758,10 @@ namespace DO_AN_LTTQ
         {
             SaveFileDialog save = new SaveFileDialog();
             save.Filter = "DSV File|*.dsv|PNG File|*.png";
+            string path = @"C:\DataStructureVisualizations";
+            if (!Directory.Exists(path))
+                path = @"C:\";
+            save.InitialDirectory = path;
             if (save.ShowDialog() == DialogResult.OK)
             {
                 if (save.FilterIndex == 1)
@@ -789,7 +798,7 @@ namespace DO_AN_LTTQ
             else
             {
                 save_file(save_path);
-                MessageBox.Show("Saved sucessfully!");
+                MessageBox.Show("Saved sucessfully!","Notification",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
         }
         private void new_file_button_Click(object sender, EventArgs e)

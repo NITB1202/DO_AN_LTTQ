@@ -314,7 +314,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             SolidBrush b = new SolidBrush(color);
 
             e.Graphics.DrawString(nodeText, font_data, b, textX, textY);
-            e.Graphics.DrawString(nodeText, font_data, b, textX, textY);
         }
         private void draw_arrow(PaintEventArgs e, int drawx, int drawy, Color color)
         {
@@ -1765,7 +1764,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public override void UpdateDataStructure()
         {
-            if (update_data)
+            if (update_data||runningAnimation)
                 return;
             switch (select_algorithm)
             {
