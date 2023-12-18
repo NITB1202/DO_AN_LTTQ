@@ -6,6 +6,9 @@ using static System.Windows.Forms.AxHost;
 using System;
 using System.Windows.Forms;
 using DO_AN_LTTQ.Properties;
+using System.IO;
+using System.Collections.Specialized;
+using System.Numerics;
 
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
@@ -136,12 +139,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p2.Location = new Point(8, 10);
             p2.Size = new Size(30, 30);
 
-            // o dien gia tri
-            v3 = new System.Windows.Forms.TextBox();
-            v3.Font = tb_font;
-            v3.Location = new Point(170, 12);
-            v3.Size = new Size(66, 27);
-
             remove_panel = new Panel();
             remove_panel.Controls.Add(l3);
             remove_panel.Controls.Add(v3);
@@ -185,22 +182,32 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             int rectangleHeight = 30 * stack.Count + 10; // Chiều cao của hình chữ nhật
 
             // Tính toán để vẽ stack ở giữa hình chữ nhật
-            int tempX = startX; // Tạo biến tạm cho tọa độ X của stack
-            int tempY = startY; // Tạo biến tạm cho tọa độ Y của stack
+            tempX = startX; // Tạo biến tạm cho tọa độ X của stack
+            tempY = startY; // Tạo biến tạm cho tọa độ Y của stack
 
             // vẽ các cạnh của hcn
             Pen pen = new Pen(Color.Black, 1);
             e.Graphics.DrawLine(pen, startX - 12, startY +40, startX + rectangleWidth, startY +40);
-            e.Graphics.DrawLine(pen, startX -12, startY +40, startX -12, startY - rectangleHeight+ 20);
-            e.Graphics.DrawLine(pen, startX + rectangleWidth, startY +40, startX + rectangleWidth, startY - rectangleHeight+20);
-
+            e.Graphics.DrawLine(pen, startX -12, startY +40, startX -12, startY - rectangleHeight);
+            e.Graphics.DrawLine(pen, startX + rectangleWidth, startY +40, startX + rectangleWidth, startY - rectangleHeight);
             // Vẽ các nút cho mỗi phần tử trong danh sách liên kết
             for (int i = 0; i < stack.Count; i++)
             {
                 draw_node(stack[i], e, tempX, tempY, Color.Black);
                 // Di chuyển đến vị trí mới để vẽ nút tiếp theo
-                tempY -=30;
+                tempY -=35;
             }
+
+            if (enable == -1 || frame == 0) //khong chay thuat toan ve
+            {
+                if (count > 0)
+                {
+                    int headX = startX - 5;
+                    if (count >= 1)
+                        draw_label(e, headX, tempY, tempX - 100, tempY+40);
+                }
+            }
+           
 
         }
         private void draw_node(string data, PaintEventArgs e, int tempX, int tempY, Color color)
@@ -216,6 +223,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             float textY = tempY + (30 - textSize.Height) / 2;
             SolidBrush b = new SolidBrush(color);          
             e.Graphics.DrawString(data, font_data, b, textX, textY);
+        }
+        private void draw_label(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
+        {
+            e.Graphics.DrawString("top_index", font_label, Brushes.Red, tailX, tailY);
         }
         public void code_push()
         {
@@ -240,54 +251,35 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             {
                 case 1:
                     {
-                        if (count == 0)
-                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
-                        else
-                        {
-                            draw_node(input, e, tempX, tempY-stack.Count*30, Color.MediumSeaGreen);
-                        }
+                        draw_label(e, startX-5, tempY, tempX - 100, tempY+40);
                         HighlightCurrentLine(1);
                         break;
                     }
                 case 2:
                     {
-                        if (count == 0)
-                            draw_node(input, e, startX, tempY- stack.Count*30, Color.MediumSeaGreen);
-                        else
-                        {
-                           
-                            draw_node(input, e, tempX, tempY - stack.Count*30, Color.MediumSeaGreen);
-                        }
+                        draw_label(e, startX - 5, tempY, tempX-100, tempY+5);
                         HighlightCurrentLine(2);
                         break;
                     }
                 case 3:
                     {
                         if (count == 0)
-                            draw_node(input, e, startX, tempY-stack.Count*30, Color.MediumSeaGreen);
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         else
                         {
 
-                            draw_node(input, e, tempX, tempY - stack.Count*30, Color.MediumSeaGreen);
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         }
                         HighlightCurrentLine(3);
-                        break;
-                    }
-                case 4:
-                    {
-                        if (count == 0)
-                            draw_node(input, e, startX, tempY - stack.Count * 30, Color.MediumSeaGreen);
-                        else
-                        {
-
-                            draw_node(input, e, tempX, tempY - stack.Count*30, Color.MediumSeaGreen);
-                        }
-                        HighlightCurrentLine(4);
+                        draw_label(e, startX - 5, tempY, tempX-100, tempY+5);
+                        Pen pen = new Pen(Color.Black, 1);
+                        e.Graphics.DrawLine(pen, startX -12, startY +40, startX -12, startY - (30 * stack.Count + 10) -30);
+                        e.Graphics.DrawLine(pen, startX + rectangleWidth, startY +40, startX + rectangleWidth, startY - (30 * stack.Count + 10)-30);
                         break;
                     }
             }
         }
-      
+
         public void pop_animation(object sender, PaintEventArgs e)
         {
             if (enable != 2)
@@ -295,17 +287,47 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
             step_trb.Value = frame;
             TurnOffHighlight();
-
-            // Kiểm tra nếu stack đang rỗng thì không có gì để loại bỏ
-            if (count > 0)
+            if (count == 0)
             {
-                // Vẽ stack sau khi loại bỏ phần tử ở đỉnh
-                draw_node("", e, tempX, tempY - (stack.Count - 1) * 30, Color.White); // Xóa phần tử ở đỉnh stack
-                step_trb.Value = 2;
-            }
+                switch (frame)
+                {
+                    case 1:
+                        HighlightCurrentLine(0);
+                        
 
-            // Cài đặt các bước và highlight cho animation
-            HighlightCurrentLine(2);
+                        break;
+                    case 2:
+                        HighlightCurrentLine(1);
+                        break;
+                }
+                return;
+            }
+            if (count >= 1)
+            {
+                switch (frame)
+                {
+                    case 1:
+                        {
+                            HighlightCurrentLine(1);
+                            draw_label(e, startX - 5, tempY , tempX-100, tempY +40);
+                            Pen pen = new Pen(Color.White, 1);
+                            e.Graphics.DrawLine(pen, startX -12, tempY+65, startX -12, startY - (30 * stack.Count + 10)-30);
+                            e.Graphics.DrawLine(pen, startX + rectangleWidth, tempY+65, startX + rectangleWidth, startY -(30 * stack.Count + 10)-30);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HighlightCurrentLine(2);
+                            draw_node(stack[count-1], e, startX, tempY  + 35, Color.White);
+                            Pen pen = new Pen(Color.White, 1);
+                            e.Graphics.DrawLine(pen, startX -12, tempY+65, startX -12, startY - (30 * stack.Count + 10)-30 );
+                            e.Graphics.DrawLine(pen, startX + rectangleWidth, tempY+65, startX + rectangleWidth, startY -(30 * stack.Count + 10)-30);
+                            draw_label(e, startX - 5, tempY, tempX-100, tempY +75);
+                            break;
+                        }
+                }
+                return;
+            }
         }
 
 
@@ -316,6 +338,19 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
         public override int GetEnable()
         {
+            switch (select_algorithm)
+            {
+                case 1:
+                    {
+                        return 1;
+                    }
+                case 2:
+                    {
+                        return 2;
+                        break;
+                    }
+                
+            }
             return -1;
         }
 
@@ -347,27 +382,29 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         //luu thong tin de xu ly chay thuat toan
                         input = v1.Text;
                         select_algorithm = 1;
-                        updateStep(2);
+                        updateStep(3);
                         code_push();
-                        select_sub_algorithm = 0;
                         enable = 1; //mo co thuat toan push
                         break;
                     }
                 case 2: // thuat toan pop
                     {
-                        select_sub_algorithm = 1;
-                        if (count!=0)
-                        {
-                            if (count == 1)
-                                updateStep(4);
-                            else
-                                updateStep(7 + 2 * (count - 2));
-                        }
+                      select_algorithm = 2;
+                        if (count == 0)
+                            updateStep(2);
+                        updateStep(2);
                         code_pop();
                         enable = 2;
                         break;
                     }
             }
+            TurnOffHighlight();
+            update_data = false;
+            error = false;
+            draw_range.Invalidate();
+            frame = 0;
+            timer.Start();
+            play_button.BackgroundImage = pause_image;
         }          
 
 
@@ -386,42 +423,14 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             {
                 case 1:
                     {
-                        switch (select_sub_algorithm)
-                        {
-                            case 0:
-                                {
-                                    stack.Insert(0, input);
-                                    if (count>1)
-                                        startY -= 30;
-                                    break;
-                                }
-                            case 1:
-                                {
-                                    stack.Add(input);
-                                    break;
-                                }
-                            
-                        }
+                        stack.Add(input);
                         break;
+
                     }
+         
                 case 2:
                     {
-                        switch (select_sub_algorithm)
-                        {
-                            case 0:
-                                {
-                                    stack.RemoveAt(0);
-                                    if (count>1)
-                                        startY += 30;
-                                    break;
-                                }
-                            case 1:
-                                {
-                                    stack.RemoveAt(count-1);
-                                    break;
-                                }
-                            
-                        }
+                        stack.RemoveAt(count-1); 
                         break;
                     }
             }
@@ -439,12 +448,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
                 e.Handled = true;
         }
-       
 
-        public void search_animation(object sender, PaintEventArgs e)
-        {
-            //MessageBox.Show("chay search animation");
-        }
         public override void SaveData()
         {
             save_data = stack;
