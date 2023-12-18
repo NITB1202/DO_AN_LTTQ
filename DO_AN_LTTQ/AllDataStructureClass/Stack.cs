@@ -10,6 +10,7 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Numerics;
 
+
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
     internal class Stack : DataStructure
@@ -207,7 +208,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         draw_label(e, headX, tempY, tempX - 100, tempY+40);
                 }
             }
-           
+
 
         }
         private void draw_node(string data, PaintEventArgs e, int tempX, int tempY, Color color)
@@ -227,6 +228,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         private void draw_label(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
         {
             e.Graphics.DrawString("top_index", font_label, Brushes.Red, tailX, tailY);
+        }
+        private void draw_label2(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
+        {
+            e.Graphics.DrawString("top_index", font_label, Brushes.White, tailX, tailY);
         }
         public void code_push()
         {
@@ -286,15 +291,16 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             TurnOffHighlight();
             if (count == 0)
             {
+                enable=-1;
                 switch (frame)
                 {
                     case 1:
                         HighlightCurrentLine(0);
                         
-
                         break;
                     case 2:
                         HighlightCurrentLine(1);
+                       
                         break;
                 }
                 return;
@@ -314,8 +320,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                             HighlightCurrentLine(2);
                             draw_node(stack[count-1], e, startX, tempY  + 35, Color.White);
                             Pen pen = new Pen(Color.White, 1);
-                            e.Graphics.DrawLine(pen, startX -12, tempY+65, startX -12, startY - (30 * stack.Count + 10)-30 );
-                            e.Graphics.DrawLine(pen, startX + rectangleWidth, tempY+65, startX + rectangleWidth, startY -(30 * stack.Count + 10)-30);
+                            e.Graphics.DrawLine(pen, startX -12, tempY+10, startX -12, startY - (30 * stack.Count + 10)-30 );
+                            e.Graphics.DrawLine(pen, startX + rectangleWidth, tempY+10, startX + rectangleWidth, startY -(30 * stack.Count + 10)-30);
                             draw_label(e, startX - 5, tempY, tempX-100, tempY +75);
                             break;
                         }
@@ -335,7 +341,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                         return 2;
                     }
-                
             }
             return -1;
         }
@@ -398,7 +403,11 @@ namespace DO_AN_LTTQ.AllDataStructureClass
          
                 case 2:
                     {
-                        stack.RemoveAt(count-1); 
+                        if (count==0)
+                            return;
+                        else
+                            stack.RemoveAt(count-1);
+
                         break;
                     }
             }
@@ -416,6 +425,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
                 e.Handled = true;
         }
+
         public override void SaveData()
         {
             save_data = stack;
@@ -426,5 +436,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             startX = (draw_range.Width - image_length) / 2;
             startY = draw_range.Height / 2;
         }
+
+
     }
 }

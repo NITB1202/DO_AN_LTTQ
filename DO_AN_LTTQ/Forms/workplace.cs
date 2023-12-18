@@ -31,6 +31,10 @@ namespace DO_AN_LTTQ
         private Label path_lb;
         private TextBox input;
         private Label l;
+        //for b-tree
+        ComboBox degree_combobox;
+        Label degree_label;
+
         public DoubleBufferedPanel st; //settings panel
         public DoubleBufferedPanel al; //algorithm panel
         public DoubleBufferedPanel draw_range;
@@ -38,8 +42,8 @@ namespace DO_AN_LTTQ
         public string save_path;
         public string textfile_path;
         public int type;
-        //0=singly_linkedlist
         DataStructure holder;
+
 
         Image play_image = Properties.Resources.play_32px;
         Image pause_image = Properties.Resources.pause_32px;
@@ -96,6 +100,12 @@ namespace DO_AN_LTTQ
                     {
                         remove_all_input_type_componet();
 
+                        if (type == 4)
+                        {
+                            degree_label.Location = new Point(degree_label.Location.X, 260);
+                            degree_combobox.Location = new Point(degree_combobox.Location.X, 260);
+                        }
+
                         l = new Label();
                         l.Text = "Total node:";
                         l.Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point);
@@ -120,19 +130,30 @@ namespace DO_AN_LTTQ
                     {
                         remove_all_input_type_componet();
 
+                        if (type == 4)
+                        {
+                            degree_label.Location = new Point(degree_label.Location.X, 228);
+                            degree_combobox.Location = new Point(degree_combobox.Location.X, 227);
+                        }
                         input = new TextBox();
                         input.Font = new Font("Segeo UI", 10);
                         input.Height = 150;
                         input.Width = 255;
                         input.Multiline = true;
                         input.ScrollBars = ScrollBars.Vertical;
-                        input.Location = new Point(40, 250);
+                        input.Location = new Point(40, 270);
                         st.Controls.Add(input);
                         break;
                     }
                 case 2:
                     {
                         remove_all_input_type_componet();
+
+                        if (type == 4)
+                        {
+                            degree_label.Location = new Point(degree_label.Location.X, 260);
+                            degree_combobox.Location = new Point(degree_combobox.Location.X, 260);
+                        }
 
                         more_bt = new RJButton();
                         more_bt.BackColor = Color.RoyalBlue;
@@ -159,7 +180,7 @@ namespace DO_AN_LTTQ
                         st.Controls.Add(path_tb);
 
                         path_lb = new Label();
-                        path_lb.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                        path_lb.Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point);
                         path_lb.ForeColor = Color.Snow;
                         path_lb.Location = new Point(13, 228);
                         path_lb.Text = "Path:";
@@ -288,13 +309,13 @@ namespace DO_AN_LTTQ
             {
                 case 0://random input
                     {
-                        if (type != 4 && type != 5)
+                        if (type != 5)
                             random_input(int.Parse(input.Text));
                         break;
                     }
                 case 1://input tu textbox
                     {
-                        if(type != 4 && type != 5)//dang list va tree
+                        if(type != 5)//dang list va tree
                         {
                             //tach input vao mang
                             string temp = input.Text.Replace("\r\n", " ");
@@ -309,7 +330,7 @@ namespace DO_AN_LTTQ
                     {
                         input_data = File.ReadAllLines(textfile_path);
 
-                        if (type != 4 && type != 5)
+                        if (type != 5)
                         {
                             string temp = null;
                             foreach (string line in input_data)
@@ -373,7 +394,7 @@ namespace DO_AN_LTTQ
                     }
                 case 4:
                     {
-                        //holder = new BTreeDraw(input_data, degree);
+                        holder = new BTreeDraw(input_data, int.Parse(degree_combobox.SelectedText));
                         break;
                     }
                 case 5:
@@ -398,19 +419,29 @@ namespace DO_AN_LTTQ
             draw_range.AutoScroll = true;
             Controls.Add(draw_range);
             draw_range.Paint += draw_range_Paint;
-            draw_range.Resize += draw_range_resize;
             draw_range.LocationChanged += draw_range_LocationChanged;
+            draw_range.Resize += draw_range_resize;
             ControlMoverOrResizer.Init(draw_range);
         }
-        private void draw_range_LocationChanged(object sender, EventArgs e)
+
+        private void draw_range_LocationChanged(object? sender, EventArgs e)
         {
-            holder.UpdateDataStructure();
+            if (holder.frame > holder.total_frame)
+            {
+                holder.frame = holder.total_frame;
+                holder.enable = holder.GetEnable();
+            }
         }
+
         private void draw_range_resize(object sender, EventArgs e)
         {
             height_tb.Text = draw_range.Height.ToString();
             width_tb.Text = draw_range.Width.ToString();
-            holder.UpdateDataStructure();
+            if (holder.frame > holder.total_frame)
+            {
+                holder.frame = holder.total_frame;
+                holder.enable = holder.GetEnable();
+            }
             holder.UpdateLocation();
             draw_range.Invalidate();
         }
@@ -847,6 +878,29 @@ namespace DO_AN_LTTQ
         }
         private void btreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            degree_combobox = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 10),
+                Height = 25,
+                Width = 58,
+                Location = new Point(113, 260)
+            };
+            degree_combobox.Items.Add("3");
+            degree_combobox.Items.Add("4");
+            degree_combobox.Items.Add("5");
+            degree_combobox.KeyPress += check_tb_KeyPress;
+            st.Controls.Add(degree_combobox);
+
+
+            degree_label = new Label
+            {
+                Text = "Degree:",
+                Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point),
+                ForeColor = Color.White,
+                Location = new Point(12, 260)
+            };
+            st.Controls.Add(degree_label);
             type = 4;
             update_status();
         }

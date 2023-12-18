@@ -91,6 +91,10 @@ namespace DO_AN_LTTQ
             if (Directory.Exists(path))
             {
                 DirectoryInfo direc_info = new DirectoryInfo(path);
+                FileInfo[] file_main =direc_info.GetFiles();
+                foreach (FileInfo f in file_main)
+                    if (Path.GetExtension(f.Name) == ".dsv")
+                        file_list.Add(f);
                 DirectoryInfo[] child_direc = direc_info.GetDirectories();
                 foreach (DirectoryInfo direc in child_direc)
                 {

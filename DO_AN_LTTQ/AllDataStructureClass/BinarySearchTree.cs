@@ -47,7 +47,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             {
                 current.Left = InsertRecursive(current.Left, data);
             }
-            else if (data.CompareTo(current.Data) > 0)
+            else if (data.CompareTo(current.Data) >= 0)
             {
                 current.Right = InsertRecursive(current.Right, data);
             }
@@ -252,7 +252,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             }
         }
 
-        private int Height(Node node)
+        public int Height(Node node)
         {
             if (node == null)
             {
@@ -266,6 +266,18 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 return Math.Max(leftHeight, rightHeight) + 1;
             }
         }
+    }
+    public class TreeConfiguration
+    {
+        public TreeConfiguration(int circleDiameter, int arrowAnchorSize)
+        {
+            CircleDiameter = circleDiameter;
+            ArrowAnchorSize = arrowAnchorSize;
+        }
+
+        public int CircleDiameter { get; private set; }
+
+        public int ArrowAnchorSize { get; private set; }
     }
 }
 

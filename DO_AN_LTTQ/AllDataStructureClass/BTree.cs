@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -6,7 +6,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 {
     public class BTree
     {
-        public  int degree; // Bậc của B-tree
+        public int degree; // Bậc của B-tree
         public BTreeNode root; // Nút gốc của B-tree
 
         public BTree(int degree)
@@ -105,7 +105,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
             parentNode.Children.Insert(index + 1, newNode);
         }
-        
+
         public class BTreeNode
         {
             public List<string> Keys { get; set; }
@@ -121,7 +121,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
             public bool IsFull()
             {
-                return Keys.Count == 2 *3 - 1;
+                return Keys.Count == 2 * 3 - 1;
                 //return Keys.Count == 2* degree -1;
             }
 
@@ -132,4 +132,3 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
     }
 }
-*/

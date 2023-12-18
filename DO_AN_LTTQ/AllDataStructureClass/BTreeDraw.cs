@@ -23,7 +23,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
     }
     internal class BTreeDraw : DataStructure
     {
-        private int t; // Degree of the B-Tree
+        private int _degree; // Degree of the B-Tree
         private BTreeNode root;
 
         private const int BoxWidth = 100; // Adjusted box width
@@ -61,16 +61,13 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
         public BTreeDraw(string[] input_info, int degree)
         {
-            this.t = degree;
+            this._degree = degree;
             InitializeTree(input_info,degree);
         }
         private void InitializeTree(string[] input_info,int degree)
         {
-            // Assuming that input_info has been pre-sorted and pre-arranged in a way that directly represents the structure of the B-tree
             root = new BTreeNode(degree);
 
-            // This is a very simplistic way to initialize a B-tree structure
-            // It assumes that input_info is provided in a specific order
             int index = 0; // Start from the first element
             Queue<BTreeNode> queue = new Queue<BTreeNode>();
             queue.Enqueue(root);
@@ -80,17 +77,13 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 BTreeNode node = queue.Dequeue();
                 for (int i = 0; i < node.Values.Length && index < input_info.Length; i++, index++)
                 {
-                    // Parsing the integer from string and assigning to the Values array
                     node.Values[i] = int.Parse(input_info[index]);
                 }
 
-                // Assuming the last element in the node.Values is not a valid key and is used to indicate if the node has children
                 if (node.Values[node.Values.Length - 1] != 0)
                 {
-                    // Clear the last value which is used as a marker for children presence
                     node.Values[node.Values.Length - 1] = 0;
 
-                    // Create child nodes
                     for (int i = 0; i < node.Children.Length; i++)
                     {
                         node.Children[i] = new BTreeNode(degree);
@@ -109,17 +102,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 DrawNode(graphics, root, startX, startY, 100, 0); // startX and startY should be the starting point to draw
             }
         }
-        private void DrawNode(Graphics graphics, BTreeNode node, float x, float y, float xOffset, int depth)
+        private void DrawNode(Graphics graphics, BTreeNode node, float x, float y, float parentWidth, int depth)
         {
             if (node == null)
                 return;
-
-            // Calculate the total width of the tree at this node level
-            int nodeCount = (int)Math.Pow(2, depth);
-            float totalWidth = nodeCount * (BoxWidth + HorizontalSpacing);
-
-            // Adjust the x-offset based on the total width
-            xOffset = totalWidth / nodeCount;
 
             // Draw the node box
             RectangleF rect = new RectangleF(x - BoxWidth / 2, y, BoxWidth, BoxHeight);
@@ -133,11 +119,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 LineAlignment = StringAlignment.Center
             };
 
-            // Calculate where to draw the strings
             float step = BoxWidth / (node.Values.Length + 1);
-            float stringX = x - (BoxWidth / 2) + (step / 2);
-
-            // Draw each value in the node
+            float stringX = x - (BoxWidth / 2) + step;
             foreach (int value in node.Values)
             {
                 if (value != 0) // Assuming 0 is not a valid value and indicates an empty slot
@@ -151,23 +134,25 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             float childY = y + BoxHeight + VerticalSpacing;
             if (node.Children != null)
             {
-                float childStep = xOffset;
-
-                // Starting x position for the first child
-                float childX = x - (xOffset * (node.Children.Length - 1)) / 2;
+                // Compute the total width of all children
+                float childrenWidth = parentWidth - BoxWidth;
+                float childXOffset = childrenWidth / node.Children.Length;
+                float childX = x - childrenWidth / 2 + childXOffset / 2;
 
                 for (int i = 0; i < node.Children.Length; i++)
                 {
                     if (node.Children[i] != null)
                     {
+                        float childPosX = childX + childXOffset * i;
                         // Draw line to child node
-                        graphics.DrawLine(Pens.Black, x, y + BoxHeight, childX + (i * childStep), childY);
+                        graphics.DrawLine(Pens.Black, x, y + BoxHeight, childPosX, childY);
                         // Draw the child node
-                        DrawNode(graphics, node.Children[i], childX + (i * childStep), childY, xOffset / 2, depth + 1);
+                        DrawNode(graphics, node.Children[i], childPosX, childY, childXOffset, depth + 1);
                     }
                 }
             }
         }
+
         private void draw_label_root(PaintEventArgs e, int headX, int headY)
         {
             e.Graphics.DrawString("Root", font_label, Brushes.Red, headX + 75, headY);

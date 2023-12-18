@@ -59,7 +59,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         private void IntializedUI()
         {
 
-
             position1_textbox = new TextBox();
             position1_textbox.Font = tb_font;
             position1_textbox.MaxLength = 3;
@@ -73,8 +72,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             position2_textbox.Size = new Size(66, 27);
             position2_textbox.Location = new Point(295, 12);
             position2_textbox.KeyPress += NumberOnly;
-
-            MessageBox.Show("Khởi tạo rồi");
         }
 
         public override void GetInformation(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb, ComboBox spd)
@@ -115,15 +112,16 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 Location = new Point(170, 12),
                 Size = new Size(66, 27),
             };
-            Panel insert_panel = new Panel
+            this.insert_panel = new Panel
             {
                 BackColor = Color.Transparent,
                 Location = new Point(3, 3),
                 Size = new Size(interact_panel.Width - 8, 50),
             };
-            insert_panel.Controls.AddRange(new Control[] { insert_label, pic_diamond_pos_insert, insert_textbox });
+            this.insert_panel.Controls.AddRange(new Control[] { insert_label, pic_diamond_pos_insert, insert_textbox });
             interact_panel.Controls.Add(insert_panel);
-            insert_panel.Click += new EventHandler(ChooseOption);
+            this.insert_panel.Click += new EventHandler(ChooseOption);
+
 
 
             //remove pannel
@@ -151,14 +149,14 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 Location = new Point(170, 12),
                 Size = new Size(66, 27),
             };
-            Panel remove_panel = new Panel
+            this.remove_panel = new Panel
             {
                 Location = new Point(3, 50),
                 Size = new Size(interact_panel.Width - 8, 50)
             };
-            remove_panel.Controls.AddRange(new Control[] { remove_label, pic_diamond_pos_remove, remove_textbox });
+            this.remove_panel.Controls.AddRange(new Control[] { remove_label, pic_diamond_pos_remove, remove_textbox });
             interact_panel.Controls.Add(remove_panel);
-            remove_panel.Click += new EventHandler(ChooseOption);
+            this.remove_panel.Click += new EventHandler(ChooseOption);
 
 
             //search panel
@@ -233,23 +231,23 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
         private void DrawNode(BinarySearchTree<string>.Node node, PaintEventArgs e, double x, double y, double xOffset, int depth, Color color)
         {
-            double circleRadius = 20.0; // Radius of the circle representing the node
-            int verticalGap = 50 + (depth * 20); // Increase vertical gap with depth to prevent overlap
+
+            double circleRadius = 20.0; 
+            int verticalGap = 50 + (depth * 20); 
 
             if (node != null)
             {
-                // Draw the current node
+            
                 Pen pen = new Pen(color, 2);
                 e.Graphics.DrawEllipse(pen, (float)(x - circleRadius), (float)(y - circleRadius), (float)(circleRadius * 2), (float)(circleRadius * 2));
 
-                // Display the data of the node inside the circle
+              
                 SizeF textSize = e.Graphics.MeasureString(node.Data.ToString(), font_data);
                 float textX = (float)(x - (textSize.Width / 2));
                 float textY = (float)(y - (textSize.Height / 2));
                 SolidBrush brush = new SolidBrush(color);
                 e.Graphics.DrawString(node.Data.ToString(), font_data, brush, textX, textY);
 
-                // Calculate new offset for children
                 double newOffset = xOffset / 2;
 
                 // Draw the left child node
@@ -267,10 +265,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     float endX = (float)(leftX - circleRadius * Math.Cos(angleToChild));
                     float endY = (float)(leftY - circleRadius * Math.Sin(angleToChild));
 
-                    // Draw the line from the edge of the parent node to the edge of the child node
                     e.Graphics.DrawLine(pen, startX, startY, endX, endY);
 
-                    // Continue drawing the subtree
                     DrawNode(node.Left, e, leftX, leftY, newOffset, depth + 1, color);
                 }
 
@@ -343,7 +339,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             code_tb.AppendText("Node* insert(Node* root, int value) {\r\n    if (root == nullptr) {\r\n        return new Node(value);\r\n    }\r\n\r\n    if (value < root->data) {\r\n        root->left = insert(root->left, value);\r\n    } else if (value > root->data) {\r\n        root->right = insert(root->right, value);\r\n    }\r\n\r\n    return root;\r\n}\r\n");
             SetIndent();
         }
-
         public void code_search()
         {
             code_tb.AppendText("Node* search(Node* root, int value) {\r\n    if (root == nullptr || root->data == value) {\r\n        return root;\r\n    }\r\n\r\n    if (value < root->data) {\r\n        return search(root->left, value);\r\n    } else {\r\n        return search(root->right, value);\r\n    }\r\n}\r\n");
@@ -359,7 +354,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (runningAnimation)
                 return;
 
-            if (input != null)
+            if (select_algorithm != -1 && !error)
                 UpdateDataStructure();
 
             switch (select_op)
@@ -376,7 +371,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         select_algorithm = 1;
 
                         updateStep(4);
-                        select_sub_algorithm = 0;
+                        select_sub_algorithm =1;
+                        code_insert();
                         enable = 1;
                         break;
                     }
@@ -386,7 +382,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         if (total_elements == 0)
                             updateStep(2);
 
-                        select_sub_algorithm = 0;
+                        select_sub_algorithm = 2;
                         if (total_elements != 0)
                         {
                             if (total_elements == 1)
@@ -408,25 +404,24 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
                         input = search_textbox.Text;
                         select_algorithm = 3;
-                        select_sub_algorithm = -1;
+                        select_sub_algorithm = 3;
 
                         updateStep(10);
 
                         code_search();
-                        enable = 7;
+                        enable = 3;
                         break;
                     }
             }
 
             TurnOffHighlight();
             update_data = false;
+            error = false;
             draw_range.Invalidate();
             frame = 0;
             timer.Start();
             play_button.BackgroundImage = pause_image;
         }
-
-
         public override void UpdateDataStructure()
         {
             if (update_data)
@@ -463,36 +458,99 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
                 e.Handled = true;
         }
-
         public void insert_animation(object sender, PaintEventArgs e)
         {
             if (enable != 1)
                 return;
             step_trb.Value = frame;
             TurnOffHighlight();
-            if (frame == 1)
+            /*  if (frame == 1)
+              {
+                  HighlightCurrentLine(1);
+                  if (total_elements != 0)
+                  {
+                      if (total_elements == 1)
+                      {
+                          draw_label_root(e, this.draw_range.Width / 2, 50);
+                          e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 100);
+                      }
+                      else
+                      {
+                          draw_label_root(e, this.draw_range.Width / 2, 50); 
+                          e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                      }
+                      Draw(e);
+                  }
+                  return;
+              }*/
+/*            switch (frame)
             {
-                HighlightCurrentLine(1);
-                if (total_elements != 0)
-                {
-                    if (total_elements == 1)
+                case 1:
                     {
-                        draw_label_root(e, this.draw_range.Width / 2, 50);
-                        e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 100);
+                        TurnOffHighlight();
+                        if (total_elements == 0)
+                        {
+                            DrawNode(input, e, startX, tempY, Color.MediumSeaGreen);
+                        }
+                        else
+                        {
+                            DrawUnchangeableLabel(e);
+                            draw_node(input, e, startX - 80, tempY, Color.MediumSeaGreen);
+                        }
+                        step_trb.Value = 1;
+                        HighlightCurrentLine(1);
+                        break;
                     }
-                    else
+                case 2:
                     {
-                        draw_label_root(e, this.draw_range.Width / 2, 50); 
-                        e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
+                        if (count == 0)
+                            draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
+                        else
+                        {
+                            DrawUnchangeableLabel(e);
+                            draw_node(input, e, startX - 80, tempY, Color.MediumSeaGreen);
+                        }
+                        HighlightCurrentLine(2);
+                        break;
                     }
-                    Draw(e);
-                }
-                return;
-            }
+                case 3:
+                    {
+                        if (count == 0)
+                        {
+                            draw_node(input, e, startX, tempY, Color.Black);
+                            e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, tempY + 50);
+                            HighlightCurrentLine(3);
+                        }
+                        else
+                        {
+                            DrawUnchangeableLabel(e);
+                            draw_node(input, e, startX - 80, tempY, Color.Black);
+                            draw_arrow(e, startX - 80, tempY, Color.MediumSeaGreen);
+                            HighlightCurrentLine(7);
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        if (count == 0)
+                        {
+                            draw_node(input, e, startX, tempY, Color.Black);
+                            draw_label(e, startX - 5, tempY + 50, startX - 5, tempY + 75);
+                            HighlightCurrentLine(4);
+                        }
+                        else
+                        {
+                            draw_node(input, e, startX - 80, tempY, Color.Black);
+                            draw_arrow(e, startX - 80, tempY, Color.Black);
+                            draw_label(e, startX - 85, tempY + 50, tempX - 80, tempY + 50);
+                            HighlightCurrentLine(8);
+                        }
+                        break;
+                    }
+            }*/
         }
-
         public void search_animation(object sender, PaintEventArgs e)
-        {
+        /*{
             if (enable != 3)
                 return;
             step_trb.Value = frame;
@@ -504,13 +562,12 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 {
                     if (total_elements == 1)
                     {
-                        draw_label_root(e, this.draw_range.Width / 2, 50);
-                        e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 100);
+                        draw_label_root(e, draw_range.Width / 2 - 100, 50);
+                        e.Graphics.DrawString("Current", font_label, Brushes.Red, this.draw_range.Width / 2-25, 25);
                     }
                     else
                     {
                         draw_label_root(e, this.draw_range.Width / 2, 50);
-                        e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
                     }
 
                     DrawNode(_tree.root, e, startX, startY, this.draw_range.Width / 4, 0,Color.RoyalBlue);
@@ -659,6 +716,56 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     }
                 }
             }
+        }*/
+        {
+            if (enable != 3)
+                return;
+
+            step_trb.Value = frame;
+            TurnOffHighlight();
+
+            // Define common variables for easier adjustments
+            int labelX = draw_range.Width / 2;
+            int labelY = 50;
+            int currentLabelOffsetX = 80;
+            int currentLabelY = startY + 50;
+            Color nodeColor = Color.RoyalBlue;
+
+            if (total_elements == 0)
+            {
+                HighlightCurrentLine(frame == 1 ? 1 : frame >= total_frame - 2 ? frame - total_frame + 6 : frame % 2 + 2);
+                return;
+            }
+
+            // Draw root label and tree root node
+            draw_label_root(e, labelX-75, labelY);
+            DrawNode(_tree.root, e, startX, startY, draw_range.Width / 4, 0, nodeColor);
+
+            // Frame-specific operations
+            if (frame == 1 || frame >= total_frame - 2)
+            {
+                int line = frame == 1 ? 1 : total_frame - frame + 1;
+                HighlightCurrentLine(line);
+                HandleFinalFrames(e, frame, total_frame, currentLabelOffsetX, currentLabelY);
+            }
+            else if (frame >= 2 && frame < total_frame - 2)
+            {
+                int pos = frame % 2;
+                int loop = frame / 2;
+
+                HighlightCurrentLine(pos + 2);
+                DrawCurrentLabel(e, loop, currentLabelOffsetX, currentLabelY);
+            }
+        }
+
+        private void DrawCurrentLabel(PaintEventArgs e, int loop, int offsetX, int startY)
+        {
+            // Implement logic for drawing "Current" label based on loop and offsets
+        }
+
+        private void HandleFinalFrames(PaintEventArgs e, int frame, int total_frame, int offsetX, int startY)
+        {
+            // Implement logic for handling the final frames
         }
         private void remove_value_animation(object sender, PaintEventArgs e)
         {
