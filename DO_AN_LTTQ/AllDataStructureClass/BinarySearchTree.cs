@@ -51,7 +51,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             {
                 current.Right = InsertRecursive(current.Right, data);
             }
-
             return current;
         }
 

@@ -205,7 +205,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             interact_panel.Controls.Add(insert_panel);
             insert_panel.Click += new EventHandler(ChooseOption);
 
-
             //remove pannel
             Label remove_label = new Label
             {

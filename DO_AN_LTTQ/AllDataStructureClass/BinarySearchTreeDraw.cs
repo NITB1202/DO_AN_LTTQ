@@ -233,19 +233,17 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         {
 
             double circleRadius = 20.0; 
-            int verticalGap = 50 + (depth * 20); 
+            int verticalGap = 50 + (depth * 20);
+            Pen pen = new Pen(color, 2);
+            SolidBrush brush = new SolidBrush(color);
 
             if (node != null)
             {
-            
-                Pen pen = new Pen(color, 2);
                 e.Graphics.DrawEllipse(pen, (float)(x - circleRadius), (float)(y - circleRadius), (float)(circleRadius * 2), (float)(circleRadius * 2));
-
-              
                 SizeF textSize = e.Graphics.MeasureString(node.Data.ToString(), font_data);
                 float textX = (float)(x - (textSize.Width / 2));
                 float textY = (float)(y - (textSize.Height / 2));
-                SolidBrush brush = new SolidBrush(color);
+
                 e.Graphics.DrawString(node.Data.ToString(), font_data, brush, textX, textY);
 
                 double newOffset = xOffset / 2;
