@@ -72,6 +72,7 @@ namespace DO_AN_LTTQ
             workplace wp = new workplace();
             wp.update_label(project_name_bar.Text);
             wp.save_path = file_path;
+            this.Hide();
             wp.ShowDialog();
             spage.Close();
         }
@@ -110,7 +111,7 @@ namespace DO_AN_LTTQ
                 errorProvider1.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
                 //set loi
-                if (Directory.Exists(path))
+                if (str.Length!=0 && Directory.Exists(path))
                     errorProvider1.SetError(project_name_bar, "The project already exists");
                 else
                     errorProvider1.SetError(project_name_bar, "Invalid or empty project name");

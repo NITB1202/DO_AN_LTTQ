@@ -86,6 +86,8 @@ namespace DO_AN_LTTQ
         }
         private void remove_all_input_type_componet()
         {
+            st.Controls.Remove(degree_label);
+            st.Controls.Remove(degree_combobox);
             st.Controls.Remove(input);
             st.Controls.Remove(l);
             st.Controls.Remove(more_bt);
@@ -99,12 +101,6 @@ namespace DO_AN_LTTQ
                 case 0:
                     {
                         remove_all_input_type_componet();
-
-                        if (type == 4)
-                        {
-                            degree_label.Location = new Point(degree_label.Location.X, 260);
-                            degree_combobox.Location = new Point(degree_combobox.Location.X, 260);
-                        }
 
                         l = new Label();
                         l.Text = "Total node:";
@@ -124,17 +120,15 @@ namespace DO_AN_LTTQ
 
                         input.KeyPress += new KeyPressEventHandler(check_tb_KeyPress);//chi cho phep nhap so
 
+                        if (type == 4)
+                            create_degree_cbb();
+
                         break;
                     }
                 case 1:
                     {
                         remove_all_input_type_componet();
 
-                        if (type == 4)
-                        {
-                            degree_label.Location = new Point(degree_label.Location.X, 228);
-                            degree_combobox.Location = new Point(degree_combobox.Location.X, 227);
-                        }
                         input = new TextBox();
                         input.Font = new Font("Segeo UI", 10);
                         input.Height = 150;
@@ -143,17 +137,15 @@ namespace DO_AN_LTTQ
                         input.ScrollBars = ScrollBars.Vertical;
                         input.Location = new Point(40, 270);
                         st.Controls.Add(input);
+
+                        if (type == 4)
+                            create_degree_cbb();
+
                         break;
                     }
                 case 2:
                     {
                         remove_all_input_type_componet();
-
-                        if (type == 4)
-                        {
-                            degree_label.Location = new Point(degree_label.Location.X, 260);
-                            degree_combobox.Location = new Point(degree_combobox.Location.X, 260);
-                        }
 
                         more_bt = new RJButton();
                         more_bt.BackColor = Color.RoyalBlue;
@@ -195,6 +187,10 @@ namespace DO_AN_LTTQ
                             textfile_path = open.FileName;
                             path_tb.Text = open.FileName;
                         }
+
+                        if (type == 4)
+                            create_degree_cbb();
+
                         break;
                     }
             }
@@ -394,7 +390,7 @@ namespace DO_AN_LTTQ
                     }
                 case 4:
                     {
-                        holder = new BTreeDraw(input_data, int.Parse(degree_combobox.SelectedText));
+                        holder = new BTreeDraw(input_data, int.Parse(degree_combobox.SelectedItem.ToString()));
                         break;
                     }
                 case 5:
@@ -860,35 +856,56 @@ namespace DO_AN_LTTQ
         {
             type = 0;
             update_status();
+            remove_degree_components();
         }
         private void stack_button_Click(object sender, EventArgs e)
         {
             type = 1;
             update_status();
+            remove_degree_components();
         }
         private void queue_button_Click(object sender, EventArgs e)
         {
             type = 2;
             update_status();
+            remove_degree_components();
         }
         private void binarySearchTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             type = 3;
             update_status();
+            remove_degree_components();
         }
         private void btreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            create_degree_cbb();
+            
+            type = 4;
+            update_status();
+        }
+        private void graph_button_Click(object sender, EventArgs e)
+        {
+            type = 5;
+            update_status();
+            remove_degree_components();
+        }
+        private void create_degree_cbb()
+        {
+            int y = 260;
+            if (input_type_cbb.SelectedIndex == 1)
+                y = 228;
             degree_combobox = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Font = new Font("Segoe UI", 10),
                 Height = 25,
                 Width = 58,
-                Location = new Point(113, 260)
+                Location = new Point(113, y),
             };
             degree_combobox.Items.Add("3");
             degree_combobox.Items.Add("4");
             degree_combobox.Items.Add("5");
+            degree_combobox.SelectedIndex = 0;
             degree_combobox.KeyPress += check_tb_KeyPress;
             st.Controls.Add(degree_combobox);
 
@@ -898,16 +915,14 @@ namespace DO_AN_LTTQ
                 Text = "Degree:",
                 Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point),
                 ForeColor = Color.White,
-                Location = new Point(12, 260)
+                Location = new Point(12, y)
             };
             st.Controls.Add(degree_label);
-            type = 4;
-            update_status();
         }
-        private void graph_button_Click(object sender, EventArgs e)
+        private void remove_degree_components()
         {
-            type = 5;
-            update_status();
+            st.Controls.Remove(degree_combobox);
+            st.Controls.Remove(degree_label);
         }
     }
 }
