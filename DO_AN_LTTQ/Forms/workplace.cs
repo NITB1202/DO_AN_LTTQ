@@ -262,7 +262,7 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
-                        if (type == 0 || type == 1)
+                        if (type!=5)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -274,7 +274,7 @@ namespace DO_AN_LTTQ
                     }
                 case 1:
                     {
-                        if (type == 0 || type == 1)
+                        if (type != 5)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -286,7 +286,7 @@ namespace DO_AN_LTTQ
                     }
                 case 2:
                     {
-                        if (type == 0 || type == 1)
+                        if (type != 5)
                         {
                             for (int i = 0; i < input_data.Length; i++)
                             {
@@ -385,7 +385,7 @@ namespace DO_AN_LTTQ
                     }
                 case 3:
                     {
-                        holder = new BinarySearchTreeDraw(input_data);
+                        holder = new BST(input_data, data_type_cbb.SelectedIndex);
                         break;
                     }
                 case 4:

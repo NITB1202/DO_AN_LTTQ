@@ -17,7 +17,6 @@ namespace DO_AN_LTTQ
             Application.Run(splash_Screen);
             if(splash_Screen.IsDisposed)
                 Application.Run(new start_page());
-
         }
     }
 }
