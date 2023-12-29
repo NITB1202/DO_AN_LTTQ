@@ -53,7 +53,7 @@ namespace DO_AN_LTTQ
             queue_button = new ToolStripMenuItem();
             treeToolStripMenuItem = new ToolStripMenuItem();
             binarySearchTreeToolStripMenuItem = new ToolStripMenuItem();
-            btreeToolStripMenuItem = new ToolStripMenuItem();
+            aLVTrreeToolStripMenuItem = new ToolStripMenuItem();
             graph_button = new ToolStripMenuItem();
             clear_button = new ToolStripButton();
             st = new DoubleBufferedPanel();
@@ -236,7 +236,7 @@ namespace DO_AN_LTTQ
             file_toolstrip.Name = "file_toolstrip";
             file_toolstrip.Padding = new Padding(0);
             file_toolstrip.RenderMode = ToolStripRenderMode.Professional;
-            file_toolstrip.Size = new Size(134, 44);
+            file_toolstrip.Size = new Size(165, 44);
             file_toolstrip.Stretch = true;
             file_toolstrip.TabIndex = 9;
             file_toolstrip.Text = "file_toolStrip";
@@ -307,7 +307,7 @@ namespace DO_AN_LTTQ
             sToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sinlToolStripMenuItem, stack_button, queue_button });
             sToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             sToolStripMenuItem.Name = "sToolStripMenuItem";
-            sToolStripMenuItem.Size = new Size(112, 22);
+            sToolStripMenuItem.Size = new Size(258, 22);
             sToolStripMenuItem.Text = "List";
             // 
             // sinlToolStripMenuItem
@@ -333,10 +333,10 @@ namespace DO_AN_LTTQ
             // 
             // treeToolStripMenuItem
             // 
-            treeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binarySearchTreeToolStripMenuItem, btreeToolStripMenuItem });
+            treeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binarySearchTreeToolStripMenuItem, aLVTrreeToolStripMenuItem });
             treeToolStripMenuItem.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             treeToolStripMenuItem.Name = "treeToolStripMenuItem";
-            treeToolStripMenuItem.Size = new Size(112, 22);
+            treeToolStripMenuItem.Size = new Size(258, 22);
             treeToolStripMenuItem.Text = "Tree";
             // 
             // binarySearchTreeToolStripMenuItem
@@ -346,19 +346,19 @@ namespace DO_AN_LTTQ
             binarySearchTreeToolStripMenuItem.Text = "Binary search tree";
             binarySearchTreeToolStripMenuItem.Click += binarySearchTreeToolStripMenuItem_Click;
             // 
-            // btreeToolStripMenuItem
+            // aLVTrreeToolStripMenuItem
             // 
-            btreeToolStripMenuItem.Name = "btreeToolStripMenuItem";
-            btreeToolStripMenuItem.Size = new Size(180, 22);
-            btreeToolStripMenuItem.Text = "B-tree";
-            btreeToolStripMenuItem.Click += btreeToolStripMenuItem_Click;
+            aLVTrreeToolStripMenuItem.Name = "aLVTrreeToolStripMenuItem";
+            aLVTrreeToolStripMenuItem.Size = new Size(180, 22);
+            aLVTrreeToolStripMenuItem.Text = "AVL tree";
+            aLVTrreeToolStripMenuItem.Click += aLVTrreeToolStripMenuItem_Click;
             // 
             // graph_button
             // 
             graph_button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             graph_button.Name = "graph_button";
-            graph_button.Size = new Size(112, 22);
-            graph_button.Text = "Graph";
+            graph_button.Size = new Size(258, 22);
+            graph_button.Text = "Graph(Undirected/Unweighted)";
             graph_button.Click += graph_button_Click;
             // 
             // clear_button
@@ -372,7 +372,7 @@ namespace DO_AN_LTTQ
             clear_button.Size = new Size(42, 41);
             clear_button.Text = "Clear";
             clear_button.TextImageRelation = TextImageRelation.TextAboveImage;
-            clear_button.ToolTipText = "Erase the current data structure";
+            clear_button.ToolTipText = " Remove the current data structure";
             clear_button.Click += clear_button_Click;
             // 
             // st
@@ -917,7 +917,6 @@ namespace DO_AN_LTTQ
         private ToolStripMenuItem stack_button;
         private ToolStripMenuItem treeToolStripMenuItem;
         private ToolStripMenuItem binarySearchTreeToolStripMenuItem;
-        private ToolStripMenuItem btreeToolStripMenuItem;
         private ToolStripButton clear_button;
         private PictureBox app_label;
         private Panel panel1;
@@ -960,5 +959,6 @@ namespace DO_AN_LTTQ
         private ToolStripMenuItem open_button;
         private ToolStripMenuItem save_button;
         private ToolStripMenuItem save_as_button;
+        private ToolStripMenuItem aLVTrreeToolStripMenuItem;
     }
 }

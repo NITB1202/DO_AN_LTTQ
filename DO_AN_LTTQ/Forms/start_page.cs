@@ -6,6 +6,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using DO_AN_LTTQ.Utilities;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace DO_AN_LTTQ
 {
@@ -91,7 +92,7 @@ namespace DO_AN_LTTQ
             if (Directory.Exists(path))
             {
                 DirectoryInfo direc_info = new DirectoryInfo(path);
-                FileInfo[] file_main =direc_info.GetFiles();
+                FileInfo[] file_main = direc_info.GetFiles();
                 foreach (FileInfo f in file_main)
                     if (Path.GetExtension(f.Name) == ".dsv")
                         file_list.Add(f);
@@ -119,6 +120,11 @@ namespace DO_AN_LTTQ
         }
         public void load_file(string path)
         {
+            if (!File.Exists(path))
+            {
+                MessageBox.Show("The file has been removed or changed location.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             wp.save_path = path;
             wp.update_label(Path.GetFileNameWithoutExtension(wp.save_path));
             wp.load_file(wp.save_path);
@@ -148,6 +154,27 @@ namespace DO_AN_LTTQ
                 AddToPanel(fit_file);
             }
 
+        }
+
+        private void support_link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "cmd",
+                RedirectStandardInput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            // Mở trình duyệt web khi link được click
+            using (Process process = new Process { StartInfo = psi })
+            {
+                process.Start();
+                process.StandardInput.WriteLine("start https://docs.google.com/forms/d/e/1FAIpQLSdS0i8A6Gr7AuaHuFqliABDYnrWIu-jlfJ_JKYfJNLN1mBxGQ/viewform");
+                process.StandardInput.Flush();
+                process.StandardInput.Close();
+                process.WaitForExit();
+            }
         }
     }
 }

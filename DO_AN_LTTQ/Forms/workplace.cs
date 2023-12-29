@@ -1,26 +1,7 @@
 ﻿using DO_AN_LTTQ.AllDataStructureClass;
-using DO_AN_LTTQ.Properties;
 using DO_AN_LTTQ.Utilities;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Security.Principal;
-using System.Configuration;
-using Microsoft.VisualBasic.Logging;
 
 namespace DO_AN_LTTQ
 {
@@ -31,9 +12,7 @@ namespace DO_AN_LTTQ
         private Label path_lb;
         private TextBox input;
         private Label l;
-        //for b-tree
-        ComboBox degree_combobox;
-        Label degree_label;
+        private bool ran_problem = false;
 
         public DoubleBufferedPanel st; //settings panel
         public DoubleBufferedPanel al; //algorithm panel
@@ -43,7 +22,6 @@ namespace DO_AN_LTTQ
         public string textfile_path;
         public int type;
         DataStructure holder;
-
 
         Image play_image = Properties.Resources.play_32px;
         Image pause_image = Properties.Resources.pause_32px;
@@ -86,8 +64,6 @@ namespace DO_AN_LTTQ
         }
         private void remove_all_input_type_componet()
         {
-            st.Controls.Remove(degree_label);
-            st.Controls.Remove(degree_combobox);
             st.Controls.Remove(input);
             st.Controls.Remove(l);
             st.Controls.Remove(more_bt);
@@ -119,10 +95,6 @@ namespace DO_AN_LTTQ
                         input.Text = "0";
 
                         input.KeyPress += new KeyPressEventHandler(check_tb_KeyPress);//chi cho phep nhap so
-
-                        if (type == 4)
-                            create_degree_cbb();
-
                         break;
                     }
                 case 1:
@@ -135,11 +107,10 @@ namespace DO_AN_LTTQ
                         input.Width = 255;
                         input.Multiline = true;
                         input.ScrollBars = ScrollBars.Vertical;
-                        input.Location = new Point(40, 270);
+                        input.Location = new Point(40, 250);
                         st.Controls.Add(input);
-
-                        if (type == 4)
-                            create_degree_cbb();
+                        if (type == 5)
+                            input.Text = "//Adjacency list : one edge per line\n//Please remove this line before pressing ok.";
 
                         break;
                     }
@@ -187,9 +158,6 @@ namespace DO_AN_LTTQ
                             textfile_path = open.FileName;
                             path_tb.Text = open.FileName;
                         }
-
-                        if (type == 4)
-                            create_degree_cbb();
 
                         break;
                     }
@@ -262,37 +230,28 @@ namespace DO_AN_LTTQ
             {
                 case 0:
                     {
-                        if (type!=5)
+                        for (int i = 0; i < input_data.Length; i++)
                         {
-                            for (int i = 0; i < input_data.Length; i++)
-                            {
-                                if (!int.TryParse(input_data[i], out int s))
-                                    return false;
-                            }
+                            if (!int.TryParse(input_data[i], out int s))
+                                return false;
                         }
                         break;
                     }
                 case 1:
                     {
-                        if (type != 5)
+                        for (int i = 0; i < input_data.Length; i++)
                         {
-                            for (int i = 0; i < input_data.Length; i++)
-                            {
-                                if (!float.TryParse(input_data[i], out float s))
-                                    return false;
-                            }
+                            if (!float.TryParse(input_data[i], out float s))
+                                return false;
                         }
                         break;
                     }
                 case 2:
                     {
-                        if (type != 5)
+                        for (int i = 0; i < input_data.Length; i++)
                         {
-                            for (int i = 0; i < input_data.Length; i++)
-                            {
-                                if (String.IsNullOrEmpty(input_data[i]) || input_data[i].Length != 1)
-                                    return false;
-                            }
+                            if (String.IsNullOrEmpty(input_data[i]) || input_data[i].Length != 1)
+                                return false;
                         }
                         break;
                     }
@@ -307,38 +266,146 @@ namespace DO_AN_LTTQ
                     {
                         if (type != 5)
                             random_input(int.Parse(input.Text));
+                        else
+                        {
+                            if (int.Parse(input.Text) > 7)
+                            {
+                                MessageBox.Show("Please input the value less than 8 for better peformance","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                                ran_problem = true;
+                                return false;
+                            }
+                            else
+                                random_for_graph(int.Parse(input.Text));
+                        }
                         break;
                     }
                 case 1://input tu textbox
                     {
-                        if(type != 5)//dang list va tree
-                        {
-                            //tach input vao mang
-                            string temp = input.Text.Replace("\r\n", " ");
-                            input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                            //check input nhap
-                            if (!check_data())
-                                return false;
-                        }
+                        //tach input vao mang
+                        string temp = input.Text.Replace("\r\n", " ");
+                        input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        //check input nhap
+                        if (!check_data())
+                            return false;
                         break;
                     }
                 case 2://input tu file
                     {
                         input_data = File.ReadAllLines(textfile_path);
 
-                        if (type != 5)
-                        {
-                            string temp = null;
-                            foreach (string line in input_data)
-                                temp += line + " ";
-                            input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                            if (!check_data())
-                                return false;
-                        }
+                        string temp = null;
+                        foreach (string line in input_data)
+                            temp += line + " ";
+                        input_data = temp.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        if (!check_data())
+                            return false;
                         break;
                     }
             }
             return true;
+        }
+        private void random_for_graph(int n)
+        {
+            List<string> vertex_name = new List<string>(n);
+            Random ran = new Random();
+            switch (data_type_cbb.SelectedIndex)
+            {
+                case 0:
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            string r;
+                            do
+                                r = ran.Next(0, 100).ToString();
+                            while (vertex_name.Contains(r));
+                            vertex_name.Add(r);
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            string r;
+                            do
+                                r = (ran.NextDouble() * 100).ToString("0.0");
+                            while (vertex_name.Contains(r));
+                            vertex_name.Add(r);
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            string str;
+                            do
+                            {
+                                int r = ran.Next(32, 127);
+                                str = ((char)r).ToString();
+                            }
+                            while (vertex_name.Contains(str));
+                            vertex_name.Add(str);
+                        }
+                        break;
+                    }
+            }
+            if (n < 2)
+            {
+                input_data = new string[n];
+                for (int i = 0; i < n; i++)
+                    input_data[i] = vertex_name[i];
+                return;
+            }
+            //danh sach cac canh co the co
+            List<List<int>> allpair = new List<List<int>>();
+            for (int i = 0; i < vertex_name.Count - 1; i++)
+                for (int j = i + 1; j < vertex_name.Count; j++)
+                {
+                    List<int> temp = new List<int> { i, j };
+                    allpair.Add(temp);
+                }
+            List<string> list = new List<string>();
+            bool[] checkin = new bool[n];
+            int edge = ran.Next(0, CalculateCombination(n, 2) + 1);
+            for (int i = 0; i < edge; i++)
+            {
+                int pos = ran.Next(allpair.Count);
+                int v1 = allpair[pos][0];
+                int v2 = allpair[pos][1];
+                if (!checkin[v1])
+                    checkin[v1] = true;
+                if (!checkin[v2])
+                    checkin[v2] = true;
+                list.Add(vertex_name[v1]);
+                list.Add(vertex_name[v2]);
+                allpair.RemoveAt(pos);
+            }
+            for (int i = 0; i < checkin.Length; i++)
+                if (!checkin[i])
+                    list.Add(vertex_name[i]);
+            input_data = new string[list.Count];
+            for (int i = 0; i < list.Count; i++)
+                input_data[i] = list[i];
+        }
+        public int CalculateCombination(int n, int m)
+        {
+            long numerator = Factorial(n);
+            long denominator = Factorial(m) * Factorial(n - m);
+
+            return (int)(numerator / denominator);
+        }
+
+        public long Factorial(int number)
+        {
+            if (number == 0 || number == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return number * Factorial(number - 1);
+            }
         }
         private void ok_button_Click(object sender, EventArgs e)
         {
@@ -355,14 +422,26 @@ namespace DO_AN_LTTQ
             //xu li du lieu nhap
             if (!process_input())
             {
-                MessageBox.Show("The input data is not of the selected data type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if(!ran_problem)
+                    MessageBox.Show("The input data is not of the selected data type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            ran_problem = false;
             //tao vung ve
             initialize_ds();
-            holder.ModifyPanel(interact_panel);
+            if (!holder.CheckMaxValue(int.Parse(width_tb.Text)))
+            {
+                DialogResult result = MessageBox.Show("The number of nodes can cause overflow in the drawing area. Do you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.No)
+                {
+                    Controls.Remove(draw_range);
+                    draw_range = null;
+                    return;
+                }
+            }
             create_draw_range();
             holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
+            holder.ModifyPanel(interact_panel);
         }
         private void initialize_ds()
         {
@@ -390,12 +469,12 @@ namespace DO_AN_LTTQ
                     }
                 case 4:
                     {
-                        holder = new BTreeDraw(input_data, int.Parse(degree_combobox.SelectedItem.ToString()));
+                        holder = new AVLTree(input_data, data_type_cbb.SelectedIndex);
                         break;
                     }
                 case 5:
                     {
-                        //holder = new Graph(input_data);
+                        holder = new Graph(input_data);
                         break;
                     }
                 default:
@@ -419,8 +498,7 @@ namespace DO_AN_LTTQ
             draw_range.Resize += draw_range_resize;
             ControlMoverOrResizer.Init(draw_range);
         }
-
-        private void draw_range_LocationChanged(object? sender, EventArgs e)
+        private void draw_range_LocationChanged(object sender, EventArgs e)
         {
             if (holder.frame > holder.total_frame)
             {
@@ -481,7 +559,7 @@ namespace DO_AN_LTTQ
                     }
                 case 4:
                     {
-                        temp = "B-tree";
+                        temp = "AVL Tree";
                         break;
                     }
                 case 5:
@@ -694,7 +772,7 @@ namespace DO_AN_LTTQ
             writer.WriteLine(height_tb.Text);//3
             writer.WriteLine(data_type_cbb.SelectedIndex);//4
             writer.WriteLine(type);//5
-            if (holder == null)
+            if (holder == null || draw_range == null)
             {
                 writer.Close();
                 return;
@@ -709,6 +787,12 @@ namespace DO_AN_LTTQ
             writer.WriteLine(holder.select_position);//10
             writer.WriteLine(holder.total_frame);//11
             writer.WriteLine(holder.frame);//12
+            if (type == 5)
+            {
+                foreach (Point p in holder.vertex_location)
+                    writer.Write(p.X + " " + p.Y + " ");
+            }
+            writer.WriteLine();
             writer.Write(code_tb.Text);
             writer.Close();
         }
@@ -745,10 +829,24 @@ namespace DO_AN_LTTQ
                     save_button.PerformClick();
                 Controls.Remove(draw_range);
             }
+            holder.load_file = true;
             create_draw_range();
             holder.GetInformation(draw_range, code_tb, step_trb, current_step, total_step, data_type_cbb, play_button, spd_cbb);
             holder.select_algorithm = int.Parse(info[6]);
-            if(holder.select_algorithm == -1)
+            if (type == 5)
+            {
+                holder.load_file = false;
+                string[] vl = info[12].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                holder.vertex_location = new Point[vl.Length / 2];
+                int count = 0;
+                for (int i = 0; i < vl.Length; i += 2)
+                {
+                    holder.vertex_location[count] = new Point(int.Parse(vl[i]), int.Parse(vl[i + 1]));
+                    count++;
+                }
+                holder.setup = true;
+            }
+            if (holder.select_algorithm == -1)
             {
                 draw_range.Invalidate();
                 return;
@@ -763,7 +861,8 @@ namespace DO_AN_LTTQ
             holder.frame = int.Parse(info[11]);
             if (holder.frame > holder.total_frame)
                 holder.frame = holder.total_frame;
-            for (int i = 12; i < info.Count; i++)
+
+            for (int i = 13; i < info.Count; i++)
                 code_tb.AppendText(info[i] + "\n");
             holder.SetIndent();
             holder.timer.Stop();
@@ -825,7 +924,7 @@ namespace DO_AN_LTTQ
             else
             {
                 save_file(save_path);
-                MessageBox.Show("Saved sucessfully!","Notification",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Saved sucessfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void new_file_button_Click(object sender, EventArgs e)
@@ -842,7 +941,7 @@ namespace DO_AN_LTTQ
         }
         private void workplace_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult r=MessageBox.Show("Do you want to exit?","Notification",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            DialogResult r = MessageBox.Show("Do you want to exit?", "Notification", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (r == DialogResult.Yes)
             {
                 DialogResult res = MessageBox.Show("Do you want to save changes before closing?", "Notification", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -856,73 +955,31 @@ namespace DO_AN_LTTQ
         {
             type = 0;
             update_status();
-            remove_degree_components();
         }
         private void stack_button_Click(object sender, EventArgs e)
         {
             type = 1;
             update_status();
-            remove_degree_components();
         }
         private void queue_button_Click(object sender, EventArgs e)
         {
             type = 2;
             update_status();
-            remove_degree_components();
         }
         private void binarySearchTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             type = 3;
-            update_status();
-            remove_degree_components();
-        }
-        private void btreeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            create_degree_cbb();
-            
-            type = 4;
             update_status();
         }
         private void graph_button_Click(object sender, EventArgs e)
         {
             type = 5;
             update_status();
-            remove_degree_components();
         }
-        private void create_degree_cbb()
+        private void aLVTrreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int y = 260;
-            if (input_type_cbb.SelectedIndex == 1)
-                y = 228;
-            degree_combobox = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Font = new Font("Segoe UI", 10),
-                Height = 25,
-                Width = 58,
-                Location = new Point(113, y),
-            };
-            degree_combobox.Items.Add("3");
-            degree_combobox.Items.Add("4");
-            degree_combobox.Items.Add("5");
-            degree_combobox.SelectedIndex = 0;
-            degree_combobox.KeyPress += check_tb_KeyPress;
-            st.Controls.Add(degree_combobox);
-
-
-            degree_label = new Label
-            {
-                Text = "Degree:",
-                Font = new Font("Segoe UI Semibold", 12, FontStyle.Bold, GraphicsUnit.Point),
-                ForeColor = Color.White,
-                Location = new Point(12, y)
-            };
-            st.Controls.Add(degree_label);
-        }
-        private void remove_degree_components()
-        {
-            st.Controls.Remove(degree_combobox);
-            st.Controls.Remove(degree_label);
+            type = 4;
+            update_status();
         }
     }
 }

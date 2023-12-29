@@ -1,18 +1,4 @@
 ﻿using DO_AN_LTTQ.Properties;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
@@ -25,12 +11,12 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
         int tempX, tempY;
 
-        System.Windows.Forms.TextBox po1_tb;
-        System.Windows.Forms.TextBox po2_tb;
-        System.Windows.Forms.ComboBox c1;
-        System.Windows.Forms.ComboBox c2;
-        System.Windows.Forms.TextBox v1;
-        System.Windows.Forms.TextBox v3;
+        TextBox po1_tb;
+        TextBox po2_tb;
+        ComboBox c1;
+        ComboBox c2;
+        TextBox v1;
+        TextBox v3;
 
         Panel insert_panel;
         Panel remove_panel;
@@ -88,6 +74,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l1.Location = first_tb_location;
             l1.Size = new Size(111, 29);
             l1.Text = "Insert value";
+            l1.Click += ChooseOption;
 
             Label l2 = new Label();
             l2.BackColor = item_color;
@@ -96,6 +83,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l2.Location = new Point(254, line);
             l2.Size = new Size(41, 29);
             l2.Text = "at";
+            l2.Click += ChooseOption;
 
             //picture box
             PictureBox p = new PictureBox();
@@ -104,6 +92,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p.BackgroundImageLayout = ImageLayout.Zoom;
             p.Location = sb_location;
             p.Size = sb_size;
+            p.Click += ChooseOption;
 
             //o chon
             c1 = new ComboBox();
@@ -146,6 +135,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l3.Location = new Point(45, 12);
             l3.AutoSize = true;
             l3.Text = "Remove at";
+            l3.Click += ChooseOption;
 
             //picture box
             PictureBox p1 = new PictureBox();
@@ -154,6 +144,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p1.BackgroundImageLayout = ImageLayout.Zoom;
             p1.Location = new Point(8, 10);
             p1.Size = new Size(30, 30);
+            p1.Click += new EventHandler(ChooseOption);
 
             //o chon
             c2 = new ComboBox();
@@ -183,6 +174,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l5.Location = new Point(45, 12);
             l5.AutoSize = true;
             l5.Text = "Search value";
+            l5.Click += ChooseOption;
 
             PictureBox p2 = new PictureBox();
             p2.BackColor = Color.Transparent;
@@ -190,6 +182,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p2.BackgroundImageLayout = ImageLayout.Zoom;
             p2.Location = new Point(8, 10);
             p2.Size = new Size(30, 30);
+            p2.Click += ChooseOption;
 
             v3 = new System.Windows.Forms.TextBox();
             v3.Font = tb_font;
@@ -237,7 +230,14 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public override void ChooseOption(object sender, EventArgs e)
         {
-            Panel op = (Panel)sender;
+            Control control = (Control)sender;
+            int option = -1;
+            if (insert_panel == sender || insert_panel.Controls.Contains(control))
+                option = 1;
+            if (remove_panel == sender || remove_panel.Controls.Contains(control))
+                option = 2;
+            if (search_panel == sender || search_panel.Controls.Contains(control))
+                option = 3;
             switch (select_op)
             {
                 case 1:
@@ -256,20 +256,26 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         break;
                     }
             }
-            if (op == insert_panel)
+            switch(option)
             {
-                select_op = 1;
-                insert_panel.BackColor = Color.DarkGray;
-            }
-            if (op == remove_panel)
-            {
-                select_op = 2;
-                remove_panel.BackColor = Color.DarkGray;
-            }
-            if (op == search_panel)
-            {
-                select_op = 3;
-                search_panel.BackColor = Color.DarkGray;
+                case 1:
+                    {
+                        select_op = 1;
+                        insert_panel.BackColor = Color.DarkGray;
+                        break;
+                    }
+                case 2:
+                    {
+                        select_op = 2;
+                        remove_panel.BackColor = Color.DarkGray;
+                        break;
+                    }
+                case 3:
+                    {
+                        select_op = 3;
+                        search_panel.BackColor = Color.DarkGray;
+                        break;
+                    }
             }
         }
         public override void Draw(PaintEventArgs e)
@@ -1212,6 +1218,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(7);
                             draw_node(linkedList[0], e, startX, startY, Color.White);
+                            erase_node(e, startX, startY);
                             break;
                         }
                 }
@@ -1221,6 +1228,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             {
                 HighlightCurrentLine(7);
                 draw_node(linkedList[0], e, startX, startY, Color.White);
+                erase_node(e, startX, startY);
                 draw_arrow(e, startX, startY, Color.White);
                 if (count == 2)
                     draw_label(e, startX + 75, startY + 50, startX+75, startY + 75);
@@ -1267,6 +1275,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(5);
                             draw_node(linkedList[0], e, startX, startY, Color.White);
+                            erase_node(e, startX, startY);
                             e.Graphics.DrawString("Tail", font_label, Brushes.Red, startX - 5, startY + 50);
                             break;
                         }
@@ -1274,6 +1283,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(6);
                             draw_node(linkedList[0], e, startX, startY, Color.White);
+                            erase_node(e, startX, startY);
                             break;
                         }
                 }
@@ -1354,6 +1364,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(12);
                             draw_node(linkedList[count-1], e, startX + 80 * (count-1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
                             if (count == 2)
                                 e.Graphics.DrawString("Current", font_label, Brushes.Red, startX - 5, startY + 75);
@@ -1366,6 +1377,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(13);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
                             if (count == 2)
                                 draw_label(e, startX - 5, startY + 50, startX - 5, startY + 75);
@@ -1377,6 +1389,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(14);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
                             if (count == 2)
                                 draw_label(e, startX - 5, startY + 50, startX - 5, startY + 75);
@@ -1482,6 +1495,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                                 code_remove_head();
                                 HighlightCurrentLine(7);
                                 draw_node(linkedList[0], e, startX, startY, Color.White);
+                                erase_node(e, startX, startY);
                                 break;
                             }
                     }
@@ -1493,6 +1507,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         code_remove_head();
                         HighlightCurrentLine(7);
                         draw_node(linkedList[0], e, startX, startY, Color.White);
+                        erase_node(e, startX, startY);
                         draw_arrow(e, startX, startY, Color.White);
                         if (count == 2)
                             draw_label(e, startX + 75, startY + 50, startX + 75, startY + 75);
@@ -1504,6 +1519,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     code_tb.Clear();
                     code_remove_pos();
                     draw_node(linkedList[0], e, startX, startY, Color.White);
+                    erase_node(e, startX, startY);
                     draw_arrow(e, startX, startY, Color.White);
                     if(count!=1)
                     {
@@ -1626,6 +1642,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(11);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY-80, Color.RoyalBlue);
                             draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
                             draw_arrow(e, startX + 80 * (count - 2), startY, Color.Coral);
@@ -1646,6 +1663,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(12);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
                             draw_arrow(e, startX +80*(count-2),startY,Color.White);
                             e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
@@ -1659,6 +1677,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(13);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
                             draw_node(linkedList[count - 2], e, startX + 80 * (count - 2), startY, Color.Coral);
                             e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
@@ -1672,6 +1691,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         {
                             HighlightCurrentLine(14);
                             draw_node(linkedList[count - 1], e, startX + 80 * (count - 1), startY, Color.White);
+                            erase_node(e, startX + 80 * (count - 1), startY);
                             draw_arrow(e, startX + 80 * (count - 2), startY, Color.White);
                             e.Graphics.DrawString("Head", font_label, Brushes.Red, startX - 5, startY + 50);
                             if (count == 2)
@@ -1703,6 +1723,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                         HighlightCurrentLine(11);
                         draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.White);
+                        erase_node(e, startX + 80 * (select_position - 1), startY);
                         draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY - 80, Color.RoyalBlue);
                         e.Graphics.DrawString("Current", font_label, Brushes.Red, startX + 80 * (select_position - 1) - 5, startY -30);
                         draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
@@ -1724,6 +1745,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                         HighlightCurrentLine(12);
                         draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.White);
+                        erase_node(e, startX + 80 * (select_position - 1), startY);
                         draw_arrow(e, startX + 80 * (select_position - 2), startY, Color.White);
                         draw_arrow(e, startX + 80 * (select_position - 1), startY, Color.White);
                         draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
@@ -1740,6 +1762,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                         HighlightCurrentLine(13);
                         draw_node(linkedList[select_position - 1], e, startX + 80 * (select_position - 1), startY, Color.White);
+                        erase_node(e, startX + 80 * (select_position - 1), startY);
                         draw_arrow(e, startX + 80 * (select_position - 2), startY, Color.White);
                         draw_arrow(e, startX + 80 * (select_position - 1), startY, Color.White);
                         draw_node(linkedList[select_position - 2], e, startX + 80 * (select_position - 2), startY, Color.Coral);
@@ -2057,6 +2080,17 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         public override void SaveData()
         {
             save_data = linkedList;
+        }
+        private void erase_node(PaintEventArgs e, int drawx, int drawy)
+        {
+            Brush brush = new SolidBrush(Color.White);
+            e.Graphics.FillEllipse(brush, drawx, drawy, 40, 40);
+        }
+        public override bool CheckMaxValue(int width)
+        {
+            if(count>11)
+                return false;
+            return true;
         }
     }
 }

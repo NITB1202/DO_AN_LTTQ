@@ -1,78 +1,34 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.AxHost;
-using System;
-using System.Windows.Forms;
-using DO_AN_LTTQ.Properties;
-using System.IO;
-using System.Collections.Specialized;
-using System.Numerics;
-
+﻿using DO_AN_LTTQ.Properties;
 
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
     internal class Stack : DataStructure
     {
         List<string> stack;
-        int startX;
-        int startY;
+        int startX,startY;
         const int rectangleWidth = 80;
         int tempX, tempY;
 
-        System.Windows.Forms.TextBox po1_tb;
-        System.Windows.Forms.TextBox po2_tb;
-        System.Windows.Forms.ComboBox c1;
-        System.Windows.Forms.ComboBox c2;
-        System.Windows.Forms.TextBox v1;
-        System.Windows.Forms.TextBox v3;
+        TextBox v1;
 
         Panel insert_panel;
         Panel remove_panel;
-        Panel search_panel;
 
-        int image_length = 0;
         int count = 0;
-
-        //du lieu su dung khi bat dau thuat toan
-        string input = null;
-        int select_algorithm = -1;
-        int select_sub_algorithm = -1;
-        int select_position = -1;
-        int pos_find = -1;
-
         public Stack(string[] input_info)
         {
-            startX = 470; // Tọa độ X của hình chữ nhật
-            //startY = this.draw_range.Height-200;
-            startY=450;
             stack = new List<string>();
             for (int i = 0; i < input_info.Length; i++)
                 stack.Add(input_info[i]);
 
-            po1_tb = new TextBox();
-            po1_tb.Font = tb_font;
-            po1_tb.MaxLength = 3;
-            po1_tb.Size = new Size(66, 27);
-            po1_tb.Location = new Point(402, 12);
-            po1_tb.KeyPress += NumberOnly;
-
-            po2_tb = new TextBox();
-            po2_tb.MaxLength = 3;
-            po2_tb.Font = tb_font;
-            po2_tb.Size = new Size(66, 27);
-            po2_tb.Location = new Point(295, 12);
-            po2_tb.KeyPress += NumberOnly;
-
             count = input_info.Length;
-            image_length = (2 * input_info.Length - 1) * 40;
-
         }
         public override void GetInformation(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb, ComboBox spd)
         {
             base.GetInformation(dr, c, strb, cs, ts, dt, pb, spd);
-            
+
+            startX = draw_range.Width/2 -30;
+            startY = draw_range.Height - 150;
             draw_range.Paint += push_animation;
             draw_range.Paint += pop_animation;
         }
@@ -86,7 +42,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l1.Location = first_tb_location;
             l1.Size = new Size(111, 29);
             l1.Text = "Push";
-
+            l1.AutoSize = true;
+            l1.Click += ChooseOption;
 
             //picture box
             PictureBox p = new PictureBox();
@@ -95,13 +52,13 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p.BackgroundImageLayout = ImageLayout.Zoom;
             p.Location = sb_location;
             p.Size = sb_size;
-
+            p.Click += ChooseOption;
 
             //o dien gia tri
             v1 = new TextBox();
             v1.Font = tb_font;
             v1.MaxLength = 3;
-            v1.Location = new Point(170, 12);
+            v1.Location = new Point(120, 12);
             v1.Size = new Size(66, 27);
 
             //panel
@@ -115,7 +72,6 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             interact_panel.Controls.Add(insert_panel);
             insert_panel.Click += new EventHandler(ChooseOption);
 
-
             //cac nhan
             Label l3 = new Label();
             l3.BackColor = Color.Transparent;
@@ -124,6 +80,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l3.Location = new Point(45, 12);
             l3.AutoSize = true;
             l3.Text = "Pop";
+            l3.Click += ChooseOption;
 
             //picture box
             PictureBox p1 = new PictureBox();
@@ -132,6 +89,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p1.BackgroundImageLayout = ImageLayout.Zoom;
             p1.Location = new Point(8, 10);
             p1.Size = new Size(30, 30);
+            p1.Click += new EventHandler(ChooseOption);
 
             PictureBox p2 = new PictureBox();
             p2.BackColor = Color.Transparent;
@@ -139,10 +97,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p2.BackgroundImageLayout = ImageLayout.Zoom;
             p2.Location = new Point(8, 10);
             p2.Size = new Size(30, 30);
+            p2.Click += ChooseOption;
 
             remove_panel = new Panel();
             remove_panel.Controls.Add(l3);
-            remove_panel.Controls.Add(v3);
             remove_panel.Controls.Add(p1);
             remove_panel.Location = new Point(3, 50);
             remove_panel.Size = new Size(interact_panel.Width - 8, 50);
@@ -151,7 +109,12 @@ namespace DO_AN_LTTQ.AllDataStructureClass
         }
         public override void ChooseOption(object sender, EventArgs e)
         {
-            Panel op = (Panel)sender;
+            Control control = (Control)sender;
+            int option = -1;
+            if (insert_panel == sender || insert_panel.Controls.Contains(control))
+                option = 1;
+            if (remove_panel == sender || remove_panel.Controls.Contains(control))
+                option = 2;
             switch (select_op)
             {
                 case 1:
@@ -164,23 +127,26 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         remove_panel.BackColor = Color.Transparent;
                         break;
                     }
-                
             }
-            if (op == insert_panel)
+            switch (option)
             {
-                select_op = 1;
-                insert_panel.BackColor = Color.DarkGray;
+                case 1:
+                    {
+                        select_op = 1;
+                        insert_panel.BackColor = Color.DarkGray;
+                        break;
+                    }
+                case 2:
+                    {
+                        select_op = 2;
+                        remove_panel.BackColor = Color.DarkGray;
+                        break;
+                    }
             }
-            if (op == remove_panel)
-            {
-                select_op = 2;
-                remove_panel.BackColor = Color.DarkGray;
-            }
-         
         }
         public override void Draw(PaintEventArgs e)
         {
-            int rectangleHeight = 30 * stack.Count + 10; // Chiều cao của hình chữ nhật
+            int rectangleHeight = 35 * (stack.Count-1) + 10; // Chiều cao của hình chữ nhật
 
             // Tính toán để vẽ stack ở giữa hình chữ nhật
             tempX = startX; // Tạo biến tạm cho tọa độ X của stack
@@ -200,16 +166,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             }
 
             if (enable == -1 || frame == 0) //khong chay thuat toan ve
-            {
-                if (count > 0)
-                {
-                    int headX = startX - 5;
-                    if (count >= 1)
-                        draw_label(e, headX, tempY, tempX - 100, tempY+40);
-                }
-            }
-
-
+                draw_label(e, tempX - 100, tempY + 40);
         }
         private void draw_node(string data, PaintEventArgs e, int tempX, int tempY, Color color)
         {
@@ -225,13 +182,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             SolidBrush b = new SolidBrush(color);          
             e.Graphics.DrawString(data, font_data, b, textX, textY);
         }
-        private void draw_label(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
+        private void draw_label(PaintEventArgs e,int tailX, int tailY)
         {
             e.Graphics.DrawString("top_index", font_label, Brushes.Red, tailX, tailY);
-        }
-        private void draw_label2(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
-        {
-            e.Graphics.DrawString("top_index", font_label, Brushes.White, tailX, tailY);
         }
         public void code_push()
         {
@@ -241,11 +194,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
         public void code_pop()
         {
-            code_tb.AppendText("  void pop() {\r\n\tif (!!isEmpty()){\r\n\t\t top_index--;\r\n\t}\r\n}");
+            code_tb.AppendText("  void pop() {\r\n\tif (!isEmpty()){\r\n\t\t top_index--;\r\n\t}\r\n}");
             SetIndent();
         }
-
-        
         public void push_animation(object sender, PaintEventArgs e)
         {
             if (enable != 1)
@@ -256,13 +207,13 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             {
                 case 1:
                     {
-                        draw_label(e, startX-5, tempY, tempX - 100, tempY+40);
+                        draw_label(e, tempX - 100, tempY+40);
                         HighlightCurrentLine(1);
                         break;
                     }
                 case 2:
                     {
-                        draw_label(e, startX - 5, tempY, tempX-100, tempY+5);
+                        draw_label(e, tempX - 100, tempY + 5);
                         HighlightCurrentLine(2);
                         break;
                     }
@@ -270,13 +221,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                         draw_node(input, e, startX, tempY, Color.MediumSeaGreen);
                         HighlightCurrentLine(3);
-                        draw_label(e, startX - 5, tempY, tempX-100, tempY+5);
-                        if (count > 0)
-                        {
-                            Pen pen = new Pen(Color.Black, 1);
-                            e.Graphics.DrawLine(pen, startX - 12, startY + 30, startX - 12, startY - (30 * stack.Count + 10) - 30);
-                            e.Graphics.DrawLine(pen, startX + rectangleWidth, startY + 30, startX + rectangleWidth, startY - (30 * stack.Count + 10) - 30);
-                        }
+                        draw_label(e, tempX - 100, tempY + 5);
+                        Pen pen = new Pen(Color.Black, 1);
+                        e.Graphics.DrawLine(pen, startX - 12, startY + 30, startX - 12, startY - (35 * stack.Count + 10));
+                        e.Graphics.DrawLine(pen, startX + rectangleWidth, startY + 30, startX + rectangleWidth, startY - (35 * stack.Count + 10));
                         break;
                     }
             }
@@ -291,17 +239,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             TurnOffHighlight();
             if (count == 0)
             {
-                enable=-1;
-                switch (frame)
+                if(frame==1)
                 {
-                    case 1:
-                        HighlightCurrentLine(0);
-                        
-                        break;
-                    case 2:
-                        HighlightCurrentLine(1);
-                       
-                        break;
+                    HighlightCurrentLine(1);
+                    draw_label(e, tempX - 100, tempY + 40);
                 }
                 return;
             }
@@ -312,17 +253,19 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     case 1:
                         {
                             HighlightCurrentLine(1);
-                            draw_label(e, startX - 5, tempY , tempX-100, tempY +40);
+                            draw_label(e, tempX - 100, tempY + 40);
                             break;
                         }
                     case 2:
                         {
                             HighlightCurrentLine(2);
                             draw_node(stack[count-1], e, startX, tempY  + 35, Color.White);
+                            erase_node(e, startX, tempY + 35);
                             Pen pen = new Pen(Color.White, 1);
-                            e.Graphics.DrawLine(pen, startX -12, tempY+10, startX -12, startY - (30 * stack.Count + 10)-30 );
+                            e.Graphics.DrawLine(pen, startX - 12, tempY, startX - 12, tempY+60);
+                            e.Graphics.DrawLine(pen, startX + rectangleWidth, tempY, startX + rectangleWidth, tempY+60);
                             e.Graphics.DrawLine(pen, startX + rectangleWidth, tempY+10, startX + rectangleWidth, startY -(30 * stack.Count + 10)-30);
-                            draw_label(e, startX - 5, tempY, tempX-100, tempY +75);
+                            draw_label(e, tempX - 100, tempY + 75);
                             break;
                         }
                 }
@@ -334,13 +277,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             switch (select_algorithm)
             {
                 case 1:
-                    {
-                        return 1;
-                    }
+                    return 1;
                 case 2:
-                    {
-                        return 2;
-                    }
+                    return 2;
             }
             return -1;
         }
@@ -374,8 +313,9 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                     {
                       select_algorithm = 2;
                         if (count == 0)
+                            updateStep(1);
+                        else
                             updateStep(2);
-                        updateStep(2);
                         code_pop();
                         enable = 2;
                         break;
@@ -403,20 +343,12 @@ namespace DO_AN_LTTQ.AllDataStructureClass
          
                 case 2:
                     {
-                        if (count==0)
-                            return;
-                        else
+                        if (count!=0)
                             stack.RemoveAt(count-1);
-
                         break;
                     }
             }
             count = stack.Count();
-            if (count==0)
-            {
-                startX = tempX;
-                startY= tempY;
-            }
             update_data = true;
         }
 
@@ -425,18 +357,26 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
                 e.Handled = true;
         }
-
         public override void SaveData()
         {
             save_data = stack;
         }
         public override void UpdateLocation()
         {
-            image_length = (2 * count - 1) * 40;
-            startX = (draw_range.Width - image_length) / 2;
-            startY = draw_range.Height / 2;
+            startX = draw_range.Width / 2 - 30;
+            startY = draw_range.Height - 150;
         }
-
+        public override bool CheckMaxValue(int width)
+        {
+            if (count > 11)
+                return false;
+            return true;
+        }
+        private void erase_node(PaintEventArgs e, int drawx, int drawy)
+        {
+            Brush brush = new SolidBrush(Color.White);
+            e.Graphics.FillRectangle(brush, drawx, drawy, rectangleWidth - 10, 30);
+        }
 
     }
 }

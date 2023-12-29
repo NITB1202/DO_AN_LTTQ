@@ -190,6 +190,7 @@ namespace DO_AN_LTTQ
             support_link.TabIndex = 13;
             support_link.TabStop = true;
             support_link.Text = "Support us";
+            support_link.LinkClicked += support_link_LinkClicked;
             // 
             // new_button
             // 

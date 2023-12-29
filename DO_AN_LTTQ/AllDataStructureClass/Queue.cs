@@ -1,12 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.AxHost;
-using System;
-using System.Windows.Forms;
-using DO_AN_LTTQ.Properties;
-
+﻿using DO_AN_LTTQ.Properties;
 
 namespace DO_AN_LTTQ.AllDataStructureClass
 {
@@ -14,32 +6,17 @@ namespace DO_AN_LTTQ.AllDataStructureClass
     internal class Queue : DataStructure
     {
         List<string> queue;
-        int startX;
-        int startY;
+        int startX,startY;
 
         int tempX, tempY;
 
-        System.Windows.Forms.TextBox po1_tb;
-        System.Windows.Forms.TextBox po2_tb;
-        System.Windows.Forms.ComboBox c1;
-        System.Windows.Forms.ComboBox c2;
-        System.Windows.Forms.TextBox v1;
-        System.Windows.Forms.TextBox v3;
+        TextBox v1;
 
         Panel insert_panel;
         Panel remove_panel;
-        Panel search_panel;
 
         int image_length = 0;
         int count = 0;
-
-        //du lieu su dung khi bat dau thuat toan
-        string input = null;
-        int select_algorithm = -1;
-        int select_sub_algorithm = -1;
-        int select_position = -1;
-        int pos_find = -1;
-        
         public Queue(string[] input_info)
         {
             
@@ -47,41 +24,24 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             for (int i = 0; i < input_info.Length; i++)
                 queue.Add(input_info[i]);
 
-            po1_tb = new TextBox();
-            po1_tb.Font = tb_font;
-            po1_tb.MaxLength = 3;
-            po1_tb.Size = new Size(66, 27);
-            po1_tb.Location = new Point(402, 12);
-            po1_tb.KeyPress += NumberOnly;
-
-            po2_tb = new TextBox();
-            po2_tb.MaxLength = 3;
-            po2_tb.Font = tb_font;
-            po2_tb.Size = new Size(66, 27);
-            po2_tb.Location = new Point(295, 12);
-            po2_tb.KeyPress += NumberOnly;
-
             count = input_info.Length;
-            image_length = (2 * input_info.Length - 1) * 40;
+            image_length = input_info.Length * 40;
 
         }
         public override void GetInformation(Panel dr, RichTextBox c, TrackBar strb, Label cs, Label ts, ComboBox dt, Button pb, ComboBox spd)
         {
             base.GetInformation(dr, c, strb, cs, ts, dt, pb, spd);
-            //startX = (draw_range.Width - image_length) / 2;
-            startY = draw_range.Height / 2;
-            //draw_range.Paint += insert_head_animation;
-            //draw_range.Paint += insert_tail_animation;
-            //draw_range.Paint += insert_position_animation;
-            //draw_range.Paint += search_animation;
-            //draw_range.Paint += remove_head_animation;
-            //draw_range.Paint += remove_tail_animation;
-            //draw_range.Paint += remove_pos_animation;
 
-            draw_range.Paint += search_animation;
+            startX = (draw_range.Width - image_length) / 2;
+            startY = draw_range.Height / 2;
+
+            draw_range.Paint+= dequeue_animation;
+            draw_range.Paint += enqueue_animation;
+
         }
         public override void ModifyPanel(Panel interact_panel)
         {
+
             //cac nhan
             Label l1 = new Label();
             l1.BackColor = item_color;
@@ -89,15 +49,10 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l1.ForeColor = lb_foreColor;
             l1.Location = first_tb_location;
             l1.Size = new Size(111, 29);
-            l1.Text = "Insert value";
+            l1.Text = "Enqueue";
+            l1.AutoSize = true;
+            l1.Click += ChooseOption;
 
-            Label l2 = new Label();
-            l2.BackColor = item_color;
-            l2.Font = lb_font;
-            l2.ForeColor = lb_foreColor;
-            l2.Location = new Point(254, line);
-            l2.Size = new Size(41, 29);
-            l2.Text = "at";
 
             //picture box
             PictureBox p = new PictureBox();
@@ -106,39 +61,26 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p.BackgroundImageLayout = ImageLayout.Zoom;
             p.Location = sb_location;
             p.Size = sb_size;
+            p.Click += ChooseOption;
 
-            //o chon
-            c1 = new ComboBox();
-            c1.DropDownStyle = ComboBoxStyle.DropDownList;
-            c1.FormattingEnabled = true;
-            c1.Font = tb_font;
-            c1.Items.AddRange(new object[] { "front", "back", "position" });
-            c1.Location = new Point(295, 12);
-            c1.Size = new Size(80, 30);
-            c1.SelectedIndex = 0;
-            c1.SelectedIndexChanged += new EventHandler(create_positon_tb);
 
             //o dien gia tri
             v1 = new TextBox();
             v1.Font = tb_font;
             v1.MaxLength = 3;
-            v1.Location = new Point(170, 12);
+            v1.Location = new Point(150, 12);
             v1.Size = new Size(66, 27);
 
             //panel
             insert_panel = new Panel();
             insert_panel.BackColor = Color.Transparent;
             insert_panel.Controls.Add(l1);
-            insert_panel.Controls.Add(l2);
             insert_panel.Controls.Add(p);
-            insert_panel.Controls.Add(c1);
             insert_panel.Controls.Add(v1);
             insert_panel.Location = new Point(3, 3);
             insert_panel.Size = new Size(interact_panel.Width - 8, 50);
             interact_panel.Controls.Add(insert_panel);
             insert_panel.Click += new EventHandler(ChooseOption);
-
-            //tuy chon remove
 
             //cac nhan
             Label l3 = new Label();
@@ -147,7 +89,8 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             l3.ForeColor = Color.Snow;
             l3.Location = new Point(45, 12);
             l3.AutoSize = true;
-            l3.Text = "Remove at";
+            l3.Text = "Dequeue";
+            l3.Click += ChooseOption;
 
             //picture box
             PictureBox p1 = new PictureBox();
@@ -156,35 +99,7 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p1.BackgroundImageLayout = ImageLayout.Zoom;
             p1.Location = new Point(8, 10);
             p1.Size = new Size(30, 30);
-
-            //o chon
-            c2 = new ComboBox();
-            c2.Font = tb_font;
-            c2.DropDownStyle = ComboBoxStyle.DropDownList;
-            c2.FormattingEnabled = true;
-            c2.Items.AddRange(new object[] { "front", "back", "position" });
-            c2.Location = new Point(170, 12);
-            c2.Size = new Size(80, 30);
-            c2.SelectedIndex = 0;
-            c2.SelectedIndexChanged += new EventHandler(create_positon_tb);
-
-            remove_panel = new Panel();
-            remove_panel.Controls.Add(l3);
-            remove_panel.Controls.Add(p1);
-            remove_panel.Controls.Add(c2);
-            remove_panel.Location = new Point(3, 50);
-            remove_panel.Size = new Size(interact_panel.Width - 8, 50);
-            interact_panel.Controls.Add(remove_panel);
-            remove_panel.Click += new EventHandler(ChooseOption);
-
-            //search panel
-            Label l5 = new Label();
-            l5.BackColor = Color.Transparent;
-            l5.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
-            l5.ForeColor = Color.Snow;
-            l5.Location = new Point(45, 12);
-            l5.AutoSize = true;
-            l5.Text = "Search value";
+            p1.Click += new EventHandler(ChooseOption);
 
             PictureBox p2 = new PictureBox();
             p2.BackColor = Color.Transparent;
@@ -192,55 +107,25 @@ namespace DO_AN_LTTQ.AllDataStructureClass
             p2.BackgroundImageLayout = ImageLayout.Zoom;
             p2.Location = new Point(8, 10);
             p2.Size = new Size(30, 30);
+            p2.Click += ChooseOption;
 
-            v3 = new System.Windows.Forms.TextBox();
-            v3.Font = tb_font;
-            v3.Location = new Point(170, 12);
-            v3.Size = new Size(66, 27);
+            remove_panel = new Panel();
+            remove_panel.Controls.Add(l3);
+            remove_panel.Controls.Add(p1);
+            remove_panel.Location = new Point(3, 50);
+            remove_panel.Size = new Size(interact_panel.Width - 8, 50);
+            interact_panel.Controls.Add(remove_panel);
+            remove_panel.Click += new EventHandler(ChooseOption);
 
-            search_panel = new Panel();
-            search_panel.Controls.Add(l5);
-            search_panel.Controls.Add(p2);
-            search_panel.Controls.Add(v3);
-            search_panel.Location = new Point(3, 100);
-            search_panel.Size = new Size(interact_panel.Width - 8, 50);
-            interact_panel.Controls.Add(search_panel);
-            search_panel.Click += new EventHandler(ChooseOption);
         }
-        public void create_positon_tb(object sender, EventArgs e)
-        {
-            ComboBox c = (ComboBox)sender;
-            if (c == c1)
-            {
-                if (c1.SelectedIndex == 2)
-                {
-                    if (!insert_panel.Controls.Contains(po1_tb))
-                        insert_panel.Controls.Add(po1_tb);
-                }
-                else
-                {
-                    if (insert_panel.Controls.Contains(po1_tb))
-                        insert_panel.Controls.Remove(po1_tb);
-                }
-            }
-            else
-            {
-                if (c2.SelectedIndex == 2)
-                {
-                    if (!remove_panel.Controls.Contains(po2_tb))
-                        remove_panel.Controls.Add(po2_tb);
-                }
-                else
-                {
-                    if (remove_panel.Controls.Contains(po2_tb))
-                        remove_panel.Controls.Remove(po2_tb);
-                }
-            }
-        }
-
         public override void ChooseOption(object sender, EventArgs e)
         {
-            Panel op = (Panel)sender;
+            Control control = (Control)sender;
+            int option = -1;
+            if (insert_panel == sender || insert_panel.Controls.Contains(control))
+                option = 1;
+            if (remove_panel == sender || remove_panel.Controls.Contains(control))
+                option = 2;
             switch (select_op)
             {
                 case 1:
@@ -253,36 +138,25 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                         remove_panel.BackColor = Color.Transparent;
                         break;
                     }
-                case 3:
+            }
+            switch (option)
+            {
+                case 1:
                     {
-                        search_panel.BackColor = Color.Transparent;
+                        select_op = 1;
+                        insert_panel.BackColor = Color.DarkGray;
+                        break;
+                    }
+                case 2:
+                    {
+                        select_op = 2;
+                        remove_panel.BackColor = Color.DarkGray;
                         break;
                     }
             }
-            if (op == insert_panel)
-            {
-                select_op = 1;
-                insert_panel.BackColor = Color.DarkGray;
-            }
-            if (op == remove_panel)
-            {
-                select_op = 2;
-                remove_panel.BackColor = Color.DarkGray;
-            }
-            if (op == search_panel)
-            {
-                select_op = 3;
-                search_panel.BackColor = Color.DarkGray;
-            }
         }
-
-
         public override void Draw(PaintEventArgs e)
         {
-            const int squareSize = 40; // Kích thước cạnh của hình vuông
-
-            int totalSquareWidth = (squareSize ) * queue.Count ; // Tính tổng chiều rộng của các node
-            int startX = (draw_range.Width - totalSquareWidth) / 2; // Tọa độ X của node đầu tiên
             tempX = startX;
             tempY = startY;
             // Vẽ các nút cho mỗi phần tử trong danh sách liên kết
@@ -298,17 +172,17 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 if (count > 0)
                 {
                     int headX = startX - 5;
-                    if (count == 1)
-                        draw_label(e, headX, tempY + 50, tempX - 85, tempY + 75);
-                    else
-                        draw_label(e, headX, tempY + 50, tempX - 80, tempY + 50);
+                    if (count >= 1)
+                        draw_label(e, headX, tempY + 50, tempX - 85, tempY + 50);
+                    //else
+                    //    draw_label(e, headX, tempY + 50, tempX - 80, tempY + 50);
                 }
             }
         }
         private void draw_node(string nodeText, PaintEventArgs e, int drawx, int drawy, Color color)
         {
             // Vẽ hình chữ nhật đại diện cho nút
-            Pen p = new Pen(color, 4);
+            Pen p = new Pen(color, 1);
             e.Graphics.DrawRectangle(p, drawx, drawy, 40, 40);
 
             // Hiển thị dữ liệu của nút trong hình chữ nhật
@@ -321,49 +195,215 @@ namespace DO_AN_LTTQ.AllDataStructureClass
 
             e.Graphics.DrawString(nodeText, font_data, b, textX, textY);
         }
+        private void erase_node(PaintEventArgs e,int drawx, int drawy)
+        {
+            Brush brush = new SolidBrush(Color.White);
+            e.Graphics.FillRectangle(brush, drawx, drawy, 40, 40);
+        }
         
         private void draw_label(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
         {
             e.Graphics.DrawString("Front", font_label, Brushes.Red, headX, headY);
-            e.Graphics.DrawString("Back", font_label, Brushes.Red, tailX +40, tailY);
+            e.Graphics.DrawString("Back", font_label, Brushes.Red, tailX +40, tailY-80);
         }
-        public override bool Equals(object? obj)
+        private void draw_label2(PaintEventArgs e, int headX, int headY, int tailX, int tailY)
         {
-            return base.Equals(obj);
+            e.Graphics.DrawString("Front", font_label, Brushes.White, headX, headY);
+            e.Graphics.DrawString("Back", font_label, Brushes.White, tailX +40, tailY-80);
         }
 
+        public void code_enqueue()
+        {
+            code_tb.AppendText("void enqueue(int element){\r\n\tif (!isFull()){\r\n\t\t back++;\r\n\t\telements[back] = element;\r\n\t}\r\n}");
+            SetIndent();
+        }
+        public void code_dequeue()
+        {
+            code_tb.AppendText("void dequeue() {\r\n\tif (!isEmpty()){\r\n\t\t front--;\r\n\t}\r\n}");
+            SetIndent();
+        }
         public override int GetEnable()
         {
-            throw new NotImplementedException();
+            switch (select_algorithm)
+            {
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+            }
+            return -1;
         }
 
-        public override int GetHashCode()
+        public void enqueue_animation(object sender, PaintEventArgs e)
         {
-            return base.GetHashCode();
+            if (enable != 1)
+                return;
+            step_trb.Value = frame;
+            TurnOffHighlight();
+            switch (frame)
+            { 
+                case 1:
+                    {
+                        //draw_label(e, startX-5, tempY + 50, tempX - 85, tempY + 50);
+                        if (count==0)
+                            draw_label2(e, startX-5, tempY + 50, tempX - 45, tempY + 50);
+                        else
+                            draw_label(e, startX-5, tempY + 50, tempX - 85, tempY + 50);
+                        HighlightCurrentLine(1);
+                        break;
+                    }
+                case 2:
+                    {
+                        
+                        if (count==0)
+                            e.Graphics.DrawString("Back", font_label, Brushes.Red, tempX - 5, tempY - 30);
+                        else 
+                            draw_label(e, startX-5, tempY + 50, tempX - 45, tempY + 50);
+                        //draw_node(input, e, startX+ count*40, tempY, Color.MediumSeaGreen);
+                        HighlightCurrentLine(2);
+                        break;
+                    }
+                case 3:
+                    {
+                        if (count==0)
+                            draw_label(e, startX-5, tempY + 50, tempX - 45, tempY + 50);
+                        else
+                            draw_label(e, startX-5, tempY + 50, tempX - 45, tempY + 50);
+                        draw_node(input, e, startX+ count*40, tempY, Color.MediumSeaGreen);
+                        HighlightCurrentLine(3);
+                        //draw_label(e, startX-5, tempY + 50, tempX - 85 +40, tempY + 50);
+                        break;
+                    }
+            }
         }
+        public void dequeue_animation(object sender, PaintEventArgs e)
+        {
+            if (enable != 2)
+                return;
 
+            step_trb.Value = frame;
+            TurnOffHighlight();
+            if(count==0)
+            {
+                if(frame==1)
+                {
+                    HighlightCurrentLine(1);
+                    draw_label2(e, startX - 5, tempY + 50, tempX - 85, tempY + 50);
+                }
+                return;
+            }
+            switch (frame)
+            {
+                case 1:
+                    {
+                        if(count==1)
+                        {
+                            draw_label(e, startX-5, tempY + 50, tempX - 85, tempY + 50);
+                            HighlightCurrentLine(1);
+                        }
+                        else
+                        {
 
-
-
-
+                            HighlightCurrentLine(1);
+                            draw_label(e, startX-5, tempY + 50, tempX - 85, tempY + 50);
+                           
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        if (count==1)
+                        {
+                            HighlightCurrentLine(2);
+                            draw_node(queue[0], e, startX, tempY, Color.White);
+                        }
+                        else
+                        {
+                            draw_node(queue[0], e, startX, tempY, Color.White);
+                            erase_node(e,startX,tempY);
+                            HighlightCurrentLine(2);
+                            Pen p = new Pen(Color.Black, 1);
+                            e.Graphics.DrawLine(p, startX + 40, startY, startX + 40, startY + 40);
+                            draw_label(e, startX+35,tempY + 50, tempX - 85, tempY + 50);
+                        }
+                        break;
+                    }
+            }
+        }
         public override void RunAlgorithms()
         {
-            throw new NotImplementedException();
-        }
+            if (runningAnimation)
+                return;
+            if (select_algorithm!=-1&&!error)
+                UpdateDataStructure();
+            //chay thuat toan dua vao lua chon do hoa
+            switch (select_op)
+            {
+                case 1://thuat toan push
+                    {
+                        //kiem tra du lieu nhap
+                        if (!CheckValue(v1))
+                        {
+                            ShowError();
+                            return;
+                        }
 
-        public override string? ToString()
-        {
-            return base.ToString();
+                        //luu thong tin de xu ly chay thuat toan
+                        input = v1.Text;
+                        select_algorithm = 1;
+                        updateStep(3);
+                        code_enqueue();
+                        enable = 1; //mo co thuat toan push
+                        break;
+                    }
+                case 2: // thuat toan dequeue
+                    {
+                        select_algorithm = 2;
+                        if (count == 0)
+                            updateStep(1);
+                        else
+                            updateStep(2);
+                        code_dequeue();
+                        enable = 2; // dequeue
+                        break;
+                    }
+            }
+            TurnOffHighlight();
+            update_data = false;
+            error = false;
+            draw_range.Invalidate();
+            frame = 0;
+            timer.Start();
+            play_button.BackgroundImage = pause_image;
         }
-
         public override void UpdateDataStructure()
         {
-            throw new NotImplementedException();
-        }
+            if (update_data || runningAnimation)
+                return;
+            switch (select_algorithm)
+            {
+                case 1:
+                    {
+                        queue.Add(input);
+                        break;
+                    }
 
-        public override void UpdateLocation()
-        {
-            throw new NotImplementedException();
+                case 2:
+                    {
+                        if(count!=0)
+                            queue.RemoveAt(0);
+                        if (count>1)
+                            startX += 40;
+                        break;
+                    }
+            }
+            count = queue.Count();
+            if (count==0)
+            {
+                startX = draw_range.Width / 2;
+                startY = draw_range.Height / 2;
+            }
+            update_data = true;
         }
 
         public void NumberOnly(object sender, KeyPressEventArgs e)
@@ -372,14 +412,22 @@ namespace DO_AN_LTTQ.AllDataStructureClass
                 e.Handled = true;
         }
 
-
-        public void search_animation(object sender, PaintEventArgs e)
-        {
-            //MessageBox.Show("chay search animation");
-        }
         public override void SaveData()
         {
             save_data = queue;
+        }
+
+        public override void UpdateLocation()
+        {
+            image_length = count * 40;
+            startX = (draw_range.Width - image_length) / 2;
+            startY = draw_range.Height / 2;
+        }
+        public override bool CheckMaxValue(int width)
+        {
+            if (count > 22)
+                return false;
+            return true;
         }
     }
 

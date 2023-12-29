@@ -62,6 +62,11 @@
 
         //luu load du lieu
         public List<string> save_data;
+
+        //luu cho graph
+        public Point[] vertex_location;
+        public bool setup = false;
+        public bool load_file = false;
         public DataStructure()
         {
             save_data = new List<string>();
@@ -194,5 +199,7 @@
         public abstract int GetEnable();
         public abstract void UpdateLocation();
         public abstract void SaveData();
+        public abstract bool CheckMaxValue(int width);
+ 
     }
 }
